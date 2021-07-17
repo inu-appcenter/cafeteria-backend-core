@@ -17,47 +17,47 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm';
 import Question from '../qna/Question';
-import UserDiscountStatus from './UserDiscountStatus';
-import DiscountHistory from '../discount/DiscountHistory';
 
 @Entity()
 @Unique(['studentId'])
 @Unique(['phoneNumber'])
+@Unique(['barcode'])
 export default class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  studentId: string;
+  @Column({nullable: true})
+  studentId?: string;
 
-  @Column()
-  phoneNumber: string;
+  @Column({nullable: true})
+  phoneNumber?: string;
 
   @Column()
   rememberMeToken: string;
 
-  /**
-   * 사용자의 식별자와 바코드는 1:1 매칭되며, 상호 변환 가능합니다.
-   */
   @Column()
   barcode: string;
+
+  @Column({nullable: true})
+  barcodeActivatedAt?: Date;
+
+  @Column({nullable: true})
+  barcodeTaggedAt?: Date;
 
   @OneToMany(() => Question, (q) => q.user)
   questions: Question[];
 
-  @OneToOne(() => UserDiscountStatus, (ds) => ds.user)
-  discountStatus?: UserDiscountStatus;
+  isValid() {
+    return this.isStudent() || this.isOutsider();
+  }
 
-  @OneToMany(() => DiscountHistory, (h) => h.user)
-  discountHistories: DiscountHistory[];
+  isStudent() {
+    return this.studentId != null && this.phoneNumber == null;
+  }
+
+  isOutsider() {
+    return this.studentId == null && this.phoneNumber != null;
+  }
 }

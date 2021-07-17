@@ -29,7 +29,7 @@ export default class DiscountHistory extends BaseEntity {
   @Column()
   type: string;
 
-  @ManyToOne(() => User, (u) => u.discountHistories)
+  @ManyToOne(() => User)
   user: User;
 
   @ManyToOne(() => Cafeteria)
