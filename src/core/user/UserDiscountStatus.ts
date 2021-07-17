@@ -28,9 +28,9 @@ export default class UserDiscountStatus extends BaseEntity {
   @OneToOne(() => User, (u) => u.discountStatus)
   user: User;
 
-  @Column()
-  lastBarcodeActivation?: Date = undefined;
+  @Column({nullable: true})
+  lastBarcodeActivation?: Date;
 
-  @Column()
-  lastBarcodeTagging?: Date = undefined;
+  @Column({nullable: true})
+  lastBarcodeTagging?: Date;
 }
