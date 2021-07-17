@@ -31,7 +31,6 @@ import Notice from './core/notice/Notice';
 import Answer from './core/qna/Answer';
 import Question from './core/qna/Question';
 import User from './core/user/User';
-import UserDiscountStatus from './core/user/UserDiscountStatus';
 
 const entities = [
   Cafeteria,
@@ -45,7 +44,6 @@ const entities = [
   Answer,
   Question,
   User,
-  UserDiscountStatus,
 ];
 
 export default async function startTypeORM(forceSync: boolean = false) {

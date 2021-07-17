@@ -37,7 +37,6 @@ import Answer from './src/core/qna/Answer';
 import Question from './src/core/qna/Question';
 
 import User from './src/core/user/User';
-import UserDiscountStatus from './src/core/user/UserDiscountStatus';
 
 import startTypeORM from './src/startTypeORM';
 
@@ -55,6 +54,5 @@ export {
   Answer,
   Question,
   User,
-  UserDiscountStatus,
   startTypeORM,
 };
