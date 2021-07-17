@@ -34,7 +34,7 @@ export default {
 
   database: <ConnectionOptions>{
     type: 'mysql',
-    host: 'localhost',
+    host: getEnv('DB_HOST', 'localhost'),
     port: 3306,
     username: getEnv('DB_USERNAME', 'potados'),
     password: getEnv('DB_PASSWORD', '1234'),
