@@ -17,8 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
+
+export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
 
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
@@ -28,4 +30,39 @@ export default class CafeteriaValidationParams extends BaseEntity {
   @OneToOne(() => Cafeteria, (c) => c.discountValidationParams)
   @JoinColumn()
   cafeteria: Cafeteria;
+
+  /**
+   * 키오스크가 할인 여부를 물어볼 때에, 이 고유한 값을 같이 보내옵니다.
+   */
+  @Column()
+  token: string;
+
+  /**
+   * 할인을 지원하는 시간대입니다(아침: 4, 점심: 2, 저녁: 1).
+   * 아침만 -> 4 (2^2)
+   * 점심만 -> 2 (2^1)
+   * 저녁만 -> 1 (2^0)
+   * 점심과 저녁 -> 3 (2^1 + 2^0)
+   * 유닉스 파일 권한과 비슷합니다.
+   */
+  @Column()
+  availableMealTypes: number;
+
+  /**
+   * 해당 식당이 사용하는 아침/점심/저녁 구분 체계입니다.
+   * 어떤 식당은 아침을 09:30부터 10:00까지 잡을 수 있고, 또 다른 식당은 08:00부터 09:00이라고 할 수 있습니다.
+   */
+  @Column(() => MealTimeRange)
+  timeRanges: MealTimeRange;
+}
+
+class MealTimeRange {
+  @Column()
+  breakfast: TimeRangeExpression;
+
+  @Column()
+  lunch: TimeRangeExpression;
+
+  @Column()
+  dinner: TimeRangeExpression;
 }

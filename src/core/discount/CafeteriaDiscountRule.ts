@@ -35,4 +35,26 @@ export default class CafeteriaDiscountRule extends BaseEntity {
 
   @Column()
   enabled: boolean;
+
+  static async getSummary(ruleId: number) {
+    const rule = await CafeteriaDiscountRule.findOne(ruleId);
+
+    if (rule == null) {
+      return `[RULE ${ruleId}] `;
+    } else {
+      return `[RULE ${rule.id}: ${rule.name}(${rule.description}, ${
+        rule.enabled ? '켜짐' : '꺼짐'
+      })] `;
+    }
+  }
+
+  static async canBypassRule(ruleId: number) {
+    const rule = await CafeteriaDiscountRule.findOne(ruleId);
+
+    if (rule == null) {
+      return true; // 없으면 활성화된걸루 침!
+    }
+
+    return !rule.enabled;
+  }
 }
