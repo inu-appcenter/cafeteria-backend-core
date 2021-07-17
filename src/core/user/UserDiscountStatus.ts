@@ -29,8 +29,8 @@ export default class UserDiscountStatus extends BaseEntity {
   user: User;
 
   @Column()
-  lastBarcodeActivation?: Date;
+  lastBarcodeActivation?: Date = undefined;
 
   @Column()
-  lastBarcodeTagging?: Date;
+  lastBarcodeTagging?: Date = undefined;
 }
