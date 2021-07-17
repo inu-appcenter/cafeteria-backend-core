@@ -1,5 +1,5 @@
 {
-  "name": "@cafeteria/backend-core",
+  "name": "@inu-cafeteria/backend-core",
   "description": "Cafeteria 서버의 엔티티와 영속 레이어 부분에 해당합니다.",
   "version": "0.1.0",
   "main": "dist/index.js",
@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "preversion": "tsc",
-    "postversion": "npm publish && git push && git push --tags"
+    "postversion": "npm publish --access=public && git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   ],
   "author": "potados99",
   "license": "GPL-3.0",
+  "private": false,
   "bugs": {
     "url": "https://github.com/inu-appcenter/cafeteria-backend-core/issues"
   },
