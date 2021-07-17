@@ -28,6 +28,7 @@
     "minimist": "^1.2.5",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.12",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^10.1.0",
     "typeorm": "^0.2.34",
     "typeorm-naming-strategies": "^2.0.0",

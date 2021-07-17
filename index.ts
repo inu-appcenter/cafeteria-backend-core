@@ -17,6 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import 'reflect-metadata';
+
 import Cafeteria from './src/core/cafeteria/Cafeteria';
 import CafeteriaComment from './src/core/cafeteria/CafeteriaComment';
 import Corner from './src/core/cafeteria/Corner';
