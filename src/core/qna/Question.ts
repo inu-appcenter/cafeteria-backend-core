@@ -42,7 +42,7 @@ export default class Question extends BaseEntity {
   deviceInfo: string;
 
   @Column()
-  version: string;
+  appVersion: string;
 
   @Column()
   content: string;
