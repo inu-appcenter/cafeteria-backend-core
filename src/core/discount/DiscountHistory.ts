@@ -17,47 +17,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
-import Question from '../qna/Question';
-import UserDiscountStatus from './UserDiscountStatus';
-import DiscountHistory from '../discount/DiscountHistory';
+import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import User from '../user/User';
+import Cafeteria from '../cafeteria/Cafeteria';
 
 @Entity()
-@Unique(['studentId'])
-@Unique(['phoneNumber'])
-export default class User extends BaseEntity {
+export default class DiscountHistory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  studentId: string;
+  type: string;
+
+  @ManyToOne(() => User, (u) => u.discountHistories)
+  user: User;
+
+  @ManyToOne(() => Cafeteria)
+  cafeteria: Cafeteria;
 
   @Column()
-  phoneNumber: string;
+  mealType: number;
 
   @Column()
-  rememberMeToken: string;
+  failedAt: number;
 
-  /**
-   * 사용자의 식별자와 바코드는 1:1 매칭되며, 상호 변환 가능합니다.
-   */
   @Column()
-  barcode: string;
+  message: string;
 
-  @OneToMany(() => Question, (q) => q.user)
-  questions: Question[];
-
-  @OneToOne(() => UserDiscountStatus, (ds) => ds.user)
-  discountStatus?: UserDiscountStatus;
-
-  @OneToMany(() => DiscountHistory, (h) => h.user)
-  discountHistories: DiscountHistory[];
+  @Column()
+  timestamp: Date;
 }

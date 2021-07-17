@@ -17,27 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Question from './Question';
+import {BaseEntity, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import Cafeteria from '../cafeteria/Cafeteria';
 
 @Entity()
-export default class Answer extends BaseEntity {
+export default class CafeteriaValidationParams extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Question, (q) => q.answer)
+  @OneToOne(() => Cafeteria, (c) => c.discountValidationParams)
   @JoinColumn()
-  question: Question;
-
-  @Column()
-  title: string;
-
-  @Column()
-  body: string;
-
-  @Column()
-  read: boolean;
-
-  @Column()
-  createdAt: Date;
+  cafeteria: Cafeteria;
 }

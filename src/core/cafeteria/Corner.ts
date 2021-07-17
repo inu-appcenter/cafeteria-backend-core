@@ -17,47 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
-import Question from '../qna/Question';
-import UserDiscountStatus from './UserDiscountStatus';
-import DiscountHistory from '../discount/DiscountHistory';
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import Cafeteria from './Cafeteria';
 
 @Entity()
-@Unique(['studentId'])
-@Unique(['phoneNumber'])
-export default class User extends BaseEntity {
+export default class Corner extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  studentId: string;
+  name: string;
 
   @Column()
-  phoneNumber: string;
-
-  @Column()
-  rememberMeToken: string;
+  displayName: string;
 
   /**
-   * 사용자의 식별자와 바코드는 1:1 매칭되며, 상호 변환 가능합니다.
+   * 0부터 7까지입니다.
+   * 아침: 4, 점심: 2, 저녁: 1
    */
   @Column()
-  barcode: string;
+  availableAt: number;
 
-  @OneToMany(() => Question, (q) => q.user)
-  questions: Question[];
-
-  @OneToOne(() => UserDiscountStatus, (ds) => ds.user)
-  discountStatus?: UserDiscountStatus;
-
-  @OneToMany(() => DiscountHistory, (h) => h.user)
-  discountHistories: DiscountHistory[];
+  @ManyToOne(() => Cafeteria, (c) => c.corners)
+  @JoinColumn()
+  cafeteria: Cafeteria;
 }

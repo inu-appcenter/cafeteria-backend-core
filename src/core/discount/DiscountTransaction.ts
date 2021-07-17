@@ -17,27 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Question from './Question';
-
-@Entity()
-export default class Answer extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @OneToOne(() => Question, (q) => q.answer)
-  @JoinColumn()
-  question: Question;
-
-  @Column()
-  title: string;
-
-  @Column()
-  body: string;
-
-  @Column()
-  read: boolean;
-
-  @Column()
-  createdAt: Date;
+export default class DiscountTransaction {
+  mealType: number;
+  studentId: string;
+  cafeteriaId: number;
 }

@@ -17,47 +17,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
-import Question from '../qna/Question';
-import UserDiscountStatus from './UserDiscountStatus';
-import DiscountHistory from '../discount/DiscountHistory';
+import {BaseEntity, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import Corner from './Corner';
+import CafeteriaComment from './CafeteriaComment';
+import CafeteriaValidationParams from '../discount/CafeteriaValidationParams';
 
 @Entity()
-@Unique(['studentId'])
-@Unique(['phoneNumber'])
-export default class User extends BaseEntity {
+export default class Cafeteria extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  studentId: string;
+  name: string;
 
   @Column()
-  phoneNumber: string;
+  displayName: string;
 
   @Column()
-  rememberMeToken: string;
+  supportMenu: boolean;
 
-  /**
-   * 사용자의 식별자와 바코드는 1:1 매칭되며, 상호 변환 가능합니다.
-   */
   @Column()
-  barcode: string;
+  supportDiscount: boolean;
 
-  @OneToMany(() => Question, (q) => q.user)
-  questions: Question[];
+  @Column()
+  supportNotification: boolean;
 
-  @OneToOne(() => UserDiscountStatus, (ds) => ds.user)
-  discountStatus?: UserDiscountStatus;
+  @OneToMany(() => Corner, (c) => c.cafeteria)
+  corners: Corner[];
 
-  @OneToMany(() => DiscountHistory, (h) => h.user)
-  discountHistories: DiscountHistory[];
+  @OneToOne(() => CafeteriaComment, (c) => c.cafeteria)
+  comment?: CafeteriaComment;
+
+  @OneToOne(() => CafeteriaValidationParams, (p) => p.cafeteria)
+  discountValidationParams?: CafeteriaValidationParams;
 }

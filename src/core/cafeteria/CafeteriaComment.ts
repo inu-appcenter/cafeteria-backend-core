@@ -18,26 +18,17 @@
  */
 
 import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Question from './Question';
+import Cafeteria from './Cafeteria';
 
 @Entity()
-export default class Answer extends BaseEntity {
+export default class CafeteriaComment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => Question, (q) => q.answer)
+  @OneToOne(() => Cafeteria, (c) => c.comment)
   @JoinColumn()
-  question: Question;
+  cafeteria: Cafeteria;
 
   @Column()
-  title: string;
-
-  @Column()
-  body: string;
-
-  @Column()
-  read: boolean;
-
-  @Column()
-  createdAt: Date;
+  comment: string;
 }

@@ -20,44 +20,26 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
-  Unique,
+  UpdateDateColumn,
 } from 'typeorm';
-import Question from '../qna/Question';
-import UserDiscountStatus from './UserDiscountStatus';
-import DiscountHistory from '../discount/DiscountHistory';
 
 @Entity()
-@Unique(['studentId'])
-@Unique(['phoneNumber'])
-export default class User extends BaseEntity {
+export default class Notice extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  studentId: string;
+  title: string;
 
   @Column()
-  phoneNumber: string;
+  body: string;
 
-  @Column()
-  rememberMeToken: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  /**
-   * 사용자의 식별자와 바코드는 1:1 매칭되며, 상호 변환 가능합니다.
-   */
-  @Column()
-  barcode: string;
-
-  @OneToMany(() => Question, (q) => q.user)
-  questions: Question[];
-
-  @OneToOne(() => UserDiscountStatus, (ds) => ds.user)
-  discountStatus?: UserDiscountStatus;
-
-  @OneToMany(() => DiscountHistory, (h) => h.user)
-  discountHistories: DiscountHistory[];
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

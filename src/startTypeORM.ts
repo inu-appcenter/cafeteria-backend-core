@@ -17,14 +17,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import config from '../config';
 import {createConnection} from 'typeorm';
 import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
-import User from './core/user/User';
-import Question from './core/qna/Question';
+import Cafeteria from './core/cafeteria/Cafeteria';
+import CafeteriaComment from './core/cafeteria/CafeteriaComment';
+import Corner from './core/cafeteria/Corner';
+import CafeteriaDiscountRule from './core/discount/CafeteriaDiscountRule';
+import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
+import DiscountHistory from './core/discount/DiscountHistory';
+import MenuParseRegex from './core/menu/MenuParseRegex';
+import Notice from './core/notice/Notice';
 import Answer from './core/qna/Answer';
-import config from '../config';
+import Question from './core/qna/Question';
+import User from './core/user/User';
+import UserDiscountStatus from './core/user/UserDiscountStatus';
 
-const entities = [User, Question, Answer];
+const entities = [
+  Cafeteria,
+  CafeteriaComment,
+  Corner,
+  CafeteriaDiscountRule,
+  CafeteriaValidationParams,
+  DiscountHistory,
+  MenuParseRegex,
+  Notice,
+  Answer,
+  Question,
+  User,
+  UserDiscountStatus,
+];
 
 export default async function startTypeORM(forceSync: boolean = false) {
   if (config.isProduction && forceSync) {

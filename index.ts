@@ -17,9 +17,42 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import User from './src/core/user/User';
-import Question from './src/core/qna/Question';
+import Cafeteria from './src/core/cafeteria/Cafeteria';
+import CafeteriaComment from './src/core/cafeteria/CafeteriaComment';
+import Corner from './src/core/cafeteria/Corner';
+
+import CafeteriaDiscountRule from './src/core/discount/CafeteriaDiscountRule';
+import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
+import DiscountHistory from './src/core/discount/DiscountHistory';
+import DiscountTransaction from './src/core/discount/DiscountTransaction';
+
+import Menu from './src/core/menu/Menu';
+import MenuParseRegex from './src/core/menu/MenuParseRegex';
+
+import Notice from './src/core/notice/Notice';
+
 import Answer from './src/core/qna/Answer';
+import Question from './src/core/qna/Question';
+
+import User from './src/core/user/User';
+import UserDiscountStatus from './src/core/user/UserDiscountStatus';
+
 import startTypeORM from './src/startTypeORM';
 
-export {User, Question, Answer, startTypeORM};
+export {
+  Cafeteria,
+  CafeteriaComment,
+  Corner,
+  CafeteriaDiscountRule,
+  CafeteriaValidationParams,
+  DiscountHistory,
+  DiscountTransaction,
+  Menu,
+  MenuParseRegex,
+  Notice,
+  Answer,
+  Question,
+  User,
+  UserDiscountStatus,
+  startTypeORM,
+};

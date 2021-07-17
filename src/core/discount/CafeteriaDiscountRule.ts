@@ -17,27 +17,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Question from './Question';
+import {BaseEntity, Column, Entity, PrimaryColumn} from 'typeorm';
 
 @Entity()
-export default class Answer extends BaseEntity {
-  @PrimaryGeneratedColumn()
+export default class CafeteriaDiscountRule extends BaseEntity {
+  /**
+   * id는 직접 지정합니다.
+   */
+  @PrimaryColumn()
   id: number;
 
-  @OneToOne(() => Question, (q) => q.answer)
-  @JoinColumn()
-  question: Question;
+  @Column()
+  name: string;
 
   @Column()
-  title: string;
+  description: string;
 
   @Column()
-  body: string;
-
-  @Column()
-  read: boolean;
-
-  @Column()
-  createdAt: Date;
+  enabled: boolean;
 }

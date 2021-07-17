@@ -17,27 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Question from './Question';
+import {startTypeORM} from '../index';
 
-@Entity()
-export default class Answer extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+describe('DB와 연동하기', () => {
+  it('Sync', async () => {
+    await startTypeORM(true);
 
-  @OneToOne(() => Question, (q) => q.answer)
-  @JoinColumn()
-  question: Question;
-
-  @Column()
-  title: string;
-
-  @Column()
-  body: string;
-
-  @Column()
-  read: boolean;
-
-  @Column()
-  createdAt: Date;
-}
+    console.log('끝!');
+  });
+});
