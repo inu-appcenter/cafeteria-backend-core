@@ -1,5 +1,5 @@
 {
-  "name": "cafeteria-backend-core",
+  "name": "@cafeteria/backend-core",
   "description": "Cafeteria 서버의 엔티티와 영속 레이어 부분에 해당합니다.",
   "version": "0.1.0",
   "main": "dist/index.js",
