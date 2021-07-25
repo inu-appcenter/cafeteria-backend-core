@@ -35,10 +35,10 @@ export default class User extends BaseEntity {
   phoneNumber?: string;
 
   @Column()
-  lastLoginAt: Date;
+  rememberMeToken: string;
 
   @Column()
-  rememberMeToken: string;
+  lastLoginAt: Date;
 
   @Column()
   barcode: string;
