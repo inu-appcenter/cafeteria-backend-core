@@ -40,6 +40,9 @@ export default class User extends BaseEntity {
   @Column()
   barcode: string;
 
+  @Column()
+  lastLoginAt: Date;
+
   @Column({nullable: true})
   barcodeActivatedAt?: Date;
 
