@@ -42,5 +42,5 @@ export default class Answer extends BaseEntity {
   read: boolean;
 
   @Column()
-  createdAt: Date;
+  answeredAt: Date;
 }

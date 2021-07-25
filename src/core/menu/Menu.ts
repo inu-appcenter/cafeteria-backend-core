@@ -19,11 +19,9 @@
 
 export default class Menu {
   foods: string[];
-  price: number;
-  calorie: number;
-
+  price?: number;
+  calorie?: number;
   cornerId: number;
-  dateString: number;
 
   static create(properties: Partial<Menu>) {
     return Object.assign(new Menu(), properties);
