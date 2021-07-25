@@ -17,31 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Cafeteria from './Cafeteria';
+import {startTypeORM, User} from '../index';
 
-@Entity()
-export default class Corner extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+beforeAll(async () => {
+  await startTypeORM(true);
+});
 
-  @Column()
-  name: string;
+describe('사용자로부터 질문 찾기', () => {
+  it('User를 찾을 때에 relations 옵션도 주어야 함', async () => {
+    const user = await User.findOneOrFail(1, {relations: ['questions']});
 
-  @Column()
-  displayName: string;
-
-  /**
-   * 0부터 7까지입니다.
-   * 아침: 4, 점심: 2, 저녁: 1
-   */
-  @Column()
-  availableAt: number;
-
-  @ManyToOne(() => Cafeteria, (c) => c.corners)
-  @JoinColumn()
-  cafeteria: Cafeteria;
-
-  @Column()
-  cafeteriaId: number;
-}
+    console.log(user);
+    console.log(user.questions);
+  });
+});

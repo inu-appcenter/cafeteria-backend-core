@@ -17,31 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Cafeteria from './Cafeteria';
+import {Question, startTypeORM} from '../index';
 
-@Entity()
-export default class Corner extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+beforeAll(async () => {
+  await startTypeORM(true);
+});
 
-  @Column()
-  name: string;
+describe('질문하기', () => {
+  it('사용자 엔티티 대신 foreign key만 넣어줘도 됨.', async () => {
+    const question = Question.create({
+      userId: 1,
+      deviceInfo: 'aedwa',
+      appVersion: '1.343',
+      content: '우히히 우히히',
+      askedAt: new Date(),
+    });
 
-  @Column()
-  displayName: string;
+    console.log(question);
 
-  /**
-   * 0부터 7까지입니다.
-   * 아침: 4, 점심: 2, 저녁: 1
-   */
-  @Column()
-  availableAt: number;
+    await question.save();
 
-  @ManyToOne(() => Cafeteria, (c) => c.corners)
-  @JoinColumn()
-  cafeteria: Cafeteria;
-
-  @Column()
-  cafeteriaId: number;
-}
+    console.log(question);
+  });
+});

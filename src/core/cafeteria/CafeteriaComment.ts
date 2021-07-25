@@ -30,5 +30,8 @@ export default class CafeteriaComment extends BaseEntity {
   cafeteria: Cafeteria;
 
   @Column()
+  cafeteriaId: number;
+
+  @Column()
   comment: string;
 }

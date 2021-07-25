@@ -30,6 +30,9 @@ export default class Answer extends BaseEntity {
   question: Question;
 
   @Column()
+  questionId: number;
+
+  @Column()
   title: string;
 
   @Column()

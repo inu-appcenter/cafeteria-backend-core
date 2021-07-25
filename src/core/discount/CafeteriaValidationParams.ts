@@ -22,6 +22,17 @@ import Cafeteria from '../cafeteria/Cafeteria';
 
 export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
 
+class MealTimeRange {
+  @Column()
+  breakfast: TimeRangeExpression;
+
+  @Column()
+  lunch: TimeRangeExpression;
+
+  @Column()
+  dinner: TimeRangeExpression;
+}
+
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -30,6 +41,9 @@ export default class CafeteriaValidationParams extends BaseEntity {
   @OneToOne(() => Cafeteria, (c) => c.discountValidationParams)
   @JoinColumn()
   cafeteria: Cafeteria;
+
+  @Column()
+  cafeteriaId: number;
 
   /**
    * 키오스크가 할인 여부를 물어볼 때에, 이 고유한 값을 같이 보내옵니다.
@@ -54,15 +68,4 @@ export default class CafeteriaValidationParams extends BaseEntity {
    */
   @Column(() => MealTimeRange)
   timeRanges: MealTimeRange;
-}
-
-class MealTimeRange {
-  @Column()
-  breakfast: TimeRangeExpression;
-
-  @Column()
-  lunch: TimeRangeExpression;
-
-  @Column()
-  dinner: TimeRangeExpression;
 }

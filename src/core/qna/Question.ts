@@ -39,6 +39,9 @@ export default class Question extends BaseEntity {
   user: User;
 
   @Column()
+  userId: number;
+
+  @Column()
   deviceInfo: string;
 
   @Column()
