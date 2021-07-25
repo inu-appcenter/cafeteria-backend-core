@@ -25,7 +25,9 @@ beforeAll(async () => {
 
 describe('사용자로부터 질문 찾기', () => {
   it('User를 찾을 때에 relations 옵션도 주어야 함', async () => {
-    const user = await User.findOneOrFail(1, {relations: ['questions']});
+    const user = await User.findOneOrFail(1, {
+      relations: ['questions', 'questions.answer'],
+    });
 
     console.log(user);
     console.log(user.questions);
