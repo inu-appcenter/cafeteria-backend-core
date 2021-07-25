@@ -35,13 +35,13 @@ export default class User extends BaseEntity {
   phoneNumber?: string;
 
   @Column()
+  lastLoginAt: Date;
+
+  @Column()
   rememberMeToken: string;
 
   @Column()
   barcode: string;
-
-  @Column()
-  lastLoginAt: Date;
 
   @Column({nullable: true})
   barcodeActivatedAt?: Date;
