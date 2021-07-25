@@ -20,10 +20,10 @@
 import {
   BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  CreateDateColumn,
   UpdateDateColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity()
@@ -36,6 +36,12 @@ export default class Notice extends BaseEntity {
 
   @Column()
   body: string;
+
+  @Column()
+  targetOs: string;
+
+  @Column()
+  targetVersion: string;
 
   @CreateDateColumn()
   createdAt: Date;
