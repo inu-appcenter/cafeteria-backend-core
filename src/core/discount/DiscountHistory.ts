@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
 
@@ -30,10 +30,18 @@ export default class DiscountHistory extends BaseEntity {
   type: string;
 
   @ManyToOne(() => User)
+  @JoinColumn()
   user: User;
 
+  @Column()
+  userId: number;
+
   @ManyToOne(() => Cafeteria)
+  @JoinColumn()
   cafeteria: Cafeteria;
+
+  @Column()
+  cafeteriaId: number;
 
   @Column()
   mealType: number;
