@@ -39,6 +39,6 @@ export default class DiscountTransaction extends BaseEntity {
   @Column()
   cafeteriaId: number;
 
-  @CreateDateColumn()
+  @Column()
   timestamp: Date;
 }
