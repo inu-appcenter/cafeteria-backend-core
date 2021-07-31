@@ -27,7 +27,7 @@
  * 예를 들어 아침 + 점심은 6,
  * 점심 + 저녁은 3,
  */
-export enum MealType {
+export const enum MealType {
   NONE = 0,
 
   BREAKFAST = 4,
