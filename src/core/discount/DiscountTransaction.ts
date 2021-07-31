@@ -17,8 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
+
+/**
+ * 할인 처리 완료된 트랜잭션의 기록입니다.
+ * 지난 할인 내역을 찾는 기준이 됩니다.
+ *
+ * 외래키 없어요!! 없을수도 있거든요 ㅎ
+ */
+@Entity()
 export default class DiscountTransaction {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   mealType: number;
+
+  @Column()
   studentId: string;
+
+  @Column()
   cafeteriaId: number;
+
+  @CreateDateColumn()
+  timestamp: Date;
 }

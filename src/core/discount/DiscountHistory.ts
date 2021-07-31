@@ -21,6 +21,9 @@ import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColum
 import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
 
+/**
+ * Verify, Commit, Cancel 기록 열람용 엔티티입니다.
+ */
 @Entity()
 export default class DiscountHistory extends BaseEntity {
   @PrimaryGeneratedColumn()
