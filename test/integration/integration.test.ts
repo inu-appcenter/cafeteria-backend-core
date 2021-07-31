@@ -17,34 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Question, startTypeORM} from '../index';
+import {startTypeORM} from '../../index';
 
-beforeAll(async () => {
-  await startTypeORM(true);
-});
+describe('DB와 연동하기', () => {
+  it('Sync', async () => {
+    await startTypeORM(true);
 
-describe('질문하기', () => {
-  it('사용자 엔티티 대신 foreign key만 넣어줘도 됨.', async () => {
-    const question = Question.create({
-      userId: 1,
-      deviceInfo: 'aedwa',
-      appVersion: '1.343',
-      content: '우히히 우히히',
-      askedAt: new Date(),
-    });
-
-    console.log(question);
-
-    await question.save();
-
-    console.log(question);
-  });
-});
-
-describe('질문+답변 가져오기', () => {
-  it('relation 집어넣어주어야 질문과 함께 딸린 답변도 가져옴.', async () => {
-    const questions = await Question.find({where: {userId: 1}, relations: ['answer']});
-
-    console.log(questions);
+    console.log('끝!');
   });
 });

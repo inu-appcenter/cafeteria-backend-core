@@ -17,19 +17,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {startTypeORM, User} from '../index';
+import {Answer, startTypeORM} from '../../index';
 
 beforeAll(async () => {
   await startTypeORM(true);
 });
 
-describe('사용자로부터 질문 찾기', () => {
-  it('User를 찾을 때에 relations 옵션도 주어야 함', async () => {
-    const user = await User.findOneOrFail(1, {
-      relations: ['questions', 'questions.answer'],
-    });
+describe('사용자에게 달린 답변 중 안 일읽은 것 가져오기', () => {
+  it('그냥 쿼리 빌더를 쓰자', async () => {
+    // find option으로 하는거? 안돼요
+    // https://github.com/typeorm/typeorm/issues/2707
 
-    console.log(user);
-    console.log(user.questions);
+    const answers = await Answer.createQueryBuilder('answer')
+      .innerJoin('answer.question', 'question')
+      .where('question.userId = :userId', {userId: 1})
+      .andWhere('answer.read = :read', {read: false})
+      .getMany();
+
+    console.log(answers);
   });
 });

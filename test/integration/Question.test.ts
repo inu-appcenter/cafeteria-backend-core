@@ -17,23 +17,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Answer, startTypeORM} from '../index';
+import {Question, startTypeORM} from '../../index';
 
 beforeAll(async () => {
   await startTypeORM(true);
 });
 
-describe('사용자에게 달린 답변 중 안 일읽은 것 가져오기', () => {
-  it('그냥 쿼리 빌더를 쓰자', async () => {
-    // find option으로 하는거? 안돼요
-    // https://github.com/typeorm/typeorm/issues/2707
+describe('질문하기', () => {
+  it('사용자 엔티티 대신 foreign key만 넣어줘도 됨.', async () => {
+    const question = Question.create({
+      userId: 1,
+      deviceInfo: 'aedwa',
+      appVersion: '1.343',
+      content: '우히히 우히히',
+      askedAt: new Date(),
+    });
 
-    const answers = await Answer.createQueryBuilder('answer')
-      .innerJoin('answer.question', 'question')
-      .where('question.userId = :userId', {userId: 1})
-      .andWhere('answer.read = :read', {read: false})
-      .getMany();
+    console.log(question);
 
-    console.log(answers);
+    await question.save();
+
+    console.log(question);
+  });
+});
+
+describe('질문+답변 가져오기', () => {
+  it('relation 집어넣어주어야 질문과 함께 딸린 답변도 가져옴.', async () => {
+    const questions = await Question.find({where: {userId: 1}, relations: ['answer']});
+
+    console.log(questions);
   });
 });

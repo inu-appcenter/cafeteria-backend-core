@@ -27,12 +27,14 @@
  * 예를 들어 아침 + 점심은 6,
  * 점심 + 저녁은 3,
  */
-export const enum MealType {
-  NONE = 0,
 
-  BREAKFAST = 4,
-  LUNCH = 2,
-  DINNER = 1,
-}
+const MealType = {
+  BREAKFAST: 4,
+  LUNCH: 2,
+  DINNER: 1,
+  NONE: 0,
 
-export const allMealTypes = [MealType.BREAKFAST, MealType.LUNCH, MealType.DINNER];
+  all: [4, 2, 1, 0],
+};
+
+export default MealType;

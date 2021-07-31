@@ -17,12 +17,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {startTypeORM} from '../index';
+import {startTypeORM, User} from '../../index';
 
-describe('DB와 연동하기', () => {
-  it('Sync', async () => {
-    await startTypeORM(true);
+beforeAll(async () => {
+  await startTypeORM(true);
+});
 
-    console.log('끝!');
+describe('사용자로부터 질문 찾기', () => {
+  it('User를 찾을 때에 relations 옵션도 주어야 함', async () => {
+    const user = await User.findOneOrFail(1, {
+      relations: ['questions', 'questions.answer'],
+    });
+
+    console.log(user);
+    console.log(user.questions);
   });
 });
