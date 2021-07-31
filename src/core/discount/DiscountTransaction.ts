@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 /**
  * 할인 처리 완료된 트랜잭션의 기록입니다.
@@ -26,7 +26,7 @@ import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
  * 외래키 없어요!! 없을수도 있거든요 ㅎ
  */
 @Entity()
-export default class DiscountTransaction {
+export default class DiscountTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
