@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/inu-appcenter/cafeteria-backend-core#readme",
   "dependencies": {
+    "date-fns": "^2.23.0",
     "minimist": "^1.2.5",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.12",
