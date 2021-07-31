@@ -19,19 +19,7 @@
 
 import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-
-export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
-
-class MealTimeRange {
-  @Column()
-  breakfast: TimeRangeExpression;
-
-  @Column()
-  lunch: TimeRangeExpression;
-
-  @Column()
-  dinner: TimeRangeExpression;
-}
+import MealTimeRange from './MealTimeRange';
 
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
