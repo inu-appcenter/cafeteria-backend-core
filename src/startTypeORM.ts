@@ -23,7 +23,7 @@ import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
 import Cafeteria from './core/cafeteria/Cafeteria';
 import CafeteriaComment from './core/cafeteria/CafeteriaComment';
 import Corner from './core/cafeteria/Corner';
-import CafeteriaDiscountRule from './core/discount/CafeteriaDiscountRule';
+import DiscountRule from './core/discount/DiscountRule';
 import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
 import DiscountTransaction from './core/discount/DiscountTransaction';
 import DiscountProcessHistory from './core/discount/DiscountProcessHistory';
@@ -37,7 +37,7 @@ const entities = [
   Cafeteria,
   CafeteriaComment,
   Corner,
-  CafeteriaDiscountRule,
+  DiscountRule,
   CafeteriaValidationParams,
   DiscountTransaction,
   DiscountProcessHistory,

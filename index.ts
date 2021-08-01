@@ -23,7 +23,7 @@ import Cafeteria from './src/core/cafeteria/Cafeteria';
 import CafeteriaComment from './src/core/cafeteria/CafeteriaComment';
 import Corner from './src/core/cafeteria/Corner';
 
-import CafeteriaDiscountRule from './src/core/discount/CafeteriaDiscountRule';
+import DiscountRule from './src/core/discount/DiscountRule';
 import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
 import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
@@ -44,7 +44,7 @@ export {
   Cafeteria,
   CafeteriaComment,
   Corner,
-  CafeteriaDiscountRule,
+  DiscountRule,
   CafeteriaValidationParams,
   DiscountProcessHistory,
   DiscountTransaction,

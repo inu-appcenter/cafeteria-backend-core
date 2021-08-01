@@ -20,7 +20,7 @@
 import {BaseEntity, Column, Entity, PrimaryColumn} from 'typeorm';
 
 @Entity()
-export default class CafeteriaDiscountRule extends BaseEntity {
+export default class DiscountRule extends BaseEntity {
   /**
    * id는 직접 지정합니다.
    */
@@ -37,7 +37,7 @@ export default class CafeteriaDiscountRule extends BaseEntity {
   enabled: boolean;
 
   static async getSummary(ruleId: number) {
-    const rule = await CafeteriaDiscountRule.findOne(ruleId);
+    const rule = await DiscountRule.findOne(ruleId);
 
     if (rule == null) {
       return `[RULE ${ruleId}] `;
@@ -49,7 +49,7 @@ export default class CafeteriaDiscountRule extends BaseEntity {
   }
 
   static async canBypassRule(ruleId: number) {
-    const rule = await CafeteriaDiscountRule.findOne(ruleId);
+    const rule = await DiscountRule.findOne(ruleId);
 
     if (rule == null) {
       return true; // 없으면 활성화된걸루 침!
