@@ -25,7 +25,7 @@ import Corner from './src/core/cafeteria/Corner';
 
 import CafeteriaDiscountRule from './src/core/discount/CafeteriaDiscountRule';
 import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
-import DiscountProcessHistory from './src/core/discount/DiscountHistory';
+import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
 
 import Menu from './src/core/menu/Menu';
