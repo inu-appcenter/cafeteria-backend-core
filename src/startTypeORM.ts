@@ -21,7 +21,6 @@ import config from '../config';
 import {createConnection} from 'typeorm';
 import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
 import Cafeteria from './core/cafeteria/Cafeteria';
-import CafeteriaComment from './core/cafeteria/CafeteriaComment';
 import Corner from './core/cafeteria/Corner';
 import DiscountRule from './core/discount/DiscountRule';
 import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
@@ -35,7 +34,6 @@ import User from './core/user/User';
 
 const entities = [
   Cafeteria,
-  CafeteriaComment,
   Corner,
   DiscountRule,
   CafeteriaValidationParams,

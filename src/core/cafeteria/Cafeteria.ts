@@ -19,7 +19,6 @@
 
 import {BaseEntity, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Corner from './Corner';
-import CafeteriaComment from './CafeteriaComment';
 import CafeteriaValidationParams from '../discount/CafeteriaValidationParams';
 
 @Entity()
@@ -33,6 +32,9 @@ export default class Cafeteria extends BaseEntity {
   @Column()
   displayName: string;
 
+  @Column({nullable: true})
+  comment?: string;
+
   @Column()
   supportMenu: boolean;
 
@@ -44,9 +46,6 @@ export default class Cafeteria extends BaseEntity {
 
   @OneToMany(() => Corner, (c) => c.cafeteria)
   corners: Corner[];
-
-  @OneToOne(() => CafeteriaComment, (c) => c.cafeteria)
-  comment?: CafeteriaComment;
 
   @OneToOne(() => CafeteriaValidationParams, (p) => p.cafeteria)
   discountValidationParams?: CafeteriaValidationParams;

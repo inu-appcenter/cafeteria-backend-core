@@ -35,6 +35,8 @@ export default class CafeteriaValidationParams extends BaseEntity {
 
   /**
    * 키오스크가 할인 여부를 물어볼 때에, 이 고유한 값을 같이 보내옵니다.
+   *
+   * @deprecated 이제 안 씁니다.
    */
   @Column()
   token: string;

@@ -30,4 +30,8 @@ export default class MealTimeRange {
 
   @Column()
   dinner: TimeRangeExpression;
+
+  static create(properties: Partial<MealTimeRange>) {
+    return Object.assign(new MealTimeRange(), properties);
+  }
 }
