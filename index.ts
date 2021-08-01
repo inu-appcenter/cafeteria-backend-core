@@ -24,6 +24,7 @@ import Corner from './src/core/cafeteria/Corner';
 
 import DiscountRule from './src/core/discount/DiscountRule';
 import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
+import MealTimeRange from './src/core/discount/MealTimeRange';
 import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
 
@@ -44,6 +45,7 @@ export {
   Corner,
   DiscountRule,
   CafeteriaValidationParams,
+  MealTimeRange,
   DiscountProcessHistory,
   DiscountTransaction,
   Menu,
