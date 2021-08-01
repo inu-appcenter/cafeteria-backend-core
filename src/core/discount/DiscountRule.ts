@@ -36,6 +36,12 @@ export default class DiscountRule extends BaseEntity {
   @Column()
   enabled: boolean;
 
+  static async getName(ruleId: number) {
+    const rule = await DiscountRule.findOne(ruleId);
+
+    return rule?.name;
+  }
+
   static async getSummary(ruleId: number) {
     const rule = await DiscountRule.findOne(ruleId);
 

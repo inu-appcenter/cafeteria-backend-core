@@ -47,7 +47,7 @@ export default class Question extends BaseEntity {
   @Column()
   appVersion: string;
 
-  @Column()
+  @Column({type: 'text'})
   content: string;
 
   @Column()

@@ -35,7 +35,7 @@ export default class Answer extends BaseEntity {
   @Column()
   title: string;
 
-  @Column()
+  @Column({type: 'text'})
   body: string;
 
   @Column()
