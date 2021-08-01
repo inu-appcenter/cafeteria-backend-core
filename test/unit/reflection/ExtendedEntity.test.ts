@@ -17,32 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Cafeteria from './Cafeteria';
-import ExtendedEntity from '../../base/ExtendedEntity';
+import {Cafeteria, Corner, startTypeORM} from '../../../index';
 
-@Entity()
-export default class Corner extends ExtendedEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+beforeAll(async () => {
+  await startTypeORM();
+});
 
-  @Column()
-  name: string;
-
-  @Column()
-  displayName: string;
-
-  /**
-   * 0부터 7까지입니다.
-   * 아침: 4, 점심: 2, 저녁: 1
-   */
-  @Column()
-  availableAt: number;
-
-  @ManyToOne(() => Cafeteria, (c) => c.corners)
-  @JoinColumn()
-  cafeteria: Cafeteria;
-
-  @Column()
-  cafeteriaId: number;
-}
+describe('TypeORM 데코레이터 정보 빼오기', () => {
+  it('이게 될까?', async () => {
+    console.log(Cafeteria.graphqlType());
+    console.log(Corner.graphqlType());
+  });
+});
