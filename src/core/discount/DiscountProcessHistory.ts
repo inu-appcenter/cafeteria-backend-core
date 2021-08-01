@@ -17,31 +17,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import User from '../user/User';
-import Cafeteria from '../cafeteria/Cafeteria';
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 /**
  * Verify, Commit, Cancel 기록 열람용 엔티티입니다.
  */
 @Entity()
-export default class DiscountHistory extends BaseEntity {
+export default class DiscountProcessHistory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   type: string;
 
-  @ManyToOne(() => User)
-  @JoinColumn()
-  user: User;
-
   @Column()
-  userId: number;
-
-  @ManyToOne(() => Cafeteria)
-  @JoinColumn()
-  cafeteria: Cafeteria;
+  studentId: string;
 
   @Column()
   cafeteriaId: number;

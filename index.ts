@@ -25,7 +25,7 @@ import Corner from './src/core/cafeteria/Corner';
 
 import CafeteriaDiscountRule from './src/core/discount/CafeteriaDiscountRule';
 import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
-import DiscountHistory from './src/core/discount/DiscountHistory';
+import DiscountProcessHistory from './src/core/discount/DiscountHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
 
 import Menu from './src/core/menu/Menu';
@@ -46,7 +46,7 @@ export {
   Corner,
   CafeteriaDiscountRule,
   CafeteriaValidationParams,
-  DiscountHistory,
+  DiscountProcessHistory,
   DiscountTransaction,
   Menu,
   MenuParseRegex,

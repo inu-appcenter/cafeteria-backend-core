@@ -25,7 +25,8 @@ import CafeteriaComment from './core/cafeteria/CafeteriaComment';
 import Corner from './core/cafeteria/Corner';
 import CafeteriaDiscountRule from './core/discount/CafeteriaDiscountRule';
 import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
-import DiscountHistory from './core/discount/DiscountHistory';
+import DiscountTransaction from './core/discount/DiscountTransaction';
+import DiscountProcessHistory from './core/discount/DiscountProcessHistory';
 import MenuParseRegex from './core/menu/MenuParseRegex';
 import Notice from './core/notice/Notice';
 import Answer from './core/qna/Answer';
@@ -38,7 +39,8 @@ const entities = [
   Corner,
   CafeteriaDiscountRule,
   CafeteriaValidationParams,
-  DiscountHistory,
+  DiscountTransaction,
+  DiscountProcessHistory,
   MenuParseRegex,
   Notice,
   Answer,
@@ -51,10 +53,13 @@ export default async function startTypeORM(forceSync: boolean = false) {
     throw new Error('프로덕션 환경에서는 forceSync를 지원하지 않습니다.');
   }
 
-  await createConnection({
+  const connection = await createConnection({
     ...config.database,
     entities,
-    synchronize: forceSync,
     namingStrategy: new SnakeNamingStrategy(),
   });
+
+  if (forceSync) {
+    await connection.synchronize(true);
+  }
 }
