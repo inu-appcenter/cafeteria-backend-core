@@ -17,15 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  FindConditions,
-  MoreThan,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import {format} from 'date-fns';
+import {BaseEntity, Between, Column, Entity, FindConditions, PrimaryGeneratedColumn} from 'typeorm';
+import {endOfDay, startOfDay} from 'date-fns';
 
 /**
  * 할인 처리 완료된 트랜잭션의 기록입니다.
@@ -59,13 +52,15 @@ export default class DiscountTransaction extends BaseEntity {
    *
    * @param studentId 학번
    * @param cafeteriaId 카페테리아 식별자
+   * @param date 찾을 날짜
    */
-  static async findTransactionsToday(
+  static async findTransactions(
     studentId?: string,
-    cafeteriaId?: number
+    cafeteriaId?: number,
+    date: Date = new Date()
   ): Promise<DiscountTransaction[]> {
     const options: FindConditions<DiscountTransaction> = {
-      timestamp: MoreThan(format(new Date(), 'yyyy-MM-dd 00:00:00')),
+      timestamp: Between(startOfDay(date).toISOString(), endOfDay(date).toISOString()),
     };
 
     if (studentId) {
