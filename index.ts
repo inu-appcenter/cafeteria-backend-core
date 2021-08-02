@@ -39,6 +39,7 @@ import Question from './src/core/qna/Question';
 import User from './src/core/user/User';
 
 import startTypeORM from './src/startTypeORM';
+import getEntityMetadata from './src/startTypeORM';
 
 export {
   Cafeteria,
@@ -55,4 +56,5 @@ export {
   Question,
   User,
   startTypeORM,
+  getEntityMetadata,
 };
