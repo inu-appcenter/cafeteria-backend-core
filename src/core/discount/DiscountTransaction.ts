@@ -26,7 +26,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {format} from 'date-fns';
-import {FindManyOptions} from 'typeorm/find-options/FindManyOptions';
 
 /**
  * 할인 처리 완료된 트랜잭션의 기록입니다.
