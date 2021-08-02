@@ -137,10 +137,13 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
   /** Cafeteria */
   console.log(`Cafeteria 변환중...`);
   for (const raw of dumped['cafeteria']) {
+    const comment = dumped['cafeteria_comments'].find((st) => st.cafeteria_id === raw.id);
+
     await Cafeteria.create({
       id: raw.id,
       name: raw.name,
       displayName: raw.display_name,
+      comment: comment?.comment,
       supportMenu: raw.support_menu,
       supportDiscount: raw.support_discount,
       supportNotification: raw.support_notification,
