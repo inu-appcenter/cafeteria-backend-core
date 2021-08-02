@@ -17,9 +17,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {EntityTarget, getConnection} from 'typeorm';
+import {BaseEntity, getConnection} from 'typeorm';
 
-export type EntityClass = EntityTarget<any>;
+export type EntityClass = {new (): BaseEntity} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
 export type EntityMetadata = {
   name: string;
   fields: {
