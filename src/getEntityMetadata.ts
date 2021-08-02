@@ -19,6 +19,7 @@
 
 import {EntityTarget, getConnection} from 'typeorm';
 
+export type EntityClass = EntityTarget<any>;
 export type EntityMetadata = {
   name: string;
   fields: {
@@ -35,7 +36,7 @@ export type EntityMetadata = {
  *
  * @param entityClass 메타데이터가 가지고 싶은 엔티티 클래스.
  */
-export default function getEntityMetadata(entityClass: EntityTarget<any>): EntityMetadata {
+export default function getEntityMetadata(entityClass: EntityClass): EntityMetadata {
   const meta = getConnection().getMetadata(entityClass);
 
   return {
