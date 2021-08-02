@@ -21,25 +21,20 @@ import 'reflect-metadata';
 
 import Cafeteria from './src/core/cafeteria/Cafeteria';
 import Corner from './src/core/cafeteria/Corner';
-
 import DiscountRule from './src/core/discount/DiscountRule';
 import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
 import MealTimeRange from './src/core/discount/MealTimeRange';
 import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
-
 import Menu from './src/core/menu/Menu';
 import MenuParseRegex from './src/core/menu/MenuParseRegex';
-
 import Notice from './src/core/notice/Notice';
-
 import Answer from './src/core/qna/Answer';
 import Question from './src/core/qna/Question';
-
 import User from './src/core/user/User';
 
 import startTypeORM from './src/startTypeORM';
-import getEntityMetadata from './src/startTypeORM';
+import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
 
 export {
   Cafeteria,
@@ -57,4 +52,6 @@ export {
   User,
   startTypeORM,
   getEntityMetadata,
+  EntityClass,
+  EntityMetadata,
 };
