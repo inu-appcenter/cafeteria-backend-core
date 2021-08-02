@@ -17,12 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from './Cafeteria';
-import ExtendedEntity from '../../base/ExtendedEntity';
 
 @Entity()
-export default class Corner extends ExtendedEntity {
+export default class Corner extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
