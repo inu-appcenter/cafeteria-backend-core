@@ -39,11 +39,13 @@ export type EntityMetadata = {
 export default function getEntityMetadata(entityClass: EntityClass): EntityMetadata {
   const meta = getConnection().getMetadata(entityClass);
 
+  console.log(meta.ownColumns);
+
   return {
     name: meta.targetName,
     fields: meta.ownColumns.map((c) => ({
       name: c.propertyName,
-      type: typeof c.type === 'function' ? typeof c.type() : c.type,
+      type: typeof c.type === 'function' ? c.type.name : c.type,
       primary: c.isPrimary,
       nullable: c.isNullable,
     })),

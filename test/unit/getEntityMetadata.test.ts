@@ -17,15 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Cafeteria, Corner, startTypeORM} from '../../../index';
+import {getEntityMetadata, Question, startTypeORM} from '../../index';
 
 beforeAll(async () => {
   await startTypeORM();
 });
 
-describe('TypeORM 데코레이터 정보 빼오기', () => {
-  it('이게 될까?', async () => {
-    console.log(Cafeteria.graphqlType());
-    console.log(Corner.graphqlType());
+describe('메타데이터 빼오기!', () => {
+  it('타입을 보자', async () => {
+    const meta = getEntityMetadata(Question);
+
+    console.log(meta);
   });
 });
