@@ -25,28 +25,28 @@ import Question from '../qna/Question';
 @Unique(['phoneNumber'])
 @Unique(['barcode'])
 export default class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column({nullable: true})
+  @Column({nullable: true, comment: '학번'})
   studentId?: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true, comment: '휴대전화 번호'})
   phoneNumber?: string;
 
-  @Column()
+  @Column({comment: '자동로그인 토큰'})
   rememberMeToken: string;
 
-  @Column()
+  @Column({comment: '마지막 로그인 일시'})
   lastLoginAt: Date;
 
-  @Column()
+  @Column({comment: '바코드'})
   barcode: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true, comment: '마지막 바코드 활성화 일시'})
   barcodeActivatedAt?: Date;
 
-  @Column({nullable: true})
+  @Column({nullable: true, comment: '마지막 바코드 태그 일시'})
   barcodeTaggedAt?: Date;
 
   @OneToMany(() => Question, (q) => q.user)

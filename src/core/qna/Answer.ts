@@ -22,25 +22,25 @@ import Question from './Question';
 
 @Entity()
 export default class Answer extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
   @OneToOne(() => Question, (q) => q.answer)
   @JoinColumn()
   question: Question;
 
-  @Column()
+  @Column({comment: '연관된 질문의 식별자'})
   questionId: number;
 
-  @Column()
+  @Column({comment: '제목'})
   title: string;
 
-  @Column({type: 'text'})
+  @Column({type: 'text', comment: '내용'})
   body: string;
 
-  @Column()
+  @Column({comment: '사용자가 읽었는지 여부'})
   read: boolean;
 
-  @Column()
+  @Column({comment: '답변 등록 일시'})
   answeredAt: Date;
 }

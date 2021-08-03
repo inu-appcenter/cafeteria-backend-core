@@ -24,16 +24,16 @@ export default class DiscountRule extends BaseEntity {
   /**
    * id는 직접 지정합니다.
    */
-  @PrimaryColumn()
+  @PrimaryColumn({comment: '식별자'})
   id: number;
 
-  @Column()
+  @Column({comment: '규칙 이름'})
   name: string;
 
-  @Column()
+  @Column({comment: '규칙 상세 설명'})
   description: string;
 
-  @Column()
+  @Column({comment: '활성화 여부'})
   enabled: boolean;
 
   static async getName(ruleId: number) {

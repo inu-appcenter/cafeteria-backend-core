@@ -21,9 +21,9 @@ import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export default class MenuParseRegex extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column()
+  @Column({comment: '메뉴 스트링의 가격/열량 부분 정규식'})
   regex: string;
 }

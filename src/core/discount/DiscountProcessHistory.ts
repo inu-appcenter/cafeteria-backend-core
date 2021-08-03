@@ -24,27 +24,27 @@ import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
  */
 @Entity()
 export default class DiscountProcessHistory extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column()
-  type: string;
+  @Column({comment: '기록의 유형(Verify, Commit, Cancel)'})
+  type: 'Verify' | 'Commit' | 'Cancel' | string;
 
-  @Column()
+  @Column({comment: '학번'})
   studentId: string;
 
-  @Column()
+  @Column({comment: '연관된 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column()
+  @Column({comment: '식사 시간대(아침: 4, 점심: 2, 저녁: 1)'})
   mealType: number;
 
-  @Column()
+  @Column({comment: '검증 실패한 규칙 번호(0이면 성공)'})
   failedAt: number;
 
-  @Column()
+  @Column({comment: '비고'})
   message: string;
 
-  @Column()
+  @Column({comment: '기록 생성 일자'})
   timestamp: Date;
 }

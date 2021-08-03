@@ -23,14 +23,14 @@ import MealTimeRange from './MealTimeRange';
 
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
   @OneToOne(() => Cafeteria, (c) => c.discountValidationParams)
   @JoinColumn()
   cafeteria: Cafeteria;
 
-  @Column()
+  @Column({comment: '속한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
   /**
@@ -38,7 +38,7 @@ export default class CafeteriaValidationParams extends BaseEntity {
    *
    * @deprecated 이제 안 씁니다.
    */
-  @Column()
+  @Column({comment: '할인 요청 검증에 사용하는 문자열'})
   token: string;
 
   /**
@@ -49,7 +49,7 @@ export default class CafeteriaValidationParams extends BaseEntity {
    * 점심과 저녁 -> 3 (2^1 + 2^0)
    * 유닉스 파일 권한과 비슷합니다.
    */
-  @Column()
+  @Column({comment: '할인을 지원하는 시간대'})
   availableMealTypes: number;
 
   /**

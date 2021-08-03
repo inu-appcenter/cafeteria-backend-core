@@ -23,25 +23,25 @@ import CafeteriaValidationParams from '../discount/CafeteriaValidationParams';
 
 @Entity()
 export default class Cafeteria extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column()
+  @Column({comment: '실제 이름'})
   name: string;
 
-  @Column()
+  @Column({comment: '앱에 표시될 이름'})
   displayName: string;
 
-  @Column({nullable: true})
+  @Column({nullable: true, comment: '식당 공지'})
   comment?: string;
 
-  @Column()
+  @Column({comment: '메뉴 정보 지원 여부'})
   supportMenu: boolean;
 
-  @Column()
+  @Column({comment: '할인 지원 여부'})
   supportDiscount: boolean;
 
-  @Column()
+  @Column({comment: '알림 지원 여부'})
   supportNotification: boolean;
 
   @OneToMany(() => Corner, (c) => c.cafeteria)

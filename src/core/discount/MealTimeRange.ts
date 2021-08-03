@@ -22,16 +22,16 @@ import {Column} from 'typeorm';
 export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
 
 export default class MealTimeRange {
-  @Column()
+  @Column({comment: '아침 식사 시간대'})
   breakfast: TimeRangeExpression;
 
-  @Column()
+  @Column({comment: '점심 식사 시간대'})
   lunch: TimeRangeExpression;
 
-  @Column()
+  @Column({comment: '저녁 식사 시간대'})
   dinner: TimeRangeExpression;
 
-  static create(properties: Partial<MealTimeRange>) {
+  static create(properties: Partial<MealTimeRange>): MealTimeRange {
     return Object.assign(new MealTimeRange(), properties);
   }
 }

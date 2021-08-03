@@ -25,6 +25,7 @@ export type EntityMetadata = {
   fields: {
     name: string;
     type: string;
+    comment?: string;
     primary: boolean;
     nullable: boolean;
   }[];
@@ -44,6 +45,7 @@ export default function getEntityMetadata(entityClass: EntityClass): EntityMetad
     fields: meta.ownColumns.map((c) => ({
       name: c.propertyName,
       type: typeof c.type === 'function' ? c.type.name : c.type,
+      comment: c.comment,
       primary: c.isPrimary,
       nullable: c.isNullable,
     })),

@@ -23,7 +23,7 @@ export default class Menu {
   calorie?: number;
   cornerId: number;
 
-  static create(properties: Partial<Menu>) {
+  static create(properties: Partial<Menu>): Menu {
     return Object.assign(new Menu(), properties);
   }
 }

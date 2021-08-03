@@ -31,26 +31,26 @@ import Answer from './Answer';
 
 @Entity()
 export default class Question extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
   @ManyToOne(() => User, (user) => user.questions)
   @JoinColumn()
   user: User;
 
-  @Column()
+  @Column({comment: '질문한 사용자의 식별자'})
   userId: number;
 
-  @Column()
+  @Column({comment: '기기 정보'})
   deviceInfo: string;
 
-  @Column()
+  @Column({comment: '앱 버전'})
   appVersion: string;
 
-  @Column({type: 'text'})
+  @Column({type: 'text', comment: '내용'})
   content: string;
 
-  @Column()
+  @Column({comment: '질문 일시'})
   askedAt: Date;
 
   @OneToOne(() => Answer, (a) => a.question)

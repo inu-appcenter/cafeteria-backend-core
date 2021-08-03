@@ -28,24 +28,24 @@ import {
 
 @Entity()
 export default class Notice extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column()
+  @Column({comment: '제목'})
   title: string;
 
-  @Column()
+  @Column({comment: '내용'})
   body: string;
 
-  @Column()
+  @Column({comment: '타겟 운영체제'})
   targetOs: string;
 
-  @Column()
+  @Column({comment: '타겟 앱 버전(semver)'})
   targetVersion: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({comment: '생성 일시'})
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({comment: '업데이트 일시'})
   updatedAt: Date;
 }

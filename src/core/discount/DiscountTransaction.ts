@@ -30,19 +30,19 @@ import {endOfDay, startOfDay} from 'date-fns';
  */
 @Entity()
 export default class DiscountTransaction extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column()
+  @Column({comment: '할인받은 사용자의 학번'})
   studentId: string;
 
-  @Column()
+  @Column({comment: '할인받은 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column()
+  @Column({comment: '할인받은 시간대'})
   mealType: number;
 
-  @Column()
+  @Column({comment: '할인 일시'})
   timestamp: Date;
 
   /**
