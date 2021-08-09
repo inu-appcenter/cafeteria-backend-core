@@ -29,7 +29,6 @@ import {
   DiscountProcessHistory,
   DiscountRule,
   DiscountTransaction,
-  MealTimeRange,
   MenuParseRegex,
   Notice,
   Question,
@@ -38,7 +37,7 @@ import {
 } from '../index';
 
 /**
- * 2021년 8월 1일 마이그레이션
+ * 2021년 8월 9일 마이그레이션
  *
  * 운영 DB의 정보를 가져와 새 스케마에 맞게 매핑한 다음 로컬 개발 DB에 저장합니다.
  *
@@ -157,11 +156,9 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       cafeteriaId: raw.cafeteria_id,
       token: raw.token,
       availableMealTypes: raw.available_meal_types,
-      timeRanges: MealTimeRange.create({
-        breakfast: raw.time_range_breakfast,
-        lunch: raw.time_range_lunch,
-        dinner: raw.time_range_dinner,
-      }),
+      breakfast: raw.time_range_breakfast,
+      lunch: raw.time_range_lunch,
+      dinner: raw.time_range_dinner,
     }).save();
   }
 

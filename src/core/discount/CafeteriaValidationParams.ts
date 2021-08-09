@@ -19,7 +19,8 @@
 
 import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-import MealTimeRange from './MealTimeRange';
+
+export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
 
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
@@ -56,6 +57,12 @@ export default class CafeteriaValidationParams extends BaseEntity {
    * 해당 식당이 사용하는 아침/점심/저녁 구분 체계입니다.
    * 어떤 식당은 아침을 09:30부터 10:00까지 잡을 수 있고, 또 다른 식당은 08:00부터 09:00이라고 할 수 있습니다.
    */
-  @Column(() => MealTimeRange)
-  timeRanges: MealTimeRange;
+  @Column({comment: '아침 식사 시간대'})
+  breakfast: TimeRangeExpression;
+
+  @Column({comment: '점심 식사 시간대'})
+  lunch: TimeRangeExpression;
+
+  @Column({comment: '저녁 식사 시간대'})
+  dinner: TimeRangeExpression;
 }
