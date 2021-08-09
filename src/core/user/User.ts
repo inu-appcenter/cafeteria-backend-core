@@ -49,9 +49,6 @@ export default class User extends BaseEntity {
   @Column({nullable: true, comment: '마지막 바코드 태그 일시'})
   barcodeTaggedAt?: Date;
 
-  @OneToMany(() => Question, (q) => q.user)
-  questions: Question[];
-
   isValid() {
     return this.isStudent() || this.isOutsider();
   }
@@ -62,5 +59,9 @@ export default class User extends BaseEntity {
 
   isOutsider() {
     return this.studentId == null && this.phoneNumber != null;
+  }
+
+  async getQuestions() {
+    return Question.find({where: {userId: this.id}});
   }
 }
