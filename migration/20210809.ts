@@ -206,7 +206,7 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       id: idTransform[raw.id],
       name: raw.name,
       description: raw.description,
-      enabled: raw.enabled,
+      enabled: raw.enabled === 1 ? true : false,
     }).save();
   }
 
