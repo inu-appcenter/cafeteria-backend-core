@@ -29,6 +29,7 @@ export type EntityMetadata = {
     primary: boolean;
     nullable: boolean;
     relational: boolean;
+    isMany: boolean;
   }[];
 };
 
@@ -51,19 +52,25 @@ export default function getEntityMetadata(entityClass: EntityClass): EntityMetad
     primary: c.isPrimary,
     nullable: c.isNullable,
     relational: false,
+    isMany: false,
   }));
 
   /**
    * 그냥 컬럼 아니구 relation 컬럼.
    */
-  const fieldsFromRelationColumns = meta.ownRelations.map((r) => ({
-    name: r.propertyName,
-    type: typeof r.type === 'function' ? r.type.name : r.type,
-    comment: undefined,
-    primary: false,
-    nullable: r.isNullable,
-    relational: true,
-  }));
+  const fieldsFromRelationColumns = meta.ownRelations.map((r) => {
+    const isMany = r.isOneToMany || r.isManyToMany;
+
+    return {
+      name: r.propertyName,
+      type: typeof r.type === 'function' ? r.type.name : r.type,
+      comment: undefined,
+      primary: false,
+      nullable: isMany ? false : r.isNullable,
+      relational: true,
+      isMany,
+    };
+  });
 
   return {
     name: meta.targetName,

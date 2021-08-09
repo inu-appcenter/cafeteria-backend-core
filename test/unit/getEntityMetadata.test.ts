@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {getEntityMetadata, Question, startTypeORM} from '../../index';
+import {Cafeteria, getEntityMetadata, Question, startTypeORM} from '../../index';
 
 beforeAll(async () => {
   await startTypeORM();
@@ -25,7 +25,7 @@ beforeAll(async () => {
 
 describe('메타데이터 빼오기!', () => {
   it('타입을 보자', async () => {
-    const meta = getEntityMetadata(Question);
+    const meta = getEntityMetadata(Cafeteria);
 
     console.log(meta);
   });
