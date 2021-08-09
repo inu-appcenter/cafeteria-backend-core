@@ -28,6 +28,7 @@ export type EntityMetadata = {
     comment?: string;
     primary: boolean;
     nullable: boolean;
+    relational: boolean;
   }[];
 };
 
@@ -40,14 +41,32 @@ export type EntityMetadata = {
 export default function getEntityMetadata(entityClass: EntityClass): EntityMetadata {
   const meta = getConnection().getMetadata(entityClass);
 
+  /**
+   * 그냥 선언된 컬럼.
+   */
+  const fieldsFromOwnColumns = meta.ownColumns.map((c) => ({
+    name: c.propertyName,
+    type: typeof c.type === 'function' ? c.type.name : c.type,
+    comment: c.comment,
+    primary: c.isPrimary,
+    nullable: c.isNullable,
+    relational: false,
+  }));
+
+  /**
+   * 그냥 컬럼 아니구 relation 컬럼.
+   */
+  const fieldsFromRelationColumns = meta.ownRelations.map((r) => ({
+    name: r.propertyName,
+    type: typeof r.type === 'function' ? r.type.name : r.type,
+    comment: undefined,
+    primary: false,
+    nullable: r.isNullable,
+    relational: true,
+  }));
+
   return {
     name: meta.targetName,
-    fields: meta.ownColumns.map((c) => ({
-      name: c.propertyName,
-      type: typeof c.type === 'function' ? c.type.name : c.type,
-      comment: c.comment,
-      primary: c.isPrimary,
-      nullable: c.isNullable,
-    })),
+    fields: [...fieldsFromOwnColumns, ...fieldsFromRelationColumns],
   };
 }
