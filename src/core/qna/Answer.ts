@@ -38,9 +38,12 @@ export default class Answer extends BaseEntity {
   @Column({type: 'text', comment: '내용'})
   body: string;
 
-  @Column({comment: '사용자가 읽었는지 여부'})
-  read: boolean;
-
   @Column({comment: '답변 등록 일시'})
-  answeredAt: Date;
+  answeredAt: Date = new Date();
+
+  @Column({comment: '사용자가 읽었는지 여부'})
+  read: boolean = false;
+
+  @Column({comment: '사용자가 답변을 읽은 일시', nullable: true})
+  readAt?: Date = undefined;
 }
