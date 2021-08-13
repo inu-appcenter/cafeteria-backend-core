@@ -67,4 +67,14 @@ export default class User extends BaseEntity {
   async getQuestions() {
     return Question.find({where: {userId: this.id}});
   }
+
+  static async getOrCreate(properties: Partial<User>) {
+    const userFound = await User.findOne({where: properties});
+
+    if (userFound) {
+      return userFound;
+    } else {
+      return User.create(properties);
+    }
+  }
 }
