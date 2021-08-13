@@ -28,20 +28,29 @@ export default class User extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
+  /**
+   * 학생 전용 필드
+   */
   @Column({nullable: true, comment: '학번'})
   studentId?: string;
 
+  /**
+   * 게스트 전용 필드
+   */
   @Column({nullable: true, comment: '휴대전화 번호'})
   phoneNumber?: string;
+
+  /**
+   * 학생 전용 필드
+   */
+  @Column({nullable: true, comment: '바코드'})
+  barcode?: string;
 
   @Column({comment: '자동로그인 토큰'})
   rememberMeToken: string;
 
   @Column({comment: '마지막 로그인 일시'})
   lastLoginAt: Date;
-
-  @Column({comment: '바코드'})
-  barcode: string;
 
   @Column({nullable: true, comment: '마지막 바코드 활성화 일시'})
   barcodeActivatedAt?: Date;
