@@ -17,39 +17,34 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
+import {TimeRangeExpression} from '../common/TimeRangeExpression';
 
-/**
- * Verify, Commit, Cancel 기록입니다.
- */
 @Entity()
-export default class DiscountProcessHistory extends BaseEntity {
+export default class CafeteriaBookingParams extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column({comment: '기록의 유형(Verify, Commit, Cancel)'})
-  type: 'Verify' | 'Commit' | 'Cancel' | string;
-
-  @Column({comment: '학번'})
-  studentId: string;
-
-  @ManyToOne(() => Cafeteria, {cascade: ['update']})
+  @OneToOne(() => Cafeteria, (c) => c.discountValidationParams, {cascade: ['update']})
   @JoinColumn()
   cafeteria: Cafeteria;
 
-  @Column({comment: '연관된 Cafeteria의 식별자'})
+  @Column({comment: '속한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '식사 시간대(아침: 4, 점심: 2, 저녁: 1)'})
-  mealType: number;
+  @Column({comment: '예약 받기 시작하는 시간'})
+  acceptFrom: TimeRangeExpression;
 
-  @Column({comment: '검증 실패한 규칙 번호(0이면 성공)'})
-  failedAt: number;
+  @Column({comment: '예약을 그만 받는 시간'})
+  acceptUntil: TimeRangeExpression;
 
-  @Column({comment: '비고'})
-  message: string;
+  @Column({comment: '예약 시간대의 간격'})
+  intervalMinutes: number;
 
-  @Column({comment: '기록 생성 일자'})
-  timestamp: Date;
+  @Column({comment: '한 시간대당 예약 기간(분)'})
+  durationMinutes: number;
+
+  @Column({comment: '입장 시간 허용 오차'})
+  toleranceMinutes: number;
 }

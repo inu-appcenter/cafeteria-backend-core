@@ -19,38 +19,45 @@
 
 import 'reflect-metadata';
 
+import {TimeRangeExpression} from './src/core/common/TimeRangeExpression';
 import Cafeteria from './src/core/cafeteria/Cafeteria';
 import Corner from './src/core/cafeteria/Corner';
 import DiscountRule from './src/core/discount/DiscountRule';
-import CafeteriaValidationParams, {
-  TimeRangeExpression,
-} from './src/core/discount/CafeteriaValidationParams';
 import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
+import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
 import Menu from './src/core/menu/Menu';
 import MenuParseRegex from './src/core/menu/MenuParseRegex';
 import Notice from './src/core/notice/Notice';
-import Answer from './src/core/qna/Answer';
 import Question from './src/core/qna/Question';
+import Answer from './src/core/qna/Answer';
 import User from './src/core/user/User';
+import Booking from './src/core/booking/Booking';
+import CheckIn from './src/core/booking/CheckIn';
+import VisitRecord from './src/core/booking/VisitRecord';
+import CafeteriaBookingParams from './src/core/booking/CafeteriaBookingParams';
 
 import startTypeORM from './src/startTypeORM';
 import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
 
 export {
+  TimeRangeExpression,
   Cafeteria,
   Corner,
   DiscountRule,
-  CafeteriaValidationParams,
-  TimeRangeExpression,
   DiscountProcessHistory,
   DiscountTransaction,
+  CafeteriaValidationParams,
   Menu,
   MenuParseRegex,
   Notice,
-  Answer,
   Question,
+  Answer,
   User,
+  Booking,
+  CheckIn,
+  VisitRecord,
+  CafeteriaBookingParams,
   startTypeORM,
   getEntityMetadata,
   EntityClass,

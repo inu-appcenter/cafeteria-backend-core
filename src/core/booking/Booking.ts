@@ -17,39 +17,45 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
+import CheckIn from './CheckIn';
 
 /**
- * Verify, Commit, Cancel 기록입니다.
+ * 학식당 입장 예약!
  */
-@Entity()
-export default class DiscountProcessHistory extends BaseEntity {
+export default class Booking extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column({comment: '기록의 유형(Verify, Commit, Cancel)'})
-  type: 'Verify' | 'Commit' | 'Cancel' | string;
+  /**
+   * 외부에서 추측할 수 없는 예약 식별자가 필요합니다.
+   * 예약증 발급할 때에 쓰거든요!
+   */
+  @Column({unique: true, comment: '또다른 식별자'})
+  uuid: string;
 
-  @Column({comment: '학번'})
-  studentId: string;
+  @ManyToOne(() => User)
+  @JoinColumn()
+  user: User;
+
+  @Column({comment: '예약한 사용자의 식별자'})
+  userId: number;
 
   @ManyToOne(() => Cafeteria, {cascade: ['update']})
   @JoinColumn()
   cafeteria: Cafeteria;
 
-  @Column({comment: '연관된 Cafeteria의 식별자'})
+  @Column({comment: '예약한 식당의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '식사 시간대(아침: 4, 점심: 2, 저녁: 1)'})
-  mealType: number;
+  @Column({comment: '예약한 일시.'})
+  datetime: Date;
 
-  @Column({comment: '검증 실패한 규칙 번호(0이면 성공)'})
-  failedAt: number;
+  @Column({comment: '예약 생성 일시'})
+  bookedAt: Date;
 
-  @Column({comment: '비고'})
-  message: string;
-
-  @Column({comment: '기록 생성 일자'})
-  timestamp: Date;
+  @OneToOne(() => CheckIn, (c) => c.booking)
+  checkIn?: CheckIn;
 }

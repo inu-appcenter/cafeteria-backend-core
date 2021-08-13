@@ -17,39 +17,35 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
 
 /**
- * Verify, Commit, Cancel 기록입니다.
+ * 방문 기록용!
+ *
+ * 예약 후 방문(CheckIn)이든, 아니면 예약 없이 방문이든,
+ * 모두 이 방문 기록을 생성합니다.
  */
-@Entity()
-export default class DiscountProcessHistory extends BaseEntity {
+export default class VisitRecord extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column({comment: '기록의 유형(Verify, Commit, Cancel)'})
-  type: 'Verify' | 'Commit' | 'Cancel' | string;
+  @Column({nullable: true})
+  bookingId?: number;
 
-  @Column({comment: '학번'})
-  studentId: string;
+  @Column({nullable: true})
+  studentId?: string;
+
+  @Column({nullable: true})
+  phoneNumber?: string;
 
   @ManyToOne(() => Cafeteria, {cascade: ['update']})
   @JoinColumn()
   cafeteria: Cafeteria;
 
-  @Column({comment: '연관된 Cafeteria의 식별자'})
+  @Column({comment: '예약한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '식사 시간대(아침: 4, 점심: 2, 저녁: 1)'})
-  mealType: number;
-
-  @Column({comment: '검증 실패한 규칙 번호(0이면 성공)'})
-  failedAt: number;
-
-  @Column({comment: '비고'})
-  message: string;
-
-  @Column({comment: '기록 생성 일자'})
-  timestamp: Date;
+  @Column()
+  visitedAt: Date;
 }

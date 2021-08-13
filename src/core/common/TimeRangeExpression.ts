@@ -17,31 +17,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Cafeteria from './Cafeteria';
-
-@Entity()
-export default class Corner extends BaseEntity {
-  @PrimaryGeneratedColumn({comment: '식별자'})
-  id: number;
-
-  @Column({comment: '실제 이름'})
-  name: string;
-
-  @Column({comment: '앱에 표시될 이름'})
-  displayName: string;
-
-  /**
-   * 0부터 7까지입니다.
-   * 아침: 4, 점심: 2, 저녁: 1
-   */
-  @Column({comment: '이용 가능 시간대(아침: 4, 점심: 2, 저녁: 1)'})
-  availableAt: number;
-
-  @ManyToOne(() => Cafeteria, (c) => c.corners, {cascade: ['update']})
-  @JoinColumn()
-  cafeteria: Cafeteria;
-
-  @Column({comment: '속한 Cafeteria의 식별자'})
-  cafeteriaId: number;
-}
+export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;

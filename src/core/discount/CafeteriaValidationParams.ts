@@ -19,15 +19,14 @@
 
 import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-
-export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
+import {TimeRangeExpression} from '../common/TimeRangeExpression';
 
 @Entity()
 export default class CafeteriaValidationParams extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @OneToOne(() => Cafeteria, (c) => c.discountValidationParams)
+  @OneToOne(() => Cafeteria, (c) => c.discountValidationParams, {cascade: ['update']})
   @JoinColumn()
   cafeteria: Cafeteria;
 

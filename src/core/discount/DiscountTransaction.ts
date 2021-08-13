@@ -17,16 +17,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Between, Column, Entity, FindConditions, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Between,
+  Column,
+  Entity,
+  FindConditions,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {endOfDay, startOfDay} from 'date-fns';
+import Cafeteria from '../cafeteria/Cafeteria';
 
 /**
- * 할인 처리 완료된 트랜잭션의 기록입니다.
+ * 할인 처리 완료된 트랜잭션입니다.
  * 지난 할인 내역을 찾는 기준이 됩니다.
  *
  * 중요한 거라서 굳이 분리했습니다.
- *
- * 외래키 없어요!! 사용자나 카페테리아가 없을수도 있거든요 ㅎ
  */
 @Entity()
 export default class DiscountTransaction extends BaseEntity {
@@ -35,6 +43,10 @@ export default class DiscountTransaction extends BaseEntity {
 
   @Column({comment: '할인받은 사용자의 학번'})
   studentId: string;
+
+  @ManyToOne(() => Cafeteria, {cascade: ['update']})
+  @JoinColumn()
+  cafeteria: Cafeteria;
 
   @Column({comment: '할인받은 Cafeteria의 식별자'})
   cafeteriaId: number;
