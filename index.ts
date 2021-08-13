@@ -22,7 +22,9 @@ import 'reflect-metadata';
 import Cafeteria from './src/core/cafeteria/Cafeteria';
 import Corner from './src/core/cafeteria/Corner';
 import DiscountRule from './src/core/discount/DiscountRule';
-import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
+import CafeteriaValidationParams, {
+  TimeRangeExpression,
+} from './src/core/discount/CafeteriaValidationParams';
 import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
 import DiscountTransaction from './src/core/discount/DiscountTransaction';
 import Menu from './src/core/menu/Menu';
@@ -40,6 +42,7 @@ export {
   Corner,
   DiscountRule,
   CafeteriaValidationParams,
+  TimeRangeExpression,
   DiscountProcessHistory,
   DiscountTransaction,
   Menu,
