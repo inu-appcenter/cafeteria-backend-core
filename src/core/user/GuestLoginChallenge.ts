@@ -44,7 +44,7 @@ export default class GuestLoginChallenge extends BaseEntity {
   @CreateDateColumn({comment: '생성 일자'})
   createdAt: Date;
 
-  async findLastOneByPhoneNumberNotOlderThan(
+  static async findLastOneByPhoneNumberNotOlderThan(
     phoneNumber: string,
     seconds: number
   ): Promise<GuestLoginChallenge | undefined> {
