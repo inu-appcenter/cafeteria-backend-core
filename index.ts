@@ -36,6 +36,7 @@ import Booking from './src/core/booking/Booking';
 import CheckIn from './src/core/booking/CheckIn';
 import VisitRecord from './src/core/booking/VisitRecord';
 import CafeteriaBookingParams from './src/core/booking/CafeteriaBookingParams';
+import GuestLoginChallenge from './src/core/user/GuestLoginChallenge';
 
 import startTypeORM from './src/startTypeORM';
 import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
@@ -58,6 +59,7 @@ export {
   CheckIn,
   VisitRecord,
   CafeteriaBookingParams,
+  GuestLoginChallenge,
   startTypeORM,
   getEntityMetadata,
   EntityClass,

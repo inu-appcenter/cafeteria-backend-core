@@ -17,10 +17,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, CreateDateColumn, MoreThan, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  MoreThan,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {addSeconds} from 'date-fns';
 
-export default class GuestAuthentication extends BaseEntity {
+/**
+ * 휴대전화번호로 로그인하고자 하는 사용자에게 주어진 인증코드 챌린지!
+ */
+@Entity()
+export default class GuestLoginChallenge extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
@@ -36,10 +47,10 @@ export default class GuestAuthentication extends BaseEntity {
   async findLastOneByPhoneNumberNotOlderThan(
     phoneNumber: string,
     seconds: number
-  ): Promise<GuestAuthentication | undefined> {
+  ): Promise<GuestLoginChallenge | undefined> {
     const validFrom = addSeconds(new Date(), -seconds);
 
-    return await GuestAuthentication.findOne({
+    return await GuestLoginChallenge.findOne({
       where: {createdAt: MoreThan(validFrom.toISOString())},
       order: {createdAt: 'DESC'},
     });

@@ -35,6 +35,7 @@ import Booking from './core/booking/Booking';
 import CheckIn from './core/booking/CheckIn';
 import VisitRecord from './core/booking/VisitRecord';
 import CafeteriaBookingParams from './core/booking/CafeteriaBookingParams';
+import GuestLoginChallenge from './core/user/GuestLoginChallenge';
 
 const entities = [
   Cafeteria,
@@ -52,6 +53,7 @@ const entities = [
   CheckIn,
   VisitRecord,
   CafeteriaBookingParams,
+  GuestLoginChallenge,
 ];
 
 export default async function startTypeORM(forceSync: boolean = false) {
