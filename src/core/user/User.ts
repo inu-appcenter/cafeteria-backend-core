@@ -53,14 +53,14 @@ export default class User extends BaseEntity {
   questions: Question[];
 
   isValid() {
-    return this.isStudent() || this.isOutsider();
+    return this.isStudent() || this.isGuest();
   }
 
   isStudent() {
     return this.studentId != null && this.phoneNumber == null;
   }
 
-  isOutsider() {
+  isGuest() {
     return this.studentId == null && this.phoneNumber != null;
   }
 
