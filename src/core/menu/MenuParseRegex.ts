@@ -26,4 +26,7 @@ export default class MenuParseRegex extends BaseEntity {
 
   @Column({comment: '메뉴 스트링의 가격/열량 부분 정규식'})
   regex: string;
+
+  @Column({comment: '기타 주석', nullable: true})
+  comment?: string;
 }

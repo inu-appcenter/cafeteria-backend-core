@@ -128,8 +128,9 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       questionId: raw.question_id,
       title: raw.title,
       body: raw.body,
-      read: raw.read,
       answeredAt: raw.createdAt,
+      read: raw.read === 1 ? true : false,
+      readAt: raw.read === 1 ? new Date() : undefined,
     }).save();
   }
 
@@ -177,9 +178,15 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
   /** DiscountProcessHistory */
   console.log(`DiscountProcessHistory 변환중...`);
   for (const raw of dumped['transaction_histories']) {
+    const typeTransform: Record<string, string> = {
+      Validate: 'Verify',
+      Commit: 'Commit',
+      Cancel: 'Cancel',
+    };
+
     await DiscountProcessHistory.create({
       id: raw.id,
-      type: raw.type,
+      type: typeTransform[raw.type],
       studentId: String(raw.user_id),
       cafeteriaId: raw.cafeteria_id,
       mealType: raw.meal_type,
@@ -228,6 +235,7 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
     await MenuParseRegex.create({
       id: raw.id,
       regex: raw.regex,
+      comment: '사용 예시를 적어주세요!',
     }).save();
   }
 
