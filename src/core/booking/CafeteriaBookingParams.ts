@@ -21,6 +21,9 @@ import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn
 import Cafeteria from '../cafeteria/Cafeteria';
 import {TimeRangeExpression} from '../common/TimeRangeExpression';
 
+/**
+ * 예약에 관련된 설정!
+ */
 @Entity()
 export default class CafeteriaBookingParams extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})

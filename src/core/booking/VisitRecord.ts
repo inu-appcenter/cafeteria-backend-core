@@ -17,15 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
 
 /**
- * 방문 기록용!
+ * 방문 기록!
  *
  * 예약 후 방문(CheckIn)이든, 아니면 예약 없이 방문이든,
  * 모두 이 방문 기록을 생성합니다.
  */
+@Entity()
 export default class VisitRecord extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;

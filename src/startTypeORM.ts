@@ -31,6 +31,10 @@ import Notice from './core/notice/Notice';
 import Answer from './core/qna/Answer';
 import Question from './core/qna/Question';
 import User from './core/user/User';
+import Booking from './core/booking/Booking';
+import CheckIn from './core/booking/CheckIn';
+import VisitRecord from './core/booking/VisitRecord';
+import CafeteriaBookingParams from './core/booking/CafeteriaBookingParams';
 
 const entities = [
   Cafeteria,
@@ -44,6 +48,10 @@ const entities = [
   Answer,
   Question,
   User,
+  Booking,
+  CheckIn,
+  VisitRecord,
+  CafeteriaBookingParams,
 ];
 
 export default async function startTypeORM(forceSync: boolean = false) {

@@ -18,12 +18,13 @@
  */
 
 import Booking from './Booking';
-import {BaseEntity, Column, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 
 /**
  * 예약 후 체크인!
  * 체크인은 예약에 딸려있습니다.
  */
+@Entity()
 export default class CheckIn extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;

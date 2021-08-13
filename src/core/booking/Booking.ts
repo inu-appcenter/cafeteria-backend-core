@@ -17,7 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
 import CheckIn from './CheckIn';
@@ -25,6 +33,7 @@ import CheckIn from './CheckIn';
 /**
  * 학식당 입장 예약!
  */
+@Entity()
 export default class Booking extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
