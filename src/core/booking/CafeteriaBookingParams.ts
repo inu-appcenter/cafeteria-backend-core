@@ -19,7 +19,13 @@
 
 import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-import {TimeRangeExpression} from '../common/TimeRangeExpression';
+import {
+  isValidTimeRangeExpression,
+  TimeRangeExpression,
+  timeRangeExpressionToDates,
+} from '../common/TimeRangeExpression';
+import {addMinutes} from 'date-fns';
+import assert from 'assert';
 
 /**
  * 예약에 관련된 설정!
@@ -36,11 +42,11 @@ export default class CafeteriaBookingParams extends BaseEntity {
   @Column({comment: '속한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '예약 받기 시작하는 시간'})
-  acceptFrom: TimeRangeExpression;
+  @Column({comment: '수용 가능 인원'})
+  capacity: number;
 
-  @Column({comment: '예약을 그만 받는 시간'})
-  acceptUntil: TimeRangeExpression;
+  @Column({comment: '예약을 받는 시간대'})
+  acceptTimeRange: TimeRangeExpression;
 
   @Column({comment: '예약 시간대의 간격'})
   intervalMinutes: number;
@@ -50,4 +56,48 @@ export default class CafeteriaBookingParams extends BaseEntity {
 
   @Column({comment: '입장 시간 허용 오차'})
   toleranceMinutes: number;
+
+  /**
+   * 중복 없고 분단위로 떨어지는 Date 인스턴스를 만들어 가져옵니다.
+   * 해당 시간이 지났는지 여부와 관계없이 모두 가져옵니다.
+   *
+   * intervalMinutes나 acceptRange가 이상하면 뻗습니다.
+   *
+   * @param baseDate 기준 날짜가 담긴 Date 인스턴스
+   */
+  allTimeSlots(baseDate: Date): Date[] {
+    assert(this.intervalMinutes > 0, '시간 간격은 0보다 커야 합니다.');
+
+    if (!isValidTimeRangeExpression(this.acceptTimeRange)) {
+      return [];
+    }
+
+    const [start, end] = timeRangeExpressionToDates(this.acceptTimeRange, baseDate);
+    const timeSlots: Date[] = [];
+    let current = start;
+
+    while (current.getTime() <= end.getTime()) {
+      assert(current.getTime() % (60 * 1000) === 0, '시간이 분 단위로 떨어져야 합니다.');
+
+      const duplication = timeSlots.map((t) => t.getTime()).find((t) => t === current.getTime());
+
+      assert(duplication == null, '타임 슬롯에 중복이 없어야 합니다.');
+
+      timeSlots.push(new Date(current.getTime()));
+
+      current = addMinutes(current, this.intervalMinutes);
+    }
+
+    return timeSlots;
+  }
+
+  /**
+   * 오늘 마지막 예약 시간이 지났는가?
+   */
+  isOverToday(): boolean {
+    const acceptUntil = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];
+    const now = new Date();
+
+    return now.getTime() >= acceptUntil.getTime();
+  }
 }

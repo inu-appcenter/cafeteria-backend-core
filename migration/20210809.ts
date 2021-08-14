@@ -24,6 +24,7 @@ import getEnv from '../src/utils/env';
 import {
   Answer,
   Cafeteria,
+  CafeteriaBookingParams,
   CafeteriaValidationParams,
   Corner,
   DiscountProcessHistory,
@@ -252,6 +253,19 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       updatedAt: raw.updatedAt,
     }).save();
   }
+
+  /**
+   * CafeteriaBookingParams
+   */
+  // 학식당용 하나 프리셋
+  await CafeteriaBookingParams.create({
+    cafeteriaId: 1,
+    capacity: 20,
+    acceptTimeRange: '08:30-10:30',
+    intervalMinutes: 5,
+    durationMinutes: 30,
+    toleranceMinutes: 5,
+  }).save();
 }
 
 performMigrationAndSaveProductionDataToLocalDatabase().then().catch();

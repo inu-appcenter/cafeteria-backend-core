@@ -67,4 +67,13 @@ export default class Booking extends BaseEntity {
 
   @OneToOne(() => CheckIn, (c) => c.booking)
   checkIn?: CheckIn;
+
+  static async howManyBookedForCafeteriaAtTimeSlot(
+    cafeteriaId: number,
+    timeSlot: Date
+  ): Promise<number> {
+    const bookings = await Booking.find({cafeteriaId, timeSlot});
+
+    return bookings.length;
+  }
 }

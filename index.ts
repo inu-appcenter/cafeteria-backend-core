@@ -19,7 +19,10 @@
 
 import 'reflect-metadata';
 
-import {TimeRangeExpression} from './src/core/common/TimeRangeExpression';
+import {
+  isValidTimeRangeExpression,
+  TimeRangeExpression,
+} from './src/core/common/TimeRangeExpression';
 import Cafeteria from './src/core/cafeteria/Cafeteria';
 import Corner from './src/core/cafeteria/Corner';
 import DiscountRule from './src/core/discount/DiscountRule';
@@ -43,6 +46,7 @@ import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMet
 
 export {
   TimeRangeExpression,
+  isValidTimeRangeExpression,
   Cafeteria,
   Corner,
   DiscountRule,
