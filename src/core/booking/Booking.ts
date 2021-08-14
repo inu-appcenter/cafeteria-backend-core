@@ -60,7 +60,7 @@ export default class Booking extends BaseEntity {
   cafeteriaId: number;
 
   @Column({comment: '예약한 일시.'})
-  datetime: Date;
+  timeSlot: Date;
 
   @Column({comment: '예약 생성 일시'})
   bookedAt: Date;
