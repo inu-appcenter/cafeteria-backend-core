@@ -24,7 +24,7 @@ import {
   TimeRangeExpression,
   timeRangeExpressionToDates,
 } from '../common/TimeRangeExpression';
-import {addMinutes} from 'date-fns';
+import {addMinutes, isAfter, isBefore} from 'date-fns';
 import assert from 'assert';
 
 /**
@@ -78,7 +78,7 @@ export default class CafeteriaBookingParams extends BaseEntity {
     const timeSlots: Date[] = [];
     let current = start;
 
-    while (current.getTime() <= end.getTime()) {
+    while (isBefore(current, end)) {
       assert(current.getTime() % (60 * 1000) === 0, '시간이 분 단위로 떨어져야 합니다.');
 
       const duplication = timeSlots.map((t) => t.getTime()).find((t) => t === current.getTime());
@@ -103,6 +103,6 @@ export default class CafeteriaBookingParams extends BaseEntity {
     const acceptUntil = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];
     const now = new Date();
 
-    return now.getTime() >= acceptUntil.getTime();
+    return isAfter(now, acceptUntil);
   }
 }
