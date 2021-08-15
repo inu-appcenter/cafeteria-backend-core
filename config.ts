@@ -41,6 +41,6 @@ export default {
     password: getEnv('DB_PASSWORD', '1234'),
     database: 'cafeteria',
     timezone: '+09:00',
-    logging: true,
+    logging: false,
   },
 };
