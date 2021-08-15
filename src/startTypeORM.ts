@@ -20,40 +20,43 @@
 import config from '../config';
 import {createConnection} from 'typeorm';
 import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
-import Cafeteria from './core/cafeteria/Cafeteria';
-import Corner from './core/cafeteria/Corner';
-import DiscountRule from './core/discount/DiscountRule';
-import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
-import DiscountTransaction from './core/discount/DiscountTransaction';
-import DiscountProcessHistory from './core/discount/DiscountProcessHistory';
-import MenuParseRegex from './core/menu/MenuParseRegex';
-import Notice from './core/notice/Notice';
-import Answer from './core/qna/Answer';
-import Question from './core/qna/Question';
+
 import User from './core/user/User';
+import Notice from './core/notice/Notice';
+import Corner from './core/cafeteria/Corner';
+import Answer from './core/qna/Answer';
 import Booking from './core/booking/Booking';
 import CheckIn from './core/booking/CheckIn';
+import Question from './core/qna/Question';
+import Cafeteria from './core/cafeteria/Cafeteria';
 import VisitRecord from './core/booking/VisitRecord';
-import CafeteriaBookingParams from './core/booking/CafeteriaBookingParams';
+import DiscountRule from './core/discount/DiscountRule';
+import MenuParseRegex from './core/menu/MenuParseRegex';
+import CafeteriaDayOff from './core/booking/CafeteriaDayOff';
+import DiscountTransaction from './core/discount/DiscountTransaction';
 import GuestLoginChallenge from './core/user/GuestLoginChallenge';
+import CafeteriaBookingParams from './core/booking/CafeteriaBookingParams';
+import DiscountProcessHistory from './core/discount/DiscountProcessHistory';
+import CafeteriaValidationParams from './core/discount/CafeteriaValidationParams';
 
 const entities = [
-  Cafeteria,
-  Corner,
-  DiscountRule,
-  CafeteriaValidationParams,
-  DiscountTransaction,
-  DiscountProcessHistory,
-  MenuParseRegex,
-  Notice,
-  Answer,
-  Question,
   User,
+  Notice,
+  Corner,
+  Answer,
   Booking,
   CheckIn,
+  Question,
+  Cafeteria,
   VisitRecord,
-  CafeteriaBookingParams,
+  DiscountRule,
+  MenuParseRegex,
+  CafeteriaDayOff,
+  DiscountTransaction,
   GuestLoginChallenge,
+  CafeteriaBookingParams,
+  DiscountProcessHistory,
+  CafeteriaValidationParams,
 ];
 
 export default async function startTypeORM(forceSync: boolean = false) {

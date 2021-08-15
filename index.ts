@@ -19,55 +19,54 @@
 
 import 'reflect-metadata';
 
-import {
-  isValidTimeRangeExpression,
-  TimeRangeExpression,
-} from './src/core/common/TimeRangeExpression';
-import Cafeteria from './src/core/cafeteria/Cafeteria';
-import Corner from './src/core/cafeteria/Corner';
-import DiscountRule from './src/core/discount/DiscountRule';
-import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
-import DiscountTransaction from './src/core/discount/DiscountTransaction';
-import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
-import Menu from './src/core/menu/Menu';
-import MenuParseRegex from './src/core/menu/MenuParseRegex';
-import Notice from './src/core/notice/Notice';
-import Question from './src/core/qna/Question';
-import Answer from './src/core/qna/Answer';
 import User from './src/core/user/User';
+import Menu from './src/core/menu/Menu';
+import Answer from './src/core/qna/Answer';
+import Notice from './src/core/notice/Notice';
+import Corner from './src/core/cafeteria/Corner';
 import Booking from './src/core/booking/Booking';
 import CheckIn from './src/core/booking/CheckIn';
+import Question from './src/core/qna/Question';
+import Cafeteria from './src/core/cafeteria/Cafeteria';
 import VisitRecord from './src/core/booking/VisitRecord';
-import CafeteriaBookingParams from './src/core/booking/CafeteriaBookingParams';
-import GuestLoginChallenge from './src/core/user/GuestLoginChallenge';
-
+import DiscountRule from './src/core/discount/DiscountRule';
 import startTypeORM from './src/startTypeORM';
-import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
 import BookingOption from './src/core/booking/BookingOption';
+import MenuParseRegex from './src/core/menu/MenuParseRegex';
+import CafeteriaDayOff from './src/core/booking/CafeteriaDayOff';
+import GuestLoginChallenge from './src/core/user/GuestLoginChallenge';
+import DiscountTransaction from './src/core/discount/DiscountTransaction';
+import {TimeRangeExpression} from './src/core/common/TimeRangeExpression';
+import CafeteriaBookingParams from './src/core/booking/CafeteriaBookingParams';
+import DiscountProcessHistory from './src/core/discount/DiscountProcessHistory';
+import CafeteriaValidationParams from './src/core/discount/CafeteriaValidationParams';
+import {isValidTimeRangeExpression} from './src/core/common/TimeRangeExpression';
+import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
 
 export {
-  TimeRangeExpression,
-  isValidTimeRangeExpression,
-  Cafeteria,
-  Corner,
-  DiscountRule,
-  DiscountProcessHistory,
-  DiscountTransaction,
-  CafeteriaValidationParams,
-  Menu,
-  MenuParseRegex,
-  Notice,
-  Question,
-  Answer,
   User,
+  Menu,
+  Notice,
+  Corner,
+  Answer,
   Booking,
   CheckIn,
-  VisitRecord,
-  CafeteriaBookingParams,
-  BookingOption,
-  GuestLoginChallenge,
-  startTypeORM,
-  getEntityMetadata,
+  Question,
+  Cafeteria,
   EntityClass,
+  VisitRecord,
+  startTypeORM,
+  DiscountRule,
+  BookingOption,
   EntityMetadata,
+  MenuParseRegex,
+  CafeteriaDayOff,
+  getEntityMetadata,
+  TimeRangeExpression,
+  DiscountTransaction,
+  GuestLoginChallenge,
+  DiscountProcessHistory,
+  CafeteriaBookingParams,
+  CafeteriaValidationParams,
+  isValidTimeRangeExpression,
 };
