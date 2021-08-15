@@ -43,6 +43,7 @@ import GuestLoginChallenge from './src/core/user/GuestLoginChallenge';
 
 import startTypeORM from './src/startTypeORM';
 import getEntityMetadata, {EntityClass, EntityMetadata} from './src/getEntityMetadata';
+import BookingOption from './src/core/booking/BookingOption';
 
 export {
   TimeRangeExpression,
@@ -63,6 +64,7 @@ export {
   CheckIn,
   VisitRecord,
   CafeteriaBookingParams,
+  BookingOption,
   GuestLoginChallenge,
   startTypeORM,
   getEntityMetadata,
