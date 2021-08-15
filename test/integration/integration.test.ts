@@ -21,7 +21,7 @@ import {startTypeORM} from '../../index';
 
 describe('DB와 연동하기', () => {
   it('Sync', async () => {
-    await startTypeORM(true);
+    await startTypeORM();
 
     console.log('끝!');
   });

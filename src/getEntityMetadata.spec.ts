@@ -17,23 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Answer, startTypeORM} from '../../index';
+import {Cafeteria, getEntityMetadata, startTypeORM} from '../index';
 
 beforeAll(async () => {
   await startTypeORM();
 });
 
-describe('사용자에게 달린 답변 중 안 일읽은 것 가져오기', () => {
-  it('그냥 쿼리 빌더를 쓰자', async () => {
-    // find option으로 하는거? 안돼요
-    // https://github.com/typeorm/typeorm/issues/2707
+describe('메타데이터 빼오기!', () => {
+  it('타입을 보자', async () => {
+    const meta = getEntityMetadata(Cafeteria);
 
-    const answers = await Answer.createQueryBuilder('answer')
-      .innerJoin('answer.question', 'question')
-      .where('question.userId = :userId', {userId: 1})
-      .andWhere('answer.read = :read', {read: false})
-      .getMany();
-
-    console.log(answers);
+    console.log(meta);
   });
 });

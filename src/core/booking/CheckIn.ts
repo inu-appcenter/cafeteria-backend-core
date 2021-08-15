@@ -29,7 +29,7 @@ export default class CheckIn extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @OneToOne(() => Booking)
+  @OneToOne(() => Booking, (b) => b.checkIn)
   @JoinColumn()
   booking: Booking;
 

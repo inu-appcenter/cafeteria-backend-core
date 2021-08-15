@@ -17,16 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Cafeteria, getEntityMetadata, Question, startTypeORM} from '../../index';
+import {Booking, startTypeORM} from '../../index';
 
 beforeAll(async () => {
   await startTypeORM();
 });
 
-describe('메타데이터 빼오기!', () => {
-  it('타입을 보자', async () => {
-    const meta = getEntityMetadata(Cafeteria);
+describe('Booking 찾기', () => {
+  it('체크인 안 된 것만 찾기', async () => {
+    const bookings = await Booking.findActiveBookings(1);
 
-    console.log(meta);
+    console.log(bookings);
   });
 });

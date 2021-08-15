@@ -20,7 +20,7 @@
 import {Question, startTypeORM} from '../../index';
 
 beforeAll(async () => {
-  await startTypeORM(true);
+  await startTypeORM();
 });
 
 describe('질문하기', () => {

@@ -20,7 +20,7 @@
 import {startTypeORM, User} from '../../index';
 
 beforeAll(async () => {
-  await startTypeORM(true);
+  await startTypeORM();
 });
 
 describe('사용자로부터 질문 찾기', () => {

@@ -46,4 +46,17 @@ export default class Answer extends BaseEntity {
 
   @Column({comment: '사용자가 답변을 읽은 일시', nullable: true})
   readAt?: Date = undefined;
+
+  /**
+   * 안 읽은 답변만 가져옵니다.
+   *
+   * @param userId 그 답변에 딸린 질문을 남긴 사용자의 식별자.
+   */
+  static async findUnread(userId: number): Promise<Answer[]> {
+    return await Answer.createQueryBuilder('answer')
+      .innerJoin('answer.question', 'question') // question 필드에 join을 찰싹.
+      .where('question.userId = :userId', {userId}) // 그 question의 userId로 필터.
+      .andWhere('answer.read = :read', {read: false}) // 물론 answer는 unread인 것만.
+      .getMany(); // 마니마니챙겨와
+  }
 }
