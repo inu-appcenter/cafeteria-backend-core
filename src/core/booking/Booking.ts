@@ -29,7 +29,6 @@ import {
 import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
 import CheckIn from './CheckIn';
-import {addDays} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -79,15 +78,13 @@ export default class Booking extends BaseEntity {
   }
 
   /**
-   * 24시간 내에 만들어졌고, 아직 체크인하지 않은 예약을 가져옵니다.
+   * 아직 체크인하지 않았고 예약 시간을 지나치지도 않은 예약을 가져옵니다.
    *
    * @param userId 예약자의 식별자.
    */
   static async findActiveBookings(userId: number) {
-    const yesterday = addDays(new Date(), -1);
-
     return await Booking.createQueryBuilder('booking')
-      .where('booking.bookedAt > :yesterday', {yesterday})
+      .where('booking.timeSlot > :now', {now: new Date().toISOString()})
       .andWhere((qb) => {
         const checkInForThatBooking = qb
           .subQuery()
