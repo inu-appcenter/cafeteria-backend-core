@@ -17,11 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import CafeteriaBookingParams from './CafeteriaBookingParams';
-import {addDays, isAfter, isBefore, isFuture} from 'date-fns';
 import Booking from './Booking';
-import {getNextWorkDay} from '../../utils/date';
+import {isFuture} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
+import {getNextWorkDay} from '../../utils/date';
+import CafeteriaBookingParams from './CafeteriaBookingParams';
 
 /**
  * 읽기 전용 예약 옵션 엔티티!
@@ -31,10 +31,24 @@ import CafeteriaDayOff from './CafeteriaDayOff';
  * 다른 하나는 해당 옵션의 예약이 꽉 찬 경우입니다.
  */
 export default class BookingOption {
+  /**
+   * 식당 식별자.
+   */
   cafeteriaId: number;
+
+  /**
+   * 예약하는 시간.
+   */
   timeSlot: Date;
 
+  /**
+   * 이미 예약한 사람 수.
+   */
   used: number;
+
+  /**
+   * 전체 예약 가능 인원 수.
+   */
   capacity: number;
 
   /**
@@ -44,17 +58,12 @@ export default class BookingOption {
     bookingParams: CafeteriaBookingParams,
     timeSlot: Date
   ): Promise<BookingOption> {
-    const newOne = new BookingOption();
-
-    newOne.cafeteriaId = bookingParams.cafeteriaId;
-    newOne.timeSlot = timeSlot;
-    newOne.used = await Booking.howManyBookedForCafeteriaAtTimeSlot(
-      bookingParams.cafeteriaId,
-      timeSlot
-    );
-    newOne.capacity = bookingParams.capacity;
-
-    return newOne;
+    return Object.assign(new BookingOption(), {
+      cafeteriaId: bookingParams.cafeteriaId,
+      timeSlot,
+      used: await Booking.howManyBookedForCafeteriaAtTimeSlot(bookingParams.cafeteriaId, timeSlot),
+      capacity: bookingParams.capacity,
+    });
   }
 
   /**
