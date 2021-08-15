@@ -67,20 +67,30 @@ export default class BookingOption {
   }
 
   /**
-   * 어떠한 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
+   * 어떠한(또는 모든) 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    *
-   * @param cafeteriaId 식당 식별자.
+   * @param cafeteriaId 식당 식별자. 없으면 모든 식당에 대해 가져옵니다.
    * @param futureOnly 시간을 아직 지나치지 않아 선택 가능한 옵션만 가져올 것인지 여부.
    */
   static async findForCafeteria(
-    cafeteriaId: number,
+    cafeteriaId?: number,
     futureOnly: boolean = true
   ): Promise<BookingOption[]> {
-    const bookingParams = await CafeteriaBookingParams.findOne({cafeteriaId});
-    if (bookingParams == null) {
-      return [];
-    }
+    const allBookingParams = await CafeteriaBookingParams.find(
+      cafeteriaId == null ? undefined : {cafeteriaId}
+    );
 
+    const allOptions = await Promise.all(
+      allBookingParams.map((params) => this.findForSingleCafeteria(params, futureOnly))
+    );
+
+    return allOptions.flat();
+  }
+
+  private static async findForSingleCafeteria(
+    bookingParams: CafeteriaBookingParams,
+    futureOnly: boolean
+  ): Promise<BookingOption[]> {
     const allTimeSlotsInBusinessHour = await this.getTimeSlotsInBusinessHour(bookingParams);
 
     const timeSlots = futureOnly
@@ -92,11 +102,6 @@ export default class BookingOption {
     );
   }
 
-  /**
-   * 주말이나 휴무에 속하지 않은 타임 슬롯을 모두 가져옵니다.
-   *
-   * @param bookingParams 예약 파라미터 인스턴스.
-   */
   private static async getTimeSlotsInBusinessHour(
     bookingParams: CafeteriaBookingParams
   ): Promise<Date[]> {
