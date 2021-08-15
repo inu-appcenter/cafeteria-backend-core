@@ -61,6 +61,8 @@ export default class CafeteriaBookingParams extends BaseEntity {
    * 중복 없고 분단위로 떨어지는 Date 인스턴스를 만들어 가져옵니다.
    * 해당 시간이 지났는지 여부와 관계없이 모두 가져옵니다.
    *
+   * 특정 날짜에 귀속되지 않습니다. 날짜는 인자로 주어진 baseDate에 근거합니다.
+   *
    * intervalMinutes나 acceptRange가 이상하면 뻗습니다.
    *
    * @param baseDate 기준 날짜가 담긴 Date 인스턴스
@@ -92,7 +94,10 @@ export default class CafeteriaBookingParams extends BaseEntity {
   }
 
   /**
-   * 오늘 마지막 예약 시간이 지났는가?
+   * 오늘 마지막 예약 시간이 지났는지 여부를 반환합니다.
+   *
+   * 만약 오늘 예약이 오전 8시 30분부터 오전 10시 30분까지 진행되었고,
+   * 현재 오전 11시라면 true입니다.
    */
   isOverToday(): boolean {
     const acceptUntil = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];

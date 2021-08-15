@@ -17,23 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {parse} from 'date-fns';
+import {isSaturday, isSunday} from 'date-fns';
 
-export type TimeRangeExpression = `${number}:${number}-${number}:${number}`;
+/**
+ * 다음 주중 날짜(=주말이 아닌) 날짜를 가져옵니다.
+ * @param date
+ */
+export function getNextWorkDay(date: Date) {
+  const d = new Date(date.getTime());
 
-export function isValidTimeRangeExpression(expression: string) {
-  return /^[0-2][0-9]:[0-5][0-9]-[0-2][0-9]:[0-5][0-9]$/.test(expression);
-}
+  do {
+    d.setDate(d.getDate() + 1);
+  } while (isSaturday(d) || isSunday(d));
 
-export function timeRangeExpressionToDates(
-  expression: string,
-  referenceDate: Date = new Date()
-): [Date, Date] {
-  if (!isValidTimeRangeExpression(expression)) {
-    throw new Error(`유효하지 않은 시간대 표현입니다: ${expression}`);
-  }
-
-  const [start, end] = expression.split('-');
-
-  return [parse(start, 'HH:mm', referenceDate), parse(end, 'HH:mm', referenceDate)];
+  return d;
 }

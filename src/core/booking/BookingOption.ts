@@ -18,8 +18,10 @@
  */
 
 import CafeteriaBookingParams from './CafeteriaBookingParams';
-import {addDays} from 'date-fns';
+import {addDays, isAfter, isBefore, isFuture} from 'date-fns';
 import Booking from './Booking';
+import {getNextWorkDay} from '../../utils/date';
+import CafeteriaDayOff from './CafeteriaDayOff';
 
 /**
  * 읽기 전용 예약 옵션 엔티티!
@@ -38,46 +40,67 @@ export default class BookingOption {
   /**
    * 읽기전용이라 나만쓸거임 흥
    */
-  private static create(properties: Partial<BookingOption>): BookingOption {
-    return Object.assign(new BookingOption(), properties);
+  private static async fromBookingParamsAndTimeSlot(
+    bookingParams: CafeteriaBookingParams,
+    timeSlot: Date
+  ): Promise<BookingOption> {
+    const newOne = new BookingOption();
+
+    newOne.cafeteriaId = bookingParams.cafeteriaId;
+    newOne.timeSlot = timeSlot;
+    newOne.used = await Booking.howManyBookedForCafeteriaAtTimeSlot(
+      bookingParams.cafeteriaId,
+      timeSlot
+    );
+    newOne.capacity = bookingParams.capacity;
+
+    return newOne;
   }
 
   /**
-   * 어떠한 식당에 대해 예약 옵션을 가져옵니다.
+   * 어떠한 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    *
    * @param cafeteriaId 식당 식별자.
-   * @param inTimeOnly 시간을 아직 지나치지 않아 선택 가능한 옵션만 가져올 것인지 여부.
+   * @param futureOnly 시간을 아직 지나치지 않아 선택 가능한 옵션만 가져올 것인지 여부.
    */
   static async findForCafeteria(
     cafeteriaId: number,
-    inTimeOnly: boolean = true
+    futureOnly: boolean = true
   ): Promise<BookingOption[]> {
     const bookingParams = await CafeteriaBookingParams.findOne({cafeteriaId});
     if (bookingParams == null) {
       return [];
     }
 
+    const allTimeSlotsInBusinessHour = await this.getTimeSlotsInBusinessHour(bookingParams);
+
+    const timeSlots = futureOnly
+      ? allTimeSlotsInBusinessHour.filter(isFuture)
+      : allTimeSlotsInBusinessHour;
+
+    return await Promise.all(
+      timeSlots.map((slot) => BookingOption.fromBookingParamsAndTimeSlot(bookingParams, slot))
+    );
+  }
+
+  /**
+   * 주말이나 휴무에 속하지 않은 타임 슬롯을 모두 가져옵니다.
+   *
+   * @param bookingParams 예약 파라미터 인스턴스.
+   */
+  private static async getTimeSlotsInBusinessHour(
+    bookingParams: CafeteriaBookingParams
+  ): Promise<Date[]> {
     const now = new Date();
-    const baseDate = bookingParams.isOverToday() ? addDays(now, 1) : now;
-    const allTimeSlots = bookingParams.allTimeSlots(baseDate);
+    const baseDate = bookingParams.isOverToday() ? getNextWorkDay(now) : now;
+    const dayOffsAtThatDay = await CafeteriaDayOff.findForCafeteriaAtSameDay(
+      bookingParams.cafeteriaId,
+      baseDate
+    );
 
-    const timeSlots = inTimeOnly
-      ? allTimeSlots.filter((slot) => slot.getTime() < now.getTime())
-      : allTimeSlots;
+    const isInBusinessHour = (slot: Date) =>
+      dayOffsAtThatDay.find((dayOff) => dayOff.isInOffTime(slot)) == null;
 
-    const options: BookingOption[] = [];
-
-    for (const timeSlot of timeSlots) {
-      const option = BookingOption.create({
-        cafeteriaId,
-        timeSlot,
-        used: await Booking.howManyBookedForCafeteriaAtTimeSlot(cafeteriaId, timeSlot),
-        capacity: bookingParams.capacity,
-      });
-
-      options.push(option);
-    }
-
-    return options;
+    return bookingParams.allTimeSlots(baseDate).filter(isInBusinessHour);
   }
 }
