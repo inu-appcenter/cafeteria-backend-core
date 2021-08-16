@@ -1,7 +1,7 @@
 {
   "name": "@inu-cafeteria/backend-core",
   "description": "Cafeteria 서버의 엔티티와 영속 레이어 부분에 해당합니다.",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
