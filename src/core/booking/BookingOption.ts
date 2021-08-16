@@ -18,7 +18,7 @@
  */
 
 import Booking from './Booking';
-import {isFuture} from 'date-fns';
+import {isFuture, isPast} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
 import {getNextWorkDay} from '../../utils/date';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
@@ -122,7 +122,11 @@ export default class BookingOption {
     return this.used >= this.capacity;
   }
 
+  isPast() {
+    return isPast(this.timeSlot);
+  }
+
   isAvailable() {
-    return !this.isFull();
+    return !this.isFull() && !this.isPast();
   }
 }
