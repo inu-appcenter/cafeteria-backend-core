@@ -93,6 +93,8 @@ async function synchronizeLocalDatabase() {
 }
 
 async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<string, any>[]>) {
+  const toBoolean = (value: number) => (value === 1 ? true : false);
+
   /** User */
   console.log(`User 변환중...`);
   for (const raw of dumped['users']) {
@@ -130,8 +132,8 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       title: raw.title,
       body: raw.body,
       answeredAt: raw.createdAt,
-      read: raw.read === 1 ? true : false,
-      readAt: raw.read === 1 ? new Date() : undefined,
+      read: toBoolean(raw.read),
+      readAt: toBoolean(raw.read) ? new Date() : undefined,
     }).save();
   }
 
@@ -145,9 +147,9 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       name: raw.name,
       displayName: raw.display_name,
       comment: comment?.comment,
-      supportMenu: raw.support_menu,
-      supportDiscount: raw.support_discount,
-      supportNotification: raw.support_notification,
+      supportMenu: toBoolean(raw.support_menu),
+      supportDiscount: toBoolean(raw.support_discount),
+      supportNotification: toBoolean(raw.support_notification),
     }).save();
   }
 
@@ -214,7 +216,7 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       id: idTransform[raw.id],
       name: raw.name,
       description: raw.description,
-      enabled: raw.enabled === 1 ? true : false,
+      enabled: toBoolean(raw.enabled),
     }).save();
   }
 
