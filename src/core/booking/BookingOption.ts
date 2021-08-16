@@ -117,4 +117,8 @@ export default class BookingOption {
 
     return bookingParams.allTimeSlots(baseDate).filter(isInBusinessHour);
   }
+
+  isFull() {
+    return this.used >= this.capacity;
+  }
 }
