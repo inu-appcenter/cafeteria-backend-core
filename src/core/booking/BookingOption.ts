@@ -121,4 +121,8 @@ export default class BookingOption {
   isFull() {
     return this.used >= this.capacity;
   }
+
+  isAvailable() {
+    return !this.isFull();
+  }
 }
