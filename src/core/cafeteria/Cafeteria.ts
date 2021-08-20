@@ -39,6 +39,9 @@ export default class Cafeteria extends BaseEntity {
   @Column({comment: '메뉴 정보 지원 여부'})
   supportMenu: boolean;
 
+  @Column({comment: '예약 지원 여부'})
+  supportBooking: boolean;
+
   @Column({comment: '할인 지원 여부'})
   supportDiscount: boolean;
 

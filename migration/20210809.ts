@@ -148,6 +148,7 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
       displayName: raw.display_name,
       comment: comment?.comment,
       supportMenu: toBoolean(raw.support_menu),
+      supportBooking: raw.id === 1,
       supportDiscount: toBoolean(raw.support_discount),
       supportNotification: toBoolean(raw.support_notification),
     }).save();
