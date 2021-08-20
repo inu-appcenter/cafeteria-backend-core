@@ -18,7 +18,7 @@
  */
 
 import Booking from './Booking';
-import {isFuture, isPast} from 'date-fns';
+import {isFuture, isPast, isSaturday, isWeekend} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
 import {getNextWorkDay} from '../../utils/date';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
@@ -106,7 +106,8 @@ export default class BookingOption {
     bookingParams: CafeteriaBookingParams
   ): Promise<Date[]> {
     const now = new Date();
-    const baseDate = bookingParams.isOverToday() ? getNextWorkDay(now) : now;
+    const notToday = isWeekend(now) || bookingParams.isOverToday();
+    const baseDate = notToday ? getNextWorkDay(now) : now;
     const dayOffsAtThatDay = await CafeteriaDayOff.findForCafeteriaAtSameDay(
       bookingParams.cafeteriaId,
       baseDate

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {isSaturday, isSunday} from 'date-fns';
+import {isWeekend} from 'date-fns';
 
 /**
  * 다음 주중 날짜(=주말이 아닌) 날짜를 가져옵니다.
@@ -28,7 +28,7 @@ export function getNextWorkDay(date: Date) {
 
   do {
     d.setDate(d.getDate() + 1);
-  } while (isSaturday(d) || isSunday(d));
+  } while (isWeekend(d));
 
   return d;
 }
