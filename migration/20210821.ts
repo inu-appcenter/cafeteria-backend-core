@@ -18,23 +18,23 @@
  */
 
 import mysql from 'mysql2/promise';
+import getEnv from '../src/utils/env';
 import {RowDataPacket} from 'mysql2';
 
-import getEnv from '../src/utils/env';
 import {
+  User,
   Answer,
-  Cafeteria,
-  CafeteriaBookingParams,
-  CafeteriaValidationParams,
   Corner,
-  DiscountProcessHistory,
-  DiscountRule,
-  DiscountTransaction,
-  MenuParseRegex,
   Notice,
   Question,
+  Cafeteria,
   startTypeORM,
-  User,
+  DiscountRule,
+  MenuParseRegex,
+  DiscountTransaction,
+  DiscountProcessHistory,
+  CafeteriaBookingParams,
+  CafeteriaValidationParams,
 } from '../index';
 
 /**

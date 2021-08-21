@@ -7,7 +7,7 @@
 
 declare -A mysql_args=(
   [local.dev]="--host=localhost --port=3306 --user=potados --password=1234 cafeteria"
-  [aws.prod]="--host=${DB_HOST} --port=3306 --user=${DB_USERNAME} --password=${DB_PASSWORD} cafeteria"
+  [aws.prod]="--host=${PROD_DB_HOST} --port=3306 --user=${PROD_DB_USERNAME} --password=${PROD_DB_PASSWORD} cafeteria"
 )
 
 function usage() {
@@ -38,7 +38,7 @@ function import() {
   mysql ${mysql_args[${dest}]} < ".${filename}.sql"
 }
 
-if [ -z "${DB_HOST}" ] || [ -z "${DB_USERNAME}" ] || [ -z "${DB_PASSWORD}" ]; then
+if [ -z "${PROD_DB_HOST}" ] || [ -z "${PROD_DB_USERNAME}" ] || [ -z "${PROD_DB_PASSWORD}" ]; then
   echo "DB 접속 정보를 환경변수로 설정해 주세요."
   usage
 fi
