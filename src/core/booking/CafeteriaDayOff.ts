@@ -82,8 +82,8 @@ export default class CafeteriaDayOff extends BaseEntity {
   ): Promise<CafeteriaDayOff[]> {
     return await CafeteriaDayOff.find({
       cafeteriaId,
-      startsAt: Between(startOfDay(date).toISOString(), endOfDay(date).toISOString()),
-      endsAt: Between(startOfDay(date).toISOString(), endOfDay(date).toISOString()),
+      startsAt: Between(startOfDay(date), endOfDay(date)),
+      endsAt: Between(startOfDay(date), endOfDay(date)),
     });
   }
 }

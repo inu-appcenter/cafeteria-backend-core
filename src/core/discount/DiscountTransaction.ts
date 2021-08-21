@@ -72,7 +72,7 @@ export default class DiscountTransaction extends BaseEntity {
     date: Date = new Date()
   ): Promise<DiscountTransaction[]> {
     const options: FindConditions<DiscountTransaction> = {
-      timestamp: Between(startOfDay(date).toISOString(), endOfDay(date).toISOString()),
+      timestamp: Between(startOfDay(date), endOfDay(date)),
     };
 
     if (studentId) {
