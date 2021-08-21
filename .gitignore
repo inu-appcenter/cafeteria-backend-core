@@ -2,3 +2,5 @@
 node_modules
 dist
 .env
+/tools/.aws.prod.backup.sql
+/tools/.local.dev.export.sql
