@@ -18,7 +18,7 @@
  */
 
 import Booking from './Booking';
-import {isFuture, isPast, isSaturday, isWeekend} from 'date-fns';
+import {isFuture, isPast, isWeekend} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
 import {getNextWorkDay} from '../../utils/date';
 import CafeteriaBookingParams from './CafeteriaBookingParams';

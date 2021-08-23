@@ -94,6 +94,33 @@ export default class CafeteriaBookingParams extends BaseEntity {
   }
 
   /**
+   * 현재 timeSlot을 가져옵니다.
+   * 현재 timeSlot이란, 오른차순 정렬된 모든 timeSlot 가운데 현재 시간보다 크지만 다음 timeSlot 보다 작은 것입니다.
+   *
+   * 다만 마지막 timeSlot의 경우 해당 시간 30분 초과시까지 현재 timeSlot으로 간주합니다.
+   *
+   * @param now 현재 시간 Date 인스턴스
+   */
+  currentTimeSlot(now: Date): Date | undefined {
+    const [start, end] = timeRangeExpressionToDates(this.acceptTimeRange, now);
+    const whileAfterEnd = addMinutes(end, 30);
+
+    const currentlyInRange = isAfter(now, start) && isBefore(now, whileAfterEnd);
+    if (!currentlyInRange) {
+      return undefined;
+    }
+
+    const allTimeSlots = this.allTimeSlots(now);
+    if (allTimeSlots.length < 1) {
+      return undefined;
+    }
+
+    return [...allTimeSlots, whileAfterEnd]
+      .sort()
+      .reduce((acc, cur) => (isAfter(now, acc) && isBefore(now, cur) ? acc : cur));
+  }
+
+  /**
    * 오늘 마지막 예약 시간이 지났는지 여부를 반환합니다.
    *
    * 만약 오늘 예약이 오전 8시 30분부터 오전 10시 30분까지 진행되었고,
