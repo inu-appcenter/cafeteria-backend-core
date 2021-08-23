@@ -84,7 +84,7 @@ export default class Booking extends BaseEntity {
    */
   static async findActiveBookings(userId: number) {
     return await Booking.createQueryBuilder('booking')
-      .where('booking.timeSlot > :now', {now: new Date().toISOString()})
+      .where('booking.timeSlot > :now', {now: new Date()})
       .andWhere((qb) => {
         const checkInForThatBooking = qb
           .subQuery()
