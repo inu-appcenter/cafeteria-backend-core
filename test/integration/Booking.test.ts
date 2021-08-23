@@ -25,7 +25,7 @@ beforeAll(async () => {
 
 describe('Booking 찾기', () => {
   it('체크인 안 된 것만 찾기', async () => {
-    const bookings = await Booking.findActiveBookings(1);
+    const bookings = await Booking.findActiveBookings(330);
 
     console.log(bookings);
   });

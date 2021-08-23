@@ -29,6 +29,7 @@ import {
 import User from '../user/User';
 import Cafeteria from '../cafeteria/Cafeteria';
 import CheckIn from './CheckIn';
+import {addMinutes} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -81,10 +82,16 @@ export default class Booking extends BaseEntity {
    * 아직 체크인하지 않았고 예약 시간을 지나치지도 않은 예약을 가져옵니다.
    *
    * @param userId 예약자의 식별자.
+   * @param toleranceMinutes 예약 시간을 지나도 이 정도는 봐줍니다.
+   * @param now 현재 시각.
    */
-  static async findActiveBookings(userId: number) {
+  static async findActiveBookings(
+    userId: number,
+    toleranceMinutes: number,
+    now: Date = new Date()
+  ) {
     return await Booking.createQueryBuilder('booking')
-      .where('booking.timeSlot > :now', {now: new Date()})
+      .where('booking.timeSlot > :now', {now: addMinutes(now, -toleranceMinutes)})
       .andWhere((qb) => {
         const checkInForThatBooking = qb
           .subQuery()
