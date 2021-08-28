@@ -21,7 +21,7 @@ import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColum
 import Cafeteria from '../cafeteria/Cafeteria';
 
 /**
- * Verify, Commit, Cancel 기록입니다.
+ * Verify, Confirm, Cancel 기록입니다.
  */
 @Entity()
 export default class DiscountProcessHistory extends BaseEntity {

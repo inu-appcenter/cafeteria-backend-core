@@ -184,7 +184,7 @@ async function mapAndSaveEntitiesToLocalDatabase(dumped: Record<string, Record<s
   for (const raw of dumped['transaction_histories']) {
     const typeTransform: Record<string, string> = {
       Validate: 'Verify',
-      Commit: 'Commit',
+      Commit: 'Confirm',
       Cancel: 'Cancel',
     };
 
