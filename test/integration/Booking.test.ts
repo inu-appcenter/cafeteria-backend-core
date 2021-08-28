@@ -24,8 +24,8 @@ beforeAll(async () => {
 });
 
 describe('Booking 찾기', () => {
-  it('체크인 안 된 것만 찾기', async () => {
-    const bookings = await Booking.findActiveBookings(330);
+  it('체크인 안 된 것 중 아직 시간이 30분 초과해서 지나지 않은 것만 찾기', async () => {
+    const bookings = await Booking.findActiveBookings(330, 30);
 
     console.log(bookings);
   });
