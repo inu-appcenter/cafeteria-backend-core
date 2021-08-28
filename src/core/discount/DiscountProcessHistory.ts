@@ -28,8 +28,8 @@ export default class DiscountProcessHistory extends BaseEntity {
   @PrimaryGeneratedColumn({comment: '식별자'})
   id: number;
 
-  @Column({comment: '기록의 유형(Verify, Commit, Cancel)'})
-  type: 'Verify' | 'Commit' | 'Cancel' | string;
+  @Column({comment: '기록의 유형(Verify | Confirm | Cancel)'})
+  type: 'Verify' | 'Confirm' | 'Cancel' | string;
 
   @Column({comment: '학번'})
   studentId: string;
