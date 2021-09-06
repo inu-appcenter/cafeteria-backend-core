@@ -21,4 +21,4 @@ import {getLoggerWrapperSet} from './setup';
 
 export {setupLogger} from './setup';
 
-export default getLoggerWrapperSet();
+export const logger = getLoggerWrapperSet();

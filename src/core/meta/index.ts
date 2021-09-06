@@ -17,21 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, getConnection} from 'typeorm';
+import {getConnection} from 'typeorm';
+import {EntityClass, EntityMetadata} from './types';
 
-export type EntityClass = {new (): BaseEntity} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
-export type EntityMetadata = {
-  name: string;
-  fields: {
-    name: string;
-    type: string;
-    comment?: string;
-    primary: boolean;
-    nullable: boolean;
-    relational: boolean;
-    isMany: boolean;
-  }[];
-};
+export {EntityClass, EntityMetadata};
 
 /**
  * 엔티티의 이름과 칼럼들을 가져옵니다.
@@ -39,7 +28,7 @@ export type EntityMetadata = {
  *
  * @param entityClass 메타데이터가 가지고 싶은 엔티티 클래스.
  */
-export default function getEntityMetadata(entityClass: EntityClass): EntityMetadata {
+export function getEntityMetadata(entityClass: EntityClass): EntityMetadata {
   const meta = getConnection().getMetadata(entityClass);
 
   /**

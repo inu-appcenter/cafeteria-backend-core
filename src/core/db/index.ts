@@ -59,7 +59,7 @@ const entities = [
   CafeteriaValidationParams,
 ];
 
-export default async function startTypeORM(forceSync: boolean = false) {
+export async function startTypeORM(forceSync: boolean = false) {
   if (config.isProduction && forceSync) {
     throw new Error('프로덕션 환경에서는 forceSync를 지원하지 않습니다.');
   }

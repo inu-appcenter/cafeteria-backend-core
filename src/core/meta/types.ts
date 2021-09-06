@@ -1,3 +1,5 @@
+import {BaseEntity} from 'typeorm';
+
 /**
  * This file is part of INU Cafeteria.
  *
@@ -17,9 +19,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import 'reflect-metadata';
+export type EntityClass = {new (): BaseEntity} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
 
-export * from './src/core/db';
-export * from './src/core/meta';
-export * from './src/core/logger';
-export * from './src/core/entities';
+export type EntityMetadata = {
+  name: string;
+  fields: {
+    name: string;
+    type: string;
+    comment?: string;
+    primary: boolean;
+    nullable: boolean;
+    relational: boolean;
+    isMany: boolean;
+  }[];
+};
