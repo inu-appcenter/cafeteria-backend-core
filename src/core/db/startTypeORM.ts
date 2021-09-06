@@ -17,27 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import config from '../config';
+import config from '../../../config';
 import {createConnection} from 'typeorm';
 import {SnakeNamingStrategy} from 'typeorm-naming-strategies';
 
-import User from './core/entities/user/User';
-import Notice from './core/entities/notice/Notice';
-import Corner from './core/entities/cafeteria/Corner';
-import Answer from './core/entities/qna/Answer';
-import Booking from './core/entities/booking/Booking';
-import CheckIn from './core/entities/booking/CheckIn';
-import Question from './core/entities/qna/Question';
-import Cafeteria from './core/entities/cafeteria/Cafeteria';
-import VisitRecord from './core/entities/booking/VisitRecord';
-import DiscountRule from './core/entities/discount/DiscountRule';
-import MenuParseRegex from './core/entities/menu/MenuParseRegex';
-import CafeteriaDayOff from './core/entities/booking/CafeteriaDayOff';
-import DiscountTransaction from './core/entities/discount/DiscountTransaction';
-import GuestLoginChallenge from './core/entities/user/GuestLoginChallenge';
-import CafeteriaBookingParams from './core/entities/booking/CafeteriaBookingParams';
-import DiscountProcessHistory from './core/entities/discount/DiscountProcessHistory';
-import CafeteriaValidationParams from './core/entities/discount/CafeteriaValidationParams';
+import User from '../entities/user/User';
+import Notice from '../entities/notice/Notice';
+import Corner from '../entities/cafeteria/Corner';
+import Answer from '../entities/qna/Answer';
+import Booking from '../entities/booking/Booking';
+import CheckIn from '../entities/booking/CheckIn';
+import Question from '../entities/qna/Question';
+import Cafeteria from '../entities/cafeteria/Cafeteria';
+import VisitRecord from '../entities/booking/VisitRecord';
+import DiscountRule from '../entities/discount/DiscountRule';
+import MenuParseRegex from '../entities/menu/MenuParseRegex';
+import CafeteriaDayOff from '../entities/booking/CafeteriaDayOff';
+import DiscountTransaction from '../entities/discount/DiscountTransaction';
+import GuestLoginChallenge from '../entities/user/GuestLoginChallenge';
+import CafeteriaBookingParams from '../entities/booking/CafeteriaBookingParams';
+import DiscountProcessHistory from '../entities/discount/DiscountProcessHistory';
+import CafeteriaValidationParams from '../entities/discount/CafeteriaValidationParams';
 
 const entities = [
   User,

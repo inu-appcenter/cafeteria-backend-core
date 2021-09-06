@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Cafeteria, getEntityMetadata, startTypeORM} from '../index';
+import {Cafeteria, getEntityMetadata, startTypeORM} from '../../../index';
 
 beforeAll(async () => {
   await startTypeORM();

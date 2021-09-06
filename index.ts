@@ -42,5 +42,9 @@ export {default as CafeteriaValidationParams} from './src/core/entities/discount
 export {TimeRangeExpression} from './src/core/entities/common/TimeRangeExpression';
 export {isValidTimeRangeExpression} from './src/core/entities/common/TimeRangeExpression';
 
-export {default as startTypeORM} from './src/startTypeORM';
-export {default as getEntityMetadata, EntityClass, EntityMetadata} from './src/getEntityMetadata';
+export {default as startTypeORM} from './src/core/db/startTypeORM';
+export {
+  default as getEntityMetadata,
+  EntityClass,
+  EntityMetadata,
+} from './src/core/meta/getEntityMetadata';
