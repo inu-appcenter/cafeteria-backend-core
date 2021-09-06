@@ -48,3 +48,5 @@ export {
   EntityClass,
   EntityMetadata,
 } from './src/core/meta/getEntityMetadata';
+
+export {default as logger, setupLogger} from './src/core/logger';
