@@ -73,6 +73,10 @@ export default class User extends BaseEntity {
     return this.studentId == null && this.phoneNumber != null;
   }
 
+  identifier() {
+    return this.isStudent() ? this.studentId : this.phoneNumber;
+  }
+
   async getQuestions() {
     return Question.find({where: {userId: this.id}});
   }

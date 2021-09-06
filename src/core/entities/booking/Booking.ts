@@ -104,4 +104,12 @@ export default class Booking extends BaseEntity {
       })
       .getMany();
   }
+
+  /**
+   * 체크인을 위해 예약을 찾습니다.
+   * @param ticket
+   */
+  static async findForCheckIn(ticket: string) {
+    return await Booking.findOne({where: {uuid: ticket}, relations: ['user', 'checkIn']});
+  }
 }

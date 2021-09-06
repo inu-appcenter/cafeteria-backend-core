@@ -17,21 +17,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity} from 'typeorm';
-
-export type EntityClass<T extends BaseEntity = BaseEntity> = {
-  new (): T;
-} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
-
-export type EntityMetadata = {
-  name: string;
-  fields: {
-    name: string;
-    type: string;
-    comment?: string;
-    primary: boolean;
-    nullable: boolean;
-    relational: boolean;
-    isMany: boolean;
-  }[];
-};
+export * from './TestRunner';
+export * from './RuleValidator';
+export * from './RuleViolation';

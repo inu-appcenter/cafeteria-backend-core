@@ -26,6 +26,7 @@ export {default as Booking} from './booking/Booking';
 export {default as CheckIn} from './booking/CheckIn';
 export {default as Question} from './qna/Question';
 export {default as Cafeteria} from './cafeteria/Cafeteria';
+export {default as CheckInRule} from './booking/CheckInRule';
 export {default as VisitRecord} from './booking/VisitRecord';
 export {default as DiscountRule} from './discount/DiscountRule';
 export {default as BookingOption} from './booking/BookingOption';
@@ -37,5 +38,4 @@ export {default as CafeteriaBookingParams} from './booking/CafeteriaBookingParam
 export {default as DiscountProcessHistory} from './discount/DiscountProcessHistory';
 export {default as CafeteriaValidationParams} from './discount/CafeteriaValidationParams';
 
-export {TimeRangeExpression} from './common/TimeRangeExpression';
-export {isValidTimeRangeExpression} from './common/TimeRangeExpression';
+export * from './common/TimeRangeExpression';

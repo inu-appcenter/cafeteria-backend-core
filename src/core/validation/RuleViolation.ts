@@ -17,21 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity} from 'typeorm';
+import {ValidationResult} from './RuleValidator';
 
-export type EntityClass<T extends BaseEntity = BaseEntity> = {
-  new (): T;
-} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
-
-export type EntityMetadata = {
-  name: string;
-  fields: {
-    name: string;
-    type: string;
-    comment?: string;
-    primary: boolean;
-    nullable: boolean;
-    relational: boolean;
-    isMany: boolean;
-  }[];
-};
+/**
+ * 검증 시험에 실패했을 때에 발생하는 에러입니다.
+ */
+export class RuleViolation extends Error {
+  constructor(readonly result: ValidationResult) {
+    super();
+  }
+}

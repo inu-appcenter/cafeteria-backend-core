@@ -23,3 +23,4 @@ export * from './src/core/db';
 export * from './src/core/meta';
 export * from './src/core/logger';
 export * from './src/core/entities';
+export * from './src/core/validation';

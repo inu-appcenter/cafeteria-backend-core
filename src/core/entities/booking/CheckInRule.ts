@@ -17,21 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity} from 'typeorm';
+import {Entity} from 'typeorm';
+import Rule from '../rule/Rule';
 
-export type EntityClass<T extends BaseEntity = BaseEntity> = {
-  new (): T;
-} /*생성자*/ & typeof BaseEntity /*정적메소드*/;
-
-export type EntityMetadata = {
-  name: string;
-  fields: {
-    name: string;
-    type: string;
-    comment?: string;
-    primary: boolean;
-    nullable: boolean;
-    relational: boolean;
-    isMany: boolean;
-  }[];
-};
+@Entity()
+export default class CheckInRule extends Rule {}
