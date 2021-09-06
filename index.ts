@@ -19,28 +19,28 @@
 
 import 'reflect-metadata';
 
-export {default as User} from './src/core/user/User';
-export {default as Menu} from './src/core/menu/Menu';
-export {default as Answer} from './src/core/qna/Answer';
-export {default as Notice} from './src/core/notice/Notice';
-export {default as Corner} from './src/core/cafeteria/Corner';
-export {default as Booking} from './src/core/booking/Booking';
-export {default as CheckIn} from './src/core/booking/CheckIn';
-export {default as Question} from './src/core/qna/Question';
-export {default as Cafeteria} from './src/core/cafeteria/Cafeteria';
-export {default as VisitRecord} from './src/core/booking/VisitRecord';
-export {default as DiscountRule} from './src/core/discount/DiscountRule';
-export {default as BookingOption} from './src/core/booking/BookingOption';
-export {default as MenuParseRegex} from './src/core/menu/MenuParseRegex';
-export {default as CafeteriaDayOff} from './src/core/booking/CafeteriaDayOff';
-export {default as GuestLoginChallenge} from './src/core/user/GuestLoginChallenge';
-export {default as DiscountTransaction} from './src/core/discount/DiscountTransaction';
-export {default as CafeteriaBookingParams} from './src/core/booking/CafeteriaBookingParams';
-export {default as DiscountProcessHistory} from './src/core/discount/DiscountProcessHistory';
-export {default as CafeteriaValidationParams} from './src/core/discount/CafeteriaValidationParams';
+export {default as User} from './src/core/entities/user/User';
+export {default as Menu} from './src/core/entities/menu/Menu';
+export {default as Answer} from './src/core/entities/qna/Answer';
+export {default as Notice} from './src/core/entities/notice/Notice';
+export {default as Corner} from './src/core/entities/cafeteria/Corner';
+export {default as Booking} from './src/core/entities/booking/Booking';
+export {default as CheckIn} from './src/core/entities/booking/CheckIn';
+export {default as Question} from './src/core/entities/qna/Question';
+export {default as Cafeteria} from './src/core/entities/cafeteria/Cafeteria';
+export {default as VisitRecord} from './src/core/entities/booking/VisitRecord';
+export {default as DiscountRule} from './src/core/entities/discount/DiscountRule';
+export {default as BookingOption} from './src/core/entities/booking/BookingOption';
+export {default as MenuParseRegex} from './src/core/entities/menu/MenuParseRegex';
+export {default as CafeteriaDayOff} from './src/core/entities/booking/CafeteriaDayOff';
+export {default as GuestLoginChallenge} from './src/core/entities/user/GuestLoginChallenge';
+export {default as DiscountTransaction} from './src/core/entities/discount/DiscountTransaction';
+export {default as CafeteriaBookingParams} from './src/core/entities/booking/CafeteriaBookingParams';
+export {default as DiscountProcessHistory} from './src/core/entities/discount/DiscountProcessHistory';
+export {default as CafeteriaValidationParams} from './src/core/entities/discount/CafeteriaValidationParams';
 
-export {TimeRangeExpression} from './src/core/common/TimeRangeExpression';
-export {isValidTimeRangeExpression} from './src/core/common/TimeRangeExpression';
+export {TimeRangeExpression} from './src/core/entities/common/TimeRangeExpression';
+export {isValidTimeRangeExpression} from './src/core/entities/common/TimeRangeExpression';
 
 export {default as startTypeORM} from './src/startTypeORM';
 export {default as getEntityMetadata, EntityClass, EntityMetadata} from './src/getEntityMetadata';

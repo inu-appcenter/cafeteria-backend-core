@@ -20,7 +20,7 @@
 import Booking from './Booking';
 import {isFuture, isPast, isWeekend} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
-import {getNextWorkDay} from '../../utils/date';
+import {getNextWorkDay} from '../../../utils/date';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
 
 /**
