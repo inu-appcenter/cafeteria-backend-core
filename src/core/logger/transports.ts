@@ -50,7 +50,7 @@ export function getConsoleTransport(level: string, options: ConsoleTransportOpti
 
 export function getFileTransport(level: string, options: FileTransportOptions) {
   return new winston.transports.DailyRotateFile({
-    format: getFileFormat(),
+    format: getFileFormat(options.prefix),
     filename: path.join(options.logDirectory, level, `${level}-%DATE%.log`),
     datePattern: 'YYYY-MM-DD',
   });
