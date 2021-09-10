@@ -62,7 +62,7 @@ export default abstract class Rule extends BaseEntity {
     const rule = (await this.findOne(ruleId)) as T;
 
     if (rule == null) {
-      return true; // 없으면 활성화된걸루 침!
+      return false; // 없으면 활성화된걸루 침! 즉, 바이패스 못함.
     }
 
     return !rule.enabled;
