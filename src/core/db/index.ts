@@ -30,6 +30,7 @@ import CheckIn from '../entities/booking/CheckIn';
 import Question from '../entities/qna/Question';
 import Cafeteria from '../entities/cafeteria/Cafeteria';
 import VisitRecord from '../entities/booking/VisitRecord';
+import CheckInRule from '../entities/booking/CheckInRule';
 import DiscountRule from '../entities/discount/DiscountRule';
 import MenuParseRegex from '../entities/menu/MenuParseRegex';
 import CafeteriaDayOff from '../entities/booking/CafeteriaDayOff';
@@ -49,6 +50,7 @@ const entities = [
   Question,
   Cafeteria,
   VisitRecord,
+  CheckInRule,
   DiscountRule,
   MenuParseRegex,
   CafeteriaDayOff,
