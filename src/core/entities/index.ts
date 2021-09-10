@@ -25,6 +25,7 @@ export {default as Corner} from './cafeteria/Corner';
 export {default as Booking} from './booking/Booking';
 export {default as CheckIn} from './booking/CheckIn';
 export {default as Question} from './qna/Question';
+export {default as MealType} from './menu/MealType';
 export {default as Cafeteria} from './cafeteria/Cafeteria';
 export {default as CheckInRule} from './booking/CheckInRule';
 export {default as VisitRecord} from './booking/VisitRecord';
