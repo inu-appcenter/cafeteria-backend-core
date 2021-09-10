@@ -19,6 +19,7 @@
 
 import {EntityClass} from '../../meta';
 import {BaseEntity, Column, PrimaryColumn} from 'typeorm';
+import {logger} from '../../logger';
 
 /**
  * Validation의 대상이 되는 무언가에 대해 적용할 규칙을 나타냅니다.
@@ -62,6 +63,8 @@ export default abstract class Rule extends BaseEntity {
     const rule = (await this.findOne(ruleId)) as T;
 
     if (rule == null) {
+      logger.warn(`${ruleId}번 룰이 DB에서 발견되지 않았습니다. 해당 룰은 '켜짐'으로 간주합니다.`);
+
       return false; // 없으면 활성화된걸루 침! 즉, 바이패스 못함.
     }
 
