@@ -53,7 +53,7 @@ export default class VisitRecord extends BaseEntity {
   @JoinColumn()
   cafeteria: Cafeteria;
 
-  @Column({comment: '예약한 Cafeteria의 식별자'})
+  @Column({comment: '방문한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
   @Column()
