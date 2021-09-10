@@ -2,5 +2,4 @@
 node_modules
 dist
 .env
-/migration/.aws.prod.backup.sql
-/migration/.local.dev.export.sql
+/migration/*.sql
