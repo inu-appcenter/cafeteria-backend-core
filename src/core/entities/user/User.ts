@@ -115,6 +115,19 @@ export default class User extends BaseEntity {
   }
 
   /**
+   * 로그인 정보를 업데이트합니다.
+   *
+   * @param rememberMeToken 자동 로그인 토큰
+   * @param barcode 바코드
+   */
+  updateLoginStatus(rememberMeToken: string, barcode?: string) {
+    logger.info(`사용자 ${this.identifier()}의 로그인 정보를 업데이트합니다.`);
+
+    this.rememberMeToken = rememberMeToken;
+    this.barcode = barcode;
+  }
+
+  /**
    * 외부에서 사용자를 표현할 때에 사용하는 식별자입니다.
    * 학생이면 학번을, 외부인이면 전화번호를 반환합니다.
    */
