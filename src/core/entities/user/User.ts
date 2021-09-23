@@ -124,6 +124,7 @@ export default class User extends BaseEntity {
     logger.info(`사용자 ${this.identifier()}의 로그인 정보를 업데이트합니다.`);
 
     this.rememberMeToken = rememberMeToken;
+    this.lastLoginAt = new Date();
     this.barcode = barcode;
   }
 
