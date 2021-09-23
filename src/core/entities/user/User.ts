@@ -17,8 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm';
+import {logger} from '../../logger';
 import Question from '../qna/Question';
+import {addMilliseconds, isAfter} from 'date-fns';
+import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm';
 
 @Entity()
 @Unique(['studentId'])
@@ -58,29 +60,74 @@ export default class User extends BaseEntity {
   @Column({nullable: true, comment: '마지막 바코드 태그 일시'})
   barcodeTaggedAt?: Date;
 
+  @Column({nullable: true, comment: '개인정보 이용방침 동의 일자'})
+  privacyPolicyAgreedAt?: Date;
+
   @OneToMany(() => Question, (q) => q.user)
   questions: Question[];
 
+  /**
+   * 학생 또는 외부인 둘 중 하나인가?
+   */
   isValid() {
     return this.isStudent() || this.isGuest();
   }
 
+  /**
+   * 학생인가?
+   */
   isStudent() {
     return this.studentId != null && this.phoneNumber == null;
   }
 
+  /**
+   * 외부인인가?
+   */
   isGuest() {
     return this.studentId == null && this.phoneNumber != null;
   }
 
+  /**
+   * 개인정보처리방침에 동의했는가?
+   * 동의 유효기간이 지나면 동의하지 않은 것으로 간주합니다.
+   *
+   * @param agreementValidForMillis 개인정보처리방침 동의 유효기간. 기본 30일.
+   */
+  hasAgreedPrivacyPolicy(agreementValidForMillis: number = 1000 * 60 * 60 * 24 * 30 /*30일*/) {
+    if (this.privacyPolicyAgreedAt == null) {
+      return false;
+    }
+
+    const beforeValidationPeriod = addMilliseconds(new Date(), -agreementValidForMillis);
+
+    return isAfter(this.privacyPolicyAgreedAt, beforeValidationPeriod);
+  }
+
+  /**
+   * 개인정보처리방침에 동의함을 저장합니다.
+   */
+  agreePrivacyPolicy() {
+    const now = new Date();
+
+    logger.info(`사용자 ${this.identifier()}이(가) ${now}에 개인정보처리방침에 동의했습니다.`);
+
+    this.privacyPolicyAgreedAt = now;
+  }
+
+  /**
+   * 외부에서 사용자를 표현할 때에 사용하는 식별자입니다.
+   * 학생이면 학번을, 외부인이면 전화번호를 반환합니다.
+   */
   identifier() {
     return this.isStudent() ? this.studentId : this.phoneNumber;
   }
 
-  async getQuestions() {
-    return Question.find({where: {userId: this.id}});
-  }
-
+  /**
+   * 만들거나, 가져옵니다.
+   * 없을 때에만 새로 생성합니다.
+   *
+   * 새로 생성 후 저장은 하지 않습니다. 메모리에만 존재하는 상태입니다.
+   */
   static async getOrCreate(properties: Partial<User>) {
     const userFound = await User.findOne({where: properties});
 
