@@ -75,6 +75,24 @@ export default class Booking extends BaseEntity {
   checkIn?: CheckIn;
 
   /**
+   * 현재 예약의 상태를 가져옵니다.
+   */
+  get status(): string {
+    if (this.isUnused() && this.isNotLate()) {
+      return BookingStatus.UNUSED_AVAILABLE;
+    } else if (this.isUnused() && this.isLate()) {
+      return BookingStatus.UNUSED_LATE;
+    } else if (this.isUsed()) {
+      return BookingStatus.USED;
+    }
+
+    /** 닿을 수 없는 곳 */
+    throw new Error(
+      '예약의 상태는 UNUSED_AVAILABLE, UNUSED_LATE, USED 중 하나로 도출되어야 합니다.'
+    );
+  }
+
+  /**
    * 사용되었는가?
    * 체크인이 존재하면 사용된 것입니다.
    *
@@ -108,24 +126,6 @@ export default class Booking extends BaseEntity {
    */
   isNotLate() {
     return !this.isLate();
-  }
-
-  /**
-   * 현재 예약의 상태를 가져옵니다.
-   */
-  getStatus(): string {
-    if (this.isUnused() && this.isNotLate()) {
-      return BookingStatus.UNUSED_AVAILABLE;
-    } else if (this.isUnused() && this.isLate()) {
-      return BookingStatus.UNUSED_LATE;
-    } else if (this.isUsed()) {
-      return BookingStatus.USED;
-    }
-
-    /** 닿을 수 없는 곳 */
-    throw new Error(
-      '예약의 상태는 UNUSED_AVAILABLE, UNUSED_LATE, USED 중 하나로 도출되어야 합니다.'
-    );
   }
 
   /**
