@@ -31,7 +31,7 @@ import User from '../user/User';
 import CheckIn from './CheckIn';
 import Cafeteria from '../cafeteria/Cafeteria';
 import BookingStatus from './BookingStatus';
-import {addHours, addMinutes, isAfter} from 'date-fns';
+import {addHours, addMinutes, isPast} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -99,7 +99,7 @@ export default class Booking extends BaseEntity {
    * 체크인 가능 시각은 예약한 타임슬롯부터 그 다음 타임슬롯 직전까지입니다.
    */
   isLate() {
-    return isAfter(new Date(), this.nextTimeSlot);
+    return isPast(this.nextTimeSlot);
   }
 
   /**
