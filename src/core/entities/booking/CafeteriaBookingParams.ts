@@ -81,7 +81,7 @@ export default class CafeteriaBookingParams extends BaseEntity {
     while (isBefore(current, end) || isEqual(current, end)) {
       assert(current.getTime() % (60 * 1000) === 0, '시간이 분 단위로 떨어져야 합니다.');
 
-      const duplication = timeSlots.map((t) => t.getTime()).find((t) => t === current.getTime());
+      const duplication = timeSlots.find((t) => t.getTime() === current.getTime());
 
       assert(duplication == null, '타임 슬롯에 중복이 없어야 합니다.');
 
