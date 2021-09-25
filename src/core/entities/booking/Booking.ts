@@ -113,7 +113,7 @@ export default class Booking extends BaseEntity {
   /**
    * 현재 예약의 상태를 가져옵니다.
    */
-  async getStatus(): Promise<string> {
+  getStatus(): string {
     if (this.isUnused() && this.isNotLate()) {
       return BookingStatus.UNUSED_AVAILABLE;
     } else if (this.isUnused() && this.isLate()) {
