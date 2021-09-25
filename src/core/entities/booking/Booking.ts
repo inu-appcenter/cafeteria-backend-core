@@ -176,6 +176,7 @@ export default class Booking extends BaseEntity {
   /**
    * 최근 inHours 시간 내의 예약을 모두 가져옵니다.
    * 예약의 상태는 따지지 않습니다. 그냥 일단 다 가져옵니다.
+   * relations에 user와 checkIn이 들어 있는 것이 특징입니다. checkIn은 상태 판단에 써야 하므로 꼭 가져옵니다.
    *
    * @param userId
    * @param inHours
@@ -186,6 +187,7 @@ export default class Booking extends BaseEntity {
         userId: userId,
         bookedAt: MoreThan(addHours(new Date(), -inHours)), // "inHours 시간 이전" 이후(=inHours 시간 내)
       },
+      relations: ['user', 'checkIn'],
     });
   }
 
