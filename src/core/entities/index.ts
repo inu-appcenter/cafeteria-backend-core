@@ -31,6 +31,7 @@ export {default as CheckInRule} from './booking/CheckInRule';
 export {default as VisitRecord} from './booking/VisitRecord';
 export {default as DiscountRule} from './discount/DiscountRule';
 export {default as BookingOption} from './booking/BookingOption';
+export {default as BookingStatus} from './booking/BookingStatus';
 export {default as MenuParseRegex} from './menu/MenuParseRegex';
 export {default as CafeteriaDayOff} from './booking/CafeteriaDayOff';
 export {default as GuestLoginChallenge} from './user/GuestLoginChallenge';
