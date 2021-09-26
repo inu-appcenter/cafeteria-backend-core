@@ -27,7 +27,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-import {addMinutes} from 'date-fns';
+import {addDays, addMinutes} from 'date-fns';
 
 /**
  * 방문 기록!
@@ -74,5 +74,32 @@ export default class VisitRecord extends BaseEntity {
     const mostOldVisitTime = addMinutes(now, -recentMinutes);
 
     return await VisitRecord.find({cafeteriaId, visitedAt: MoreThan(mostOldVisitTime)});
+  }
+
+  /**
+   * 기간 범위 내의 방문 기록 중, 동의를 유지하고 있는 상태의 사용자의 기록만 가져옵니다.
+   *
+   * @param from 기간 시작.
+   * @param until 기간 끝.
+   * @param agreementValidForDays 동의 유효기간. 기본 28일.
+   */
+  static async findUserAgreedRecordsInRange(
+    from: Date,
+    until: Date,
+    agreementValidForDays: number = 28
+  ): Promise<VisitRecord[]> {
+    const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
+
+    return await VisitRecord.createQueryBuilder('record')
+      .leftJoin(
+        'user',
+        'user',
+        'user.studentId = record.studentId OR user.phoneNumber = record.phoneNumber'
+      )
+      .where('user.privacyPolicyAgreedAt IS NOT NULL')
+      .andWhere('user.privacyPolicyAgreedAt > :beforeValidationPeriod', {beforeValidationPeriod})
+      .andWhere('record.visitedAt > :from', {from})
+      .andWhere('record.visitedAt < :until', {until})
+      .getMany();
   }
 }
