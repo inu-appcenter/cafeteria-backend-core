@@ -19,7 +19,7 @@
 
 import {logger} from '../../logger';
 import Question from '../qna/Question';
-import {addMilliseconds, isAfter} from 'date-fns';
+import {addDays, isAfter} from 'date-fns';
 import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm';
 
 @Entity()
@@ -91,14 +91,14 @@ export default class User extends BaseEntity {
    * 개인정보 수집이용 및 제공에 동의했는가?
    * 동의 유효기간이 지나면 동의하지 않은 것으로 간주합니다.
    *
-   * @param agreementValidForMillis 동의 유효기간. 기본 28일.
+   * @param agreementValidForDays 동의 유효기간. 기본 28일.
    */
-  hasAgreedPrivacyPolicy(agreementValidForMillis: number = 1000 * 60 * 60 * 24 * 28 /*30일*/) {
+  hasAgreedPrivacyPolicy(agreementValidForDays: number = 28) {
     if (this.privacyPolicyAgreedAt == null) {
       return false;
     }
 
-    const beforeValidationPeriod = addMilliseconds(new Date(), -agreementValidForMillis);
+    const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
 
     return isAfter(this.privacyPolicyAgreedAt, beforeValidationPeriod);
   }
