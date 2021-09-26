@@ -91,6 +91,7 @@ export default class VisitRecord extends BaseEntity {
     const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
 
     return await VisitRecord.createQueryBuilder('record')
+      .leftJoinAndSelect('record.cafeteria', 'cafeteria')
       .leftJoin(
         'user',
         'user',
