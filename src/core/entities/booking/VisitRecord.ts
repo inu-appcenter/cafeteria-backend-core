@@ -19,6 +19,7 @@
 
 import {
   BaseEntity,
+  Brackets,
   Column,
   Entity,
   JoinColumn,
@@ -77,7 +78,10 @@ export default class VisitRecord extends BaseEntity {
   }
 
   /**
-   * 기간 범위 내의 방문 기록 중, 동의를 유지하고 있는 상태의 사용자의 기록만 가져옵니다.
+   * 기간 범위 내의 방문 기록 중, 동의를 유지하고 있는 상태의 사용자의 기록 또는 수기 작성으로 등록된 기록을 가져옵니다.
+   *
+   * 수기 작성으로 등록한 기록인지 여부는 bookingId의 존재 유무로 구분합니다.
+   * QR코드를 태그하면 사용자가 식별되었다는 가정 하에 반드시 VisitRecord에 bookingId를 남깁니다.
    *
    * @param from 기간 시작.
    * @param until 기간 끝.
@@ -90,17 +94,53 @@ export default class VisitRecord extends BaseEntity {
   ): Promise<VisitRecord[]> {
     const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
 
-    return await VisitRecord.createQueryBuilder('record')
+    /**
+     * 카페테리아와 사용자를 같이 가져와서 where 계산에 사용!
+     * 학번 또는 휴대전화번호로 사용자 특정.
+     */
+    const qb = VisitRecord.createQueryBuilder('record')
       .leftJoinAndSelect('record.cafeteria', 'cafeteria')
       .leftJoin(
         'user',
         'user',
         'user.studentId = record.studentId OR user.phoneNumber = record.phoneNumber'
-      )
-      .where('user.privacyPolicyAgreedAt IS NOT NULL')
-      .andWhere('user.privacyPolicyAgreedAt > :beforeValidationPeriod', {beforeValidationPeriod})
-      .andWhere('record.visitedAt > :from', {from})
-      .andWhere('record.visitedAt < :until', {until})
-      .getMany();
+      );
+
+    /**
+     * 기록 중 가져올 것만 필터!
+     */
+    qb.where(
+      /**
+       * 기간 내의 기록만!
+       */
+      new Brackets((subQb) => {
+        subQb
+          .where('record.visitedAt > :from', {from})
+          .andWhere('record.visitedAt < :until', {until});
+      })
+    ).andWhere(
+      /**
+       * 수기작성한 기록 또는 개인정보 동의한 사용자의 기록만!
+       */
+      new Brackets((subQb) => {
+        return (
+          subQb
+            // 수기 작성한 기록인 경우
+            .where('record.bookingId IS NULL')
+            // 또는 사용자가 개인정보 수집이용 및 제공에 동의한 경우
+            .orWhere(
+              new Brackets((subQb2) => {
+                return subQb2
+                  .where('user.privacyPolicyAgreedAt IS NOT NULL')
+                  .andWhere('user.privacyPolicyAgreedAt > :beforeValidationPeriod', {
+                    beforeValidationPeriod,
+                  });
+              })
+            )
+        );
+      })
+    );
+
+    return await qb.getMany();
   }
 }
