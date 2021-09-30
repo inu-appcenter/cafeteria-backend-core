@@ -24,7 +24,7 @@ import {
   TimeRangeExpression,
   timeRangeExpressionToDates,
 } from '../common/TimeRangeExpression';
-import {addMinutes, isAfter, isBefore, isEqual} from 'date-fns';
+import {addMinutes, isAfter, isBefore, isEqual, isPast} from 'date-fns';
 import assert from 'assert';
 
 /**
@@ -127,9 +127,8 @@ export default class CafeteriaBookingParams extends BaseEntity {
    * 현재 오전 11시라면 true입니다.
    */
   isOverToday(): boolean {
-    const acceptUntil = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];
-    const now = new Date();
+    const closingAt = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];
 
-    return isAfter(now, acceptUntil);
+    return isPast(closingAt);
   }
 }
