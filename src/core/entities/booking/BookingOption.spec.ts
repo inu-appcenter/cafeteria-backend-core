@@ -28,6 +28,10 @@ describe('예약 옵션 가져오기', () => {
     await startTypeORM();
   });
 
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   const params = new CafeteriaBookingParams();
   params.acceptTimeRange = '08:30-10:00';
   params.intervalMinutes = 5;
@@ -49,7 +53,7 @@ describe('예약 옵션 가져오기', () => {
   });
 
   it('오늘이 휴일이면 10시 이후에 다음날 것 표시하는데, 담날이 평일이면 다 표시함.', async () => {
-    MockDate.set('2021-09-27 11:26:30'); // 월요일
+    MockDate.set('2021-09-26 11:26:30'); // 일요일
 
     const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
 
