@@ -17,18 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {isWeekend} from 'date-fns';
+import {addDays} from 'date-fns';
 
 /**
- * 다음 주중 날짜(=주말이 아닌) 날짜를 가져옵니다.
+ * 다음(내일) 날짜를 가져옵니다.
  * @param date
  */
-export function getNextWorkDay(date: Date) {
-  const d = new Date(date.getTime());
-
-  do {
-    d.setDate(d.getDate() + 1);
-  } while (isWeekend(d));
-
-  return d;
+export function getNextDay(date: Date) {
+  return addDays(date, 1);
 }

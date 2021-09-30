@@ -20,15 +20,12 @@
 import Booking from './Booking';
 import {isFuture, isPast, isWeekend} from 'date-fns';
 import CafeteriaDayOff from './CafeteriaDayOff';
-import {getNextWorkDay} from '../../../utils/date';
+import {getNextDay} from '../../../utils/date';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
 
 /**
  * 읽기 전용 예약 옵션 엔티티!
- *
- * 옵션에 대해 예약을 진행할 수 없는 경우가 두 가지 있습니다:
- * 하나는 해당 옵션의 timeSlot이 이미 지난 경우,
- * 다른 하나는 해당 옵션의 예약이 꽉 찬 경우입니다.
+ * 예약 가능한 옵션을 (알아서 잘) 찾아와주는 메소드도 가지고 있습니다 :)
  */
 export default class BookingOption {
   /**
@@ -52,6 +49,7 @@ export default class BookingOption {
   capacity: number;
 
   /**
+   * 생성자 처럼 사용합니다.
    * 읽기전용이라 나만쓸거임 흥
    */
   private static async fromBookingParamsAndTimeSlot(
@@ -70,53 +68,57 @@ export default class BookingOption {
    * 어떠한(또는 모든) 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    *
    * @param cafeteriaId 식당 식별자. 없으면 모든 식당에 대해 가져옵니다.
-   * @param futureOnly 시간을 아직 지나치지 않아 선택 가능한 옵션만 가져올 것인지 여부.
    */
-  static async findForCafeteria(
-    cafeteriaId?: number,
-    futureOnly: boolean = true
-  ): Promise<BookingOption[]> {
+  static async findForCafeteria(cafeteriaId?: number): Promise<BookingOption[]> {
     const allBookingParams = await CafeteriaBookingParams.find(
       cafeteriaId == null ? undefined : {cafeteriaId}
     );
 
     const allOptions = await Promise.all(
-      allBookingParams.map((params) => this.findForSingleCafeteria(params, futureOnly))
+      allBookingParams.map((params) => this.findForSingleCafeteria(params))
     );
 
     return allOptions.flat();
   }
 
   private static async findForSingleCafeteria(
-    bookingParams: CafeteriaBookingParams,
-    futureOnly: boolean
+    bookingParams: CafeteriaBookingParams
   ): Promise<BookingOption[]> {
-    const allTimeSlotsInBusinessHour = await this.getTimeSlotsInBusinessHour(bookingParams);
-
-    const timeSlots = futureOnly
-      ? allTimeSlotsInBusinessHour.filter(isFuture)
-      : allTimeSlotsInBusinessHour;
+    const timeSlots = await this.getNextTimeSlotsInBusinessHour(bookingParams);
 
     return await Promise.all(
       timeSlots.map((slot) => BookingOption.fromBookingParamsAndTimeSlot(bookingParams, slot))
     );
   }
 
-  private static async getTimeSlotsInBusinessHour(
+  /**
+   * 예약 가능한 미래의 타임슬롯을 모두 가져옵니다.
+   *
+   * 예약이 가능하다 함은, 주말이 아니며 휴업 시간이 아님을 뜻합니다.
+   * 미래라 함은, 해당 예약 시간이 아직 지나지 않았음을 뜻합니다.
+   *
+   * 오늘 모든 예약 운영이 종료되었으면 다음 날의 타임 슬롯을 가져옵니다.
+   * 설령 다음 날이 휴일이거나 하루 종일 휴업이더라도 해당 날짜를 기준으로 빈 배열만 가져옵니다.
+   */
+  static async getNextTimeSlotsInBusinessHour(
     bookingParams: CafeteriaBookingParams
   ): Promise<Date[]> {
     const now = new Date();
-    const notToday = isWeekend(now) || bookingParams.isOverToday();
-    const baseDate = notToday ? getNextWorkDay(now) : now;
-    const dayOffsAtThatDay = await CafeteriaDayOff.findForCafeteriaAtSameDay(
+    const baseDate = bookingParams.isOverToday() ? getNextDay(now) : now;
+
+    const dayOffs = await CafeteriaDayOff.findForCafeteriaAtSameDay(
       bookingParams.cafeteriaId,
       baseDate
     );
 
-    const isInBusinessHour = (slot: Date) =>
-      dayOffsAtThatDay.find((dayOff) => dayOff.isInOffTime(slot)) == null;
+    const isNotWeekend = (slot: Date) => !isWeekend(slot);
+    const isNotOffTime = (slot: Date) => dayOffs.find((off) => off.isInOffTime(slot)) == null;
 
-    return bookingParams.allTimeSlots(baseDate).filter(isInBusinessHour);
+    return bookingParams
+      .allTimeSlots(baseDate)
+      .filter(isNotWeekend)
+      .filter(isNotOffTime)
+      .filter(isFuture);
   }
 
   isFull() {
