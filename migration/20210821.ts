@@ -18,7 +18,7 @@
  */
 
 import mysql from 'mysql2/promise';
-import getEnv from '../src/utils/env';
+import getEnv from '../src/core/utils/env';
 import {RowDataPacket} from 'mysql2';
 
 import {

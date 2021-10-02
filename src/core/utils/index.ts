@@ -17,8 +17,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export default function getEnv(key: string, fallback?: any) {
-  const allEnvArgs = process.env;
-
-  return allEnvArgs[key] || fallback;
-}
+export {default as getArg} from './arg';
+export {default as getEnv} from './env';
+export {default as getSecret} from './secret';
