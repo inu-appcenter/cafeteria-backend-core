@@ -18,9 +18,9 @@
  */
 
 import Booking from './Booking';
-import {isFuture, isPast, isWeekend} from 'date-fns';
-import CafeteriaDayOff from './CafeteriaDayOff';
 import {getNextDay} from '../../../utils/date';
+import CafeteriaDayOff from './CafeteriaDayOff';
+import {addMinutes, isFuture, isPast, isWeekend} from 'date-fns';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
 
 /**
@@ -113,12 +113,13 @@ export default class BookingOption {
 
     const isNotWeekend = (slot: Date) => !isWeekend(slot);
     const isNotOffTime = (slot: Date) => dayOffs.find((off) => off.isInOffTime(slot)) == null;
+    const isNotOver = (slot: Date) => isFuture(addMinutes(slot, bookingParams.intervalMinutes));
 
     return bookingParams
       .allTimeSlots(baseDate)
       .filter(isNotWeekend)
       .filter(isNotOffTime)
-      .filter(isFuture);
+      .filter(isNotOver);
   }
 
   isFull() {

@@ -65,6 +65,6 @@ describe('예약 옵션 가져오기', () => {
 
     const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
 
-    expect(timeSlots.length).toBe(7); // 9시 30분 부터 10시 0분까지 총 7개
+    expect(timeSlots.length).toBe(8); // 9시 25분 부터 10시 0분까지 총 8개
   });
 });
