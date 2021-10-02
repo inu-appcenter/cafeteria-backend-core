@@ -20,13 +20,14 @@
 import assert from 'assert';
 import {ConnectionOptions} from 'typeorm/connection/ConnectionOptions';
 import getEnv from './src/core/utils/env';
+import getSecret from './src/core/utils/secret';
 
 const isProduction = getEnv('NODE_ENV') === 'production';
 
 if (isProduction) {
-  assert(getEnv('DB_HOST'), 'DB 호스트 설정해주세요!');
-  assert(getEnv('DB_USERNAME'), 'DB 사용자 이름 설정해주세요!');
-  assert(getEnv('DB_PASSWORD'), 'DB 비밀번호 설정해주세요!');
+  assert(getSecret('DB_HOST'), 'DB 호스트 설정해주세요!');
+  assert(getSecret('DB_USERNAME'), 'DB 사용자 이름 설정해주세요!');
+  assert(getSecret('DB_PASSWORD'), 'DB 비밀번호 설정해주세요!');
 }
 
 export default {
@@ -35,10 +36,10 @@ export default {
   database: <ConnectionOptions>{
     type: 'mysql',
     charset: 'utf8mb4_unicode_ci',
-    host: getEnv('DB_HOST', 'localhost'),
+    host: getSecret('DB_HOST', 'localhost'),
     port: 3306,
-    username: getEnv('DB_USERNAME', 'potados'),
-    password: getEnv('DB_PASSWORD', '1234'),
+    username: getSecret('DB_USERNAME', 'potados'),
+    password: getSecret('DB_PASSWORD', '1234'),
     database: 'cafeteria',
     timezone: '+09:00',
     logging: false,
