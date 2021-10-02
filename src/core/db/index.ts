@@ -66,13 +66,19 @@ export async function startTypeORM(forceSync: boolean = false) {
     throw new Error('프로덕션 환경에서는 forceSync를 지원하지 않습니다.');
   }
 
-  const connection = await createConnection({
-    ...config.database,
-    entities,
-    namingStrategy: new SnakeNamingStrategy(),
-  });
+  console.log(config.database);
 
-  if (forceSync) {
-    await connection.synchronize(true);
+  try {
+    const connection = await createConnection({
+      ...config.database,
+      entities,
+      namingStrategy: new SnakeNamingStrategy(),
+    });
+
+    if (forceSync) {
+      await connection.synchronize(true);
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
