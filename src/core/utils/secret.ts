@@ -40,7 +40,7 @@ export default function getSecret(key: string, fallback?: any): any {
   if (fs.existsSync(secretPath)) {
     logger.verbose(`${key}를 ${secretPath}에서 읽어옵니다.`);
 
-    return fs.readFileSync(secretPath).toString('utf-8');
+    return fs.readFileSync(secretPath).toString('utf-8').trim(); // 개행문자 꼭 잘라야 함.
   } else {
     logger.verbose(`${key}가 secret 경로에 없어 환경변수에서 읽어옵니다.`);
 
