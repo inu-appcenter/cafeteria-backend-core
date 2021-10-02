@@ -18,9 +18,9 @@
  */
 
 import assert from 'assert';
-import {ConnectionOptions} from 'typeorm/connection/ConnectionOptions';
 import getEnv from './src/core/utils/env';
 import getSecret from './src/core/utils/secret';
+import {ConnectionOptions} from 'typeorm/connection/ConnectionOptions';
 
 const isProduction = getEnv('NODE_ENV') === 'production';
 
