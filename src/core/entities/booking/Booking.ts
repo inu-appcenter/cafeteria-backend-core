@@ -31,7 +31,7 @@ import User from '../user/User';
 import CheckIn from './CheckIn';
 import Cafeteria from '../cafeteria/Cafeteria';
 import BookingStatus from './BookingStatus';
-import {addHours, addMinutes, isPast} from 'date-fns';
+import {isPast, subHours} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -144,36 +144,6 @@ export default class Booking extends BaseEntity {
   }
 
   /**
-   * 아직 체크인하지 않았고 예약 시간을 지나치지도 않은 예약을 가져옵니다.
-   *
-   * @param userId 예약자의 식별자.
-   * @param toleranceMinutes 예약 시간을 지나도 이 정도는 봐줍니다.
-   * @param now 현재 시각.
-   *
-   * @deprecated 이제 사용하지 않습니다. 예약을 조회할 때에는 최근 예약을 모두 가져옵니다. findRecentBookings를 쓰세요.
-   *
-   */
-  static async findActiveBookings(
-    userId: number,
-    toleranceMinutes: number,
-    now: Date = new Date()
-  ) {
-    return await Booking.createQueryBuilder('booking')
-      .where('booking.timeSlot > :now', {now: addMinutes(now, -toleranceMinutes)})
-      .andWhere((qb) => {
-        const checkInForThatBooking = qb
-          .subQuery()
-          .select()
-          .from(CheckIn, 'checkIn')
-          .where('checkIn.bookingId = booking.id')
-          .getQuery();
-
-        return `NOT EXISTS ${checkInForThatBooking}`;
-      })
-      .getMany();
-  }
-
-  /**
    * 최근 inHours 시간 내의 예약을 최신 순으로 모두 가져옵니다.
    * 예약의 상태는 따지지 않습니다. 그냥 일단 다 가져옵니다.
    * relations에 user와 checkIn이 들어 있는 것이 특징입니다. checkIn은 상태 판단에 써야 하므로 꼭 가져옵니다.
@@ -185,7 +155,7 @@ export default class Booking extends BaseEntity {
     return await Booking.find({
       where: {
         userId: userId,
-        bookedAt: MoreThan(addHours(new Date(), -inHours)), // "inHours 시간 이전" 이후(=inHours 시간 내)
+        bookedAt: MoreThan(subHours(new Date(), inHours)), // "inHours 시간 이전" 이후(=inHours 시간 내)
       },
       relations: ['user', 'checkIn'],
       order: {

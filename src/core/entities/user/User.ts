@@ -19,7 +19,7 @@
 
 import {logger} from '../../logger';
 import Question from '../qna/Question';
-import {addDays, isAfter} from 'date-fns';
+import {isAfter, subDays} from 'date-fns';
 import {BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from 'typeorm';
 
 @Entity()
@@ -98,7 +98,7 @@ export default class User extends BaseEntity {
       return false;
     }
 
-    const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
+    const beforeValidationPeriod = subDays(new Date(), agreementValidForDays);
 
     return isAfter(this.privacyPolicyAgreedAt, beforeValidationPeriod);
   }

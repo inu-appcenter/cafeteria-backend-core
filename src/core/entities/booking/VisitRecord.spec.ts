@@ -19,7 +19,7 @@
 
 import {startTypeORM} from '../../db';
 import VisitRecord from './VisitRecord';
-import {addDays} from 'date-fns';
+import {subDays} from 'date-fns';
 
 describe('사용자가 동의를 유지하고 있는 방문 기록만 꺼내오기', () => {
   beforeAll(async () => {
@@ -28,7 +28,7 @@ describe('사용자가 동의를 유지하고 있는 방문 기록만 꺼내오�
 
   it('돌아가나!?', async () => {
     const records = await VisitRecord.findUserAgreedRecordsInRange(
-      addDays(new Date(), -7),
+      subDays(new Date(), 7),
       new Date(),
       28
     );

@@ -28,7 +28,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Cafeteria from '../cafeteria/Cafeteria';
-import {addDays, addMinutes} from 'date-fns';
+import {subDays, subMinutes} from 'date-fns';
 
 /**
  * 방문 기록!
@@ -72,7 +72,7 @@ export default class VisitRecord extends BaseEntity {
     recentMinutes: number,
     now: Date = new Date()
   ): Promise<VisitRecord[]> {
-    const mostOldVisitTime = addMinutes(now, -recentMinutes);
+    const mostOldVisitTime = subMinutes(now, recentMinutes);
 
     return await VisitRecord.find({cafeteriaId, visitedAt: MoreThan(mostOldVisitTime)});
   }
@@ -92,7 +92,7 @@ export default class VisitRecord extends BaseEntity {
     until: Date,
     agreementValidForDays: number = 28
   ): Promise<VisitRecord[]> {
-    const beforeValidationPeriod = addDays(new Date(), -agreementValidForDays);
+    const beforeValidationPeriod = subDays(new Date(), agreementValidForDays);
 
     /**
      * 카페테리아와 사용자를 같이 가져와서 where 계산에 사용!
