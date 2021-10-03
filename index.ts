@@ -19,6 +19,11 @@
 
 import 'reflect-metadata';
 
+/**
+ * Date 계열 함수를 쓰기 전에 먼저 타임존을 설정합니다.
+ */
+process.env.TZ = 'Asia/Seoul';
+
 export * from './src/core/db';
 export * from './src/core/meta';
 export * from './src/core/utils';
