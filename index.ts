@@ -21,8 +21,9 @@ import 'reflect-metadata';
 
 /**
  * Date 계열 함수를 쓰기 전에 먼저 타임존을 설정합니다.
+ * 있으면 있는걸 쓰고, 기본은 Asia/Seoul입니다.
  */
-process.env.TZ = 'Asia/Seoul';
+process.env.TZ = process.env.TZ || 'Asia/Seoul';
 
 export * from './src/core/db';
 export * from './src/core/meta';
