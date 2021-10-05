@@ -98,6 +98,21 @@ export default class BookingOption {
   }
 
   /**
+   * 식당 식별자와 타임슬롯으로 예약 옵션을 하나 가져옵니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   * @param timeSlot 예약 시간대(타임슬롯).
+   */
+  static async findByCafeteriaAndTimeSlot(
+    cafeteriaId: number,
+    timeSlot: Date
+  ): Promise<BookingOption | undefined> {
+    const allOptions = await this.findForCafeteria(cafeteriaId);
+
+    return allOptions.find((o) => o.timeSlot.getTime() === timeSlot.getTime());
+  }
+
+  /**
    * 예약 가능한 미래의 타임슬롯을 모두 가져옵니다.
    *
    * 예약이 가능하다 함은, 주말이 아니며 휴업 시간이 아님을 뜻합니다.
