@@ -39,6 +39,11 @@ export default class BookingOption {
   timeSlot: Date;
 
   /**
+   * 예약하는 시간대 다음 시간.
+   */
+  nextTimeSlot: Date;
+
+  /**
    * 이미 예약한 사람 수.
    */
   used: number;
@@ -59,6 +64,7 @@ export default class BookingOption {
     return Object.assign(new BookingOption(), {
       cafeteriaId: bookingParams.cafeteriaId,
       timeSlot,
+      nextTimeSlot: addMinutes(timeSlot, bookingParams.intervalMinutes),
       used: await Booking.howManyBookedForCafeteriaAtTimeSlot(bookingParams.cafeteriaId, timeSlot),
       capacity: bookingParams.capacity,
     });
@@ -122,12 +128,19 @@ export default class BookingOption {
       .filter(isNotOver);
   }
 
+  /**
+   * 해당 예약이 꽉 찼는가?
+   */
   isFull() {
     return this.used >= this.capacity;
   }
 
+  /**
+   * 해당 시간대의 마지막 시간까지 지났는가?
+   * 즉, 예약하기엔 늦은 시간대인가?
+   */
   isPast() {
-    return isPast(this.timeSlot);
+    return isPast(this.nextTimeSlot);
   }
 
   isAvailable() {
