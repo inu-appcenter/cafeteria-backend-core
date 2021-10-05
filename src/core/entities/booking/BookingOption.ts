@@ -158,6 +158,10 @@ export default class BookingOption {
     return isPast(this.nextTimeSlot);
   }
 
+  /**
+   * 예약 가능한가?
+   * 꽉 차지 않았고 끝나지 않아야 합니다.
+   */
   isAvailable() {
     return !this.isFull() && !this.isPast();
   }
