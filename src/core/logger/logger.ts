@@ -60,7 +60,14 @@ export function buildLoggerWithOptions(level: string, options: LoggerOptions) {
 
 function createLogger(transports: TransportStream[]): winston.Logger {
   return winston.createLogger({
-    level: 'verbose',
+    levels: {
+      error: 0,
+      warn: 1,
+      info: 2,
+      verbose: 3,
+      debug: 4,
+      combined: 5, // 정말 다 포함합니다.
+    },
     format: winston.format.combine(
       winston.format.timestamp({
         format: 'YYYY-MM-DD HH:mm:ss',
