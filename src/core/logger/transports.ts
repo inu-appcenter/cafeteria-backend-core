@@ -44,12 +44,14 @@ export type CloudwatchTransportOptions = CommonTransportOptions & {
 
 export function getConsoleTransport(level: string, options: ConsoleTransportOptions) {
   return new winston.transports.Console({
+    level,
     format: getConsoleFormat(options.prefix),
   });
 }
 
 export function getFileTransport(level: string, options: FileTransportOptions) {
   return new winston.transports.DailyRotateFile({
+    level,
     format: getFileFormat(options.prefix),
     filename: path.join(options.logDirectory, level, `${level}-%DATE%.log`),
     datePattern: 'YYYY-MM-DD',
@@ -63,6 +65,7 @@ export function getCloudwatchTransport(level: string, options: CloudwatchTranspo
   });
 
   return new WinstonCloudwatch({
+    level,
     name: 'CloudwatchTransport',
     logGroupName: options.logGroupName,
     logStreamName: level,
