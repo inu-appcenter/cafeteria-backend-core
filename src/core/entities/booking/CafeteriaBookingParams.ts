@@ -17,15 +17,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import Cafeteria from '../cafeteria/Cafeteria';
 import {
-  isValidTimeRangeExpression,
-  TimeRangeExpression,
-  timeRangeExpressionToDates,
-} from '../common/TimeRangeExpression';
-import {addMinutes, isAfter, isBefore, isEqual, isPast} from 'date-fns';
-import assert from 'assert';
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Cafeteria from '../cafeteria/Cafeteria';
+import BookingTimeRange from './BookingTimeRange';
+import {isPast, isWithinInterval} from 'date-fns';
+import BookingTimeSlot from './BookingTimeSlot';
 
 /**
  * 예약에 관련된 설정!
@@ -42,82 +46,46 @@ export default class CafeteriaBookingParams extends BaseEntity {
   @Column({comment: '속한 Cafeteria의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '수용 가능 인원'})
-  capacity: number;
+  @OneToMany(() => BookingTimeRange, (p) => p.cafeteriaBookingParams)
+  timeRages: BookingTimeRange[];
 
-  @Column({comment: '예약을 받는 시간대'})
-  acceptTimeRange: TimeRangeExpression;
-
-  @Column({comment: '예약 시간대의 간격'})
-  intervalMinutes: number;
-
-  @Column({comment: '한 시간대당 예약 기간(분)'})
-  durationMinutes: number;
-
-  @Column({comment: '입장 시간 허용 오차'})
-  toleranceMinutes: number;
+  @Column({comment: '사용자가 식당에 머무는 시간(분)'})
+  userStaysForMinutes: number;
 
   /**
-   * 중복 없고 분단위로 떨어지는 Date 인스턴스를 만들어 가져옵니다.
-   * 해당 시간이 지났는지 여부와 관계없이 모두 가져옵니다.
-   *
-   * 특정 날짜에 귀속되지 않습니다. 날짜는 인자로 주어진 baseDate에 근거합니다.
-   *
-   * intervalMinutes나 acceptRange가 이상하면 뻗습니다.
+   * 이 예약 파라미터가 가지고 있는 모든 시간대 파라미터에 대해 타임슬롯을 뽑아 가져옵니다.
+   * 오름차순으로 정렬합니다.
    *
    * @param baseDate 기준 날짜가 담긴 Date 인스턴스
    */
-  allTimeSlots(baseDate: Date): Date[] {
-    assert(this.intervalMinutes > 0, '시간 간격은 0보다 커야 합니다.');
-
-    if (!isValidTimeRangeExpression(this.acceptTimeRange)) {
-      return [];
-    }
-
-    const [start, end] = timeRangeExpressionToDates(this.acceptTimeRange, baseDate);
-    const timeSlots: Date[] = [];
-    let current = start;
-
-    while (isBefore(current, end) || isEqual(current, end)) {
-      assert(current.getTime() % (60 * 1000) === 0, '시간이 분 단위로 떨어져야 합니다.');
-
-      const duplication = timeSlots.find((t) => t.getTime() === current.getTime());
-
-      assert(duplication == null, '타임 슬롯에 중복이 없어야 합니다.');
-
-      timeSlots.push(new Date(current.getTime()));
-
-      current = addMinutes(current, this.intervalMinutes);
-    }
-
-    return timeSlots;
+  getAllTimeSlots(baseDate: Date = new Date()): BookingTimeSlot[] {
+    return this.timeRages
+      .map((range) => range.getTimeSlots(baseDate))
+      .flat()
+      .sort((a, b) => a.start.getTime() - b.start.getTime());
   }
 
   /**
    * 현재 timeSlot을 가져옵니다.
    * 현재 timeSlot이란, 오른차순 정렬된 모든 timeSlot 가운데 현재 시간보다 크지만 다음 timeSlot 보다 작은 것입니다.
    *
-   * 다만 마지막 timeSlot의 경우 해당 시간 30분 초과시까지 현재 timeSlot으로 간주합니다.
-   *
-   * @param now 현재 시간 Date 인스턴스
+   * @param now current의 기준이 될 현재 시각.
    */
-  currentTimeSlot(now: Date): Date | undefined {
-    const [start, end] = timeRangeExpressionToDates(this.acceptTimeRange, now);
-    const whileAfterEnd = addMinutes(end, 30);
+  getCurrentTimeSlot(now: Date = new Date()): BookingTimeSlot | undefined {
+    const allTimeSlots = this.getAllTimeSlots(now);
 
-    const currentlyInRange = isAfter(now, start) && isBefore(now, whileAfterEnd);
-    if (!currentlyInRange) {
-      return undefined;
-    }
+    return allTimeSlots.find((ts) => isWithinInterval(now, {start: ts.start, end: ts.end}));
+  }
 
-    const allTimeSlots = this.allTimeSlots(now);
-    if (allTimeSlots.length < 1) {
-      return undefined;
-    }
+  /**
+   * 시작 시간(Date)으로 BookingTimeSlot을 찾습니다.
+   *
+   * @param start 찾을 날짜시각.
+   */
+  findTimeSlotByStart(start: Date): BookingTimeSlot | undefined {
+    const allTimeSlots = this.getAllTimeSlots(start);
 
-    return [...allTimeSlots, whileAfterEnd]
-      .sort()
-      .reduce((acc, cur) => (isAfter(now, acc) && isBefore(now, cur) ? acc : cur));
+    return allTimeSlots.find((ts) => ts.start.getTime() === start.getTime());
   }
 
   /**
@@ -127,8 +95,14 @@ export default class CafeteriaBookingParams extends BaseEntity {
    * 현재 오전 11시라면 true입니다.
    */
   isOverToday(): boolean {
-    const closingAt = timeRangeExpressionToDates(this.acceptTimeRange, new Date())[1];
+    const now = new Date();
+    const allTimeSlots = this.getAllTimeSlots(now);
 
-    return isPast(closingAt);
+    const lastTimeSlot = allTimeSlots.pop();
+    if (lastTimeSlot == null) {
+      return true;
+    }
+
+    return isPast(lastTimeSlot.end);
   }
 }
