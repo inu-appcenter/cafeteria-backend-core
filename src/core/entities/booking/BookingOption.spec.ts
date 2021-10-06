@@ -17,29 +17,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import CafeteriaBookingParams from './CafeteriaBookingParams';
-import BookingOption from './BookingOption';
-import {startTypeORM} from '../../db';
 import MockDate from 'mockdate';
+import BookingOption from './BookingOption';
+import BookingTimeRange from './BookingTimeRange';
+import CafeteriaBookingParams from './CafeteriaBookingParams';
 
 describe('예약 옵션 가져오기', () => {
-  beforeAll(async () => {
-    // CafeteriaDayOff 가져와야 해요,,
-    await startTypeORM();
-  });
-
   afterEach(() => {
     MockDate.reset();
   });
 
+  const timeRangeEarly = new BookingTimeRange();
+  timeRangeEarly.timeRange = '08:30-08:55';
+  timeRangeEarly.intervalMinutes = 5;
+  timeRangeEarly.capacity = 55;
+
+  const timeRangeLate = new BookingTimeRange();
+  timeRangeLate.timeRange = '09:00-10:00';
+  timeRangeLate.intervalMinutes = 5;
+  timeRangeLate.capacity = 35;
+
   const params = new CafeteriaBookingParams();
-  params.acceptTimeRange = '08:30-10:00';
-  params.intervalMinutes = 5;
+  params.timeRages = [timeRangeEarly, timeRangeLate];
 
   it('오늘이 휴일이면 10시 전에는 아무 것도 표시 안함.', async () => {
     MockDate.set('2021-09-26 09:26:30'); // 일요일
 
-    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
+    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params, []);
 
     expect(timeSlots.length).toBe(0);
   });
@@ -47,7 +51,7 @@ describe('예약 옵션 가져오기', () => {
   it('오늘이 휴일이면 10시 이후에 다음날 것 표시하는데, 담날도 휴일이면 아무 것도 표시 안함.', async () => {
     MockDate.set('2021-09-25 11:26:30'); // 토요일
 
-    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
+    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params, []);
 
     expect(timeSlots.length).toBe(0);
   });
@@ -55,7 +59,7 @@ describe('예약 옵션 가져오기', () => {
   it('오늘이 휴일이면 10시 이후에 다음날 것 표시하는데, 담날이 평일이면 다 표시함.', async () => {
     MockDate.set('2021-09-26 11:26:30'); // 일요일
 
-    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
+    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params, []);
 
     expect(timeSlots.length).toBe(19); // 8시 30분 부터 10시 0분까지 총 19개
   });
@@ -63,8 +67,17 @@ describe('예약 옵션 가져오기', () => {
   it('평일 느즈막한 오전 즈음에는 아직 지나지 않은 시간대만 표시함.', async () => {
     MockDate.set('2021-09-27 9:26:30'); // 월요일
 
-    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params);
+    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params, []);
 
     expect(timeSlots.length).toBe(8); // 9시 25분 부터 10시 0분까지 총 8개
+  });
+
+  it('시간에 따라 예약 정원이 달라야 함.', async () => {
+    MockDate.set('2021-09-27 4:26:30'); // 월요일 새벽, 당일 모든 예약 옵션이 보임.
+
+    const timeSlots = await BookingOption.getNextTimeSlotsInBusinessHour(params, []);
+
+    expect(timeSlots[0].capacity).toBe(55);
+    expect(timeSlots[timeSlots.length - 1].capacity).toBe(35);
   });
 });
