@@ -62,11 +62,11 @@ export default class Booking extends BaseEntity {
   @Column({comment: '예약한 식당의 식별자'})
   cafeteriaId: number;
 
-  @Column({comment: '예약한 일시'})
-  timeSlot: Date;
+  @Column({comment: '타임슬롯 시작 일시'})
+  timeSlotStart: Date;
 
-  @Column({comment: '예약 일시 바로 다음 타임'})
-  nextTimeSlot: Date;
+  @Column({comment: '타임슬롯 끝 일시'})
+  timeSlotEnd: Date;
 
   @Column({comment: '예약 생성 일시'})
   bookedAt: Date;
@@ -117,7 +117,7 @@ export default class Booking extends BaseEntity {
    * 체크인 가능 시각은 예약한 타임슬롯부터 그 다음 타임슬롯 직전까지입니다.
    */
   isLate() {
-    return isPast(this.nextTimeSlot);
+    return isPast(this.timeSlotEnd);
   }
 
   /**
@@ -132,13 +132,13 @@ export default class Booking extends BaseEntity {
    * 어떤 식당, 어떤 타임슬롯에 대해 예약이 몇 개 존재하는지 찾습니다.
    *
    * @param cafeteriaId 식당 식별자.
-   * @param timeSlot 타임슬롯.
+   * @param timeSlotStart 타임슬롯 시작 시각.
    */
-  static async howManyBookedForCafeteriaAtTimeSlot(
+  static async howManyBookedForCafeteriaAtTimeSlotStart(
     cafeteriaId: number,
-    timeSlot: Date
+    timeSlotStart: Date
   ): Promise<number> {
-    const bookings = await Booking.find({cafeteriaId, timeSlot});
+    const bookings = await Booking.find({cafeteriaId, timeSlotStart});
 
     return bookings.length;
   }
