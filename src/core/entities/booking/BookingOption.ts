@@ -160,7 +160,7 @@ export default class BookingOption {
 
     const offs =
       dayOffs ??
-      (await CafeteriaDayOff.findForCafeteriaAtSameDay(bookingParams.cafeteriaId, baseDate));
+      (await CafeteriaDayOff.findByCafeteriaIdAtSameDay(bookingParams.cafeteriaId, baseDate));
 
     const isNotWeekend = (slot: BookingTimeSlot) => !isWeekend(slot.start);
     const isNotOffTime = (slot: BookingTimeSlot) =>

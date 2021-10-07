@@ -76,7 +76,7 @@ export default class CafeteriaDayOff extends BaseEntity {
    * @param cafeteriaId 식당 식별자.
    * @param date 기준이 되는 날짜.
    */
-  static async findForCafeteriaAtSameDay(
+  static async findByCafeteriaIdAtSameDay(
     cafeteriaId: number,
     date: Date
   ): Promise<CafeteriaDayOff[]> {
