@@ -31,7 +31,7 @@ import User from '../user/User';
 import CheckIn from './CheckIn';
 import Cafeteria from '../cafeteria/Cafeteria';
 import BookingStatus from './BookingStatus';
-import {isPast, subHours} from 'date-fns';
+import {isFuture, isPast, subHours} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -78,9 +78,9 @@ export default class Booking extends BaseEntity {
    * 현재 예약의 상태를 가져옵니다.
    */
   get status(): string {
-    if (this.isUnused() && this.isNotLate()) {
+    if (this.isUnused() && this.isNotLateToCheckIn()) {
       return BookingStatus.UNUSED_AVAILABLE;
-    } else if (this.isUnused() && this.isLate()) {
+    } else if (this.isUnused() && this.isLateToCheckIn()) {
       return BookingStatus.UNUSED_LATE;
     } else if (this.isUsed()) {
       return BookingStatus.USED;
@@ -113,10 +113,24 @@ export default class Booking extends BaseEntity {
   }
 
   /**
+   * 현재 시각 기준, 체크인하기에 너무 이른가?
+   */
+  isEarlyToCheckIn() {
+    return isFuture(this.timeSlotStart);
+  }
+
+  /**
+   * 현재 시각 기준, 체크인하기에 너무 이르지 않은가?
+   */
+  isNotEarlyToCheckIn() {
+    return !this.isEarlyToCheckIn();
+  }
+
+  /**
    * 현재 시각 기준, 체크인 가능 시각을 초과했는가?
    * 체크인 가능 시각은 예약한 타임슬롯부터 그 다음 타임슬롯 직전까지입니다.
    */
-  isLate() {
+  isLateToCheckIn() {
     return isPast(this.timeSlotEnd);
   }
 
@@ -124,8 +138,16 @@ export default class Booking extends BaseEntity {
    * 현재 시각 기준, 아직 체크인 가능 시각을 초과하지 않았는가?
    * 체크인 가능 시각은 예약한 타임슬롯부터 그 다음 타임슬롯 직전까지입니다.
    */
-  isNotLate() {
-    return !this.isLate();
+  isNotLateToCheckIn() {
+    return !this.isLateToCheckIn();
+  }
+
+  /**
+   * 지금이 체크인 가능한 시각인가?
+   * 너무 일러도, 너무 늦어도 안됨.
+   */
+  isAvailableForCheckIn() {
+    return this.isNotEarlyToCheckIn() && this.isNotLateToCheckIn();
   }
 
   /**
