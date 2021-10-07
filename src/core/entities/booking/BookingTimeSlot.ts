@@ -18,11 +18,24 @@
  */
 
 /**
- * 시간대의 시작과 끝, 그리고 해당 시간대의 정원을 나타내는 읽기 전용 DTO!
+ * 시간대의 시작과 끝, 그리고 해당 시간대의 정원을 나타내는
+ * 읽기 전용 DTO 입니다.
  */
 export default class BookingTimeSlot {
+  /**
+   * 타임 슬롯의 시작.
+   */
   start: Date;
+
+  /**
+   * 타임 슬롯의 끝.
+   * 다음 타임 슬롯의 시작과 같음.
+   */
   end: Date;
+
+  /**
+   * 해당 타임 슬롯의 수용 가능 최대 인원(정원).
+   */
   capacity: number;
 
   constructor(properties: Partial<BookingTimeSlot>) {
