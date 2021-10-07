@@ -41,7 +41,7 @@ export default class BookingTimeRange extends BaseEntity {
   @Column({comment: '타임슬롯당 수용 가능 인원'})
   capacity: number;
 
-  @ManyToOne(() => CafeteriaBookingParams, (p) => p.timeRages, {cascade: ['update']})
+  @ManyToOne(() => CafeteriaBookingParams, (p) => p.timeRanges, {cascade: ['update']})
   @JoinColumn()
   cafeteriaBookingParams: CafeteriaBookingParams;
 

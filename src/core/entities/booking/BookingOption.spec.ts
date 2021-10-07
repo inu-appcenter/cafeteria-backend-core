@@ -38,7 +38,7 @@ describe('예약 옵션 가져오기', () => {
   timeRangeLate.capacity = 35;
 
   const params = new CafeteriaBookingParams();
-  params.timeRages = [timeRangeEarly, timeRangeLate];
+  params.timeRanges = [timeRangeEarly, timeRangeLate];
 
   it('오늘이 휴일이면 10시 전에는 아무 것도 표시 안함.', async () => {
     MockDate.set('2021-09-26 09:26:30'); // 일요일

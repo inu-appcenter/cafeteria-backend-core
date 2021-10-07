@@ -55,10 +55,76 @@ export default class BookingOption {
   reserved: number;
 
   /**
+   * 모든 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
+   */
+  static async findAll(): Promise<BookingOption[]> {
+    const allBookingParams = await CafeteriaBookingParams.find();
+
+    const allOptions = await Promise.all(
+      allBookingParams.map((params) => this.buildAllFromBookingParams(params))
+    );
+
+    return allOptions.flat();
+  }
+
+  /**
+   * 어떠한 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   */
+  static async findByCafeteriaId(cafeteriaId: number): Promise<BookingOption[]> {
+    const params = await CafeteriaBookingParams.findForBookingByCafeteriaId(cafeteriaId);
+
+    if (params == null) {
+      return [];
+    }
+
+    return await this.buildAllFromBookingParams(params);
+  }
+
+  /**
+   * 식당 식별자와 타임슬롯으로 예약 옵션을 하나 가져옵니다.
+   * 예약 요청을 받아서 해당 옵션을 역으로 도출할 때에 사용합니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   * @param timeSlotStart 타임슬롯 시작.
+   */
+  static async findByCafeteriaIdAndTimeSlotStart(
+    cafeteriaId: number,
+    timeSlotStart: Date
+  ): Promise<BookingOption | undefined> {
+    const options = await this.findByCafeteriaId(cafeteriaId);
+
+    return options.find((o) => o.timeSlotStart.getTime() === timeSlotStart.getTime());
+  }
+
+  /**
+   * 예약 파라미터로부터 예약 옵션을 모두 만들어 냅니다.
+   *
+   * @param bookingParams 예약 파라미터.
+   * @private
+   */
+  private static async buildAllFromBookingParams(
+    bookingParams: CafeteriaBookingParams
+  ): Promise<BookingOption[]> {
+    const timeSlots = await this.getNextTimeSlotsInBusinessHour(bookingParams);
+
+    return await Promise.all(
+      timeSlots.map((slot) => BookingOption.buildFromBookingParamsAndTimeSlot(bookingParams, slot))
+    );
+  }
+
+  /**
+   * 예약 파라미터와 하나의 타임슬롯으로부터 예약 옵션을 하나 만들어 냅니다.
+   *
    * 생성자 처럼 사용합니다.
    * 읽기전용이라 나만쓸거임 흥
+   *
+   * @param bookingParams 예약 파라미터.
+   * @param timeSlot 타임슬롯.
+   * @private
    */
-  private static async fromBookingParamsAndTimeSlot(
+  private static async buildFromBookingParamsAndTimeSlot(
     bookingParams: CafeteriaBookingParams,
     timeSlot: BookingTimeSlot
   ): Promise<BookingOption> {
@@ -74,48 +140,6 @@ export default class BookingOption {
   }
 
   /**
-   * 어떠한(또는 모든) 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
-   *
-   * @param cafeteriaId 식당 식별자. 없으면 모든 식당에 대해 가져옵니다.
-   */
-  static async findForCafeteria(cafeteriaId?: number): Promise<BookingOption[]> {
-    const allBookingParams = await CafeteriaBookingParams.find(
-      cafeteriaId == null ? undefined : {cafeteriaId}
-    );
-
-    const allOptions = await Promise.all(
-      allBookingParams.map((params) => this.findForSingleCafeteria(params))
-    );
-
-    return allOptions.flat();
-  }
-
-  private static async findForSingleCafeteria(
-    bookingParams: CafeteriaBookingParams
-  ): Promise<BookingOption[]> {
-    const timeSlots = await this.getNextTimeSlotsInBusinessHour(bookingParams);
-
-    return await Promise.all(
-      timeSlots.map((slot) => BookingOption.fromBookingParamsAndTimeSlot(bookingParams, slot))
-    );
-  }
-
-  /**
-   * 식당 식별자와 타임슬롯으로 예약 옵션을 하나 가져옵니다.
-   *
-   * @param cafeteriaId 식당 식별자.
-   * @param timeSlotStart 예약 시간대(타임슬롯).
-   */
-  static async findByCafeteriaAndTimeSlotStart(
-    cafeteriaId: number,
-    timeSlotStart: Date
-  ): Promise<BookingOption | undefined> {
-    const allOptions = await this.findForCafeteria(cafeteriaId);
-
-    return allOptions.find((o) => o.timeSlotStart.getTime() === timeSlotStart.getTime());
-  }
-
-  /**
    * 예약 가능한 미래의 타임슬롯을 모두 가져옵니다.
    *
    * 예약이 가능하다 함은, 주말이 아니며 휴업 시간이 아님을 뜻합니다.
@@ -123,21 +147,24 @@ export default class BookingOption {
    *
    * 오늘 모든 예약 운영이 종료되었으면 다음 날의 타임 슬롯을 가져옵니다.
    * 설령 다음 날이 휴일이거나 하루 종일 휴업이더라도 해당 날짜를 기준으로 빈 배열만 가져옵니다.
+   *
+   * @param bookingParams 예약 파라미터.
+   * @param dayOffs 휴업 일정. 주어지지 않으면 알아서 가져옵니다.
    */
   static async getNextTimeSlotsInBusinessHour(
     bookingParams: CafeteriaBookingParams,
-    dayOffsGiven?: CafeteriaDayOff[]
+    dayOffs?: CafeteriaDayOff[]
   ): Promise<BookingTimeSlot[]> {
     const now = new Date();
     const baseDate = bookingParams.isOverToday() ? getNextDay(now) : now;
 
-    const dayOffs =
-      dayOffsGiven ??
+    const offs =
+      dayOffs ??
       (await CafeteriaDayOff.findForCafeteriaAtSameDay(bookingParams.cafeteriaId, baseDate));
 
     const isNotWeekend = (slot: BookingTimeSlot) => !isWeekend(slot.start);
     const isNotOffTime = (slot: BookingTimeSlot) =>
-      dayOffs.find((off) =>
+      offs.find((off) =>
         areIntervalsOverlapping(
           {start: slot.start, end: slot.end},
           {start: off.startsAt, end: off.endsAt}
