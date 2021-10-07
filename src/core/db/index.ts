@@ -39,6 +39,7 @@ import GuestLoginChallenge from '../entities/user/GuestLoginChallenge';
 import CafeteriaBookingParams from '../entities/booking/CafeteriaBookingParams';
 import DiscountProcessHistory from '../entities/discount/DiscountProcessHistory';
 import CafeteriaValidationParams from '../entities/discount/CafeteriaValidationParams';
+import {BookingTimeRange} from '../entities';
 
 const entities = [
   User,
@@ -54,6 +55,7 @@ const entities = [
   DiscountRule,
   MenuParseRegex,
   CafeteriaDayOff,
+  BookingTimeRange,
   DiscountTransaction,
   GuestLoginChallenge,
   CafeteriaBookingParams,

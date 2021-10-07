@@ -27,13 +27,16 @@ import {logger} from '../../logger';
 import BookingTimeSlot from './BookingTimeSlot';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
 import {addMinutes, isBefore, isEqual} from 'date-fns';
-import {BaseEntity, Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
+import {BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 
 /**
  * 식당 예약 파라미터 중 시간대와 간격, 정원 등 시간대별로 달라지는 설정을 정의합니다.
  */
 @Entity()
 export default class BookingTimeRange extends BaseEntity {
+  @PrimaryGeneratedColumn({comment: '식별자'})
+  id: number;
+
   @Column({comment: '예약 운영 시간대'})
   timeRange: TimeRangeExpression;
 
