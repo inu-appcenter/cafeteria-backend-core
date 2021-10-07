@@ -23,6 +23,7 @@ import {
   timeRangeExpressionToDates,
 } from '../common/TimeRangeExpression';
 import assert from 'assert';
+import {logger} from '../../logger';
 import BookingTimeSlot from './BookingTimeSlot';
 import CafeteriaBookingParams from './CafeteriaBookingParams';
 import {addMinutes, isBefore, isEqual} from 'date-fns';
@@ -54,18 +55,23 @@ export default class BookingTimeRange extends BaseEntity {
    *
    * 특정 날짜에 귀속되지 않습니다. 날짜는 인자로 주어진 baseDate에 근거합니다.
    *
-   * intervalMinutes나 timeRange가 이상하면 뻗습니다.
+   * intervalMinutes나 timeRange가 이상하면 빈 배열을 반환합니다.
    *
    * @param baseDate 기준 날짜가 담긴 Date 인스턴스
    */
-  getTimeSlots(baseDate: Date): BookingTimeSlot[] {
-    assert(this.intervalMinutes > 0, '시간 간격은 0보다 커야 합니다.');
+  buildAllTimeSlots(baseDate: Date): BookingTimeSlot[] {
+    if (this.intervalMinutes <= 0) {
+      logger.error(`시간 간격은 0보다 커야 합니다!`);
+      return [];
+    }
 
     if (!isValidTimeRangeExpression(this.timeRange)) {
+      logger.error(`[${this.timeRange}]는 올바른 timeRange 형식이 아닙니다!`);
       return [];
     }
 
     const [start, end] = timeRangeExpressionToDates(this.timeRange, baseDate);
+
     const timeSlots: BookingTimeSlot[] = [];
     let current = start;
 

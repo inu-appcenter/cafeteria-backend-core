@@ -83,7 +83,7 @@ export default class CafeteriaBookingParams extends BaseEntity {
    */
   getAllTimeSlots(baseDate: Date = new Date()): BookingTimeSlot[] {
     return this.timeRanges
-      .map((range) => range.getTimeSlots(baseDate))
+      .map((range) => range.buildAllTimeSlots(baseDate))
       .flat()
       .sort((a, b) => a.start.getTime() - b.start.getTime());
   }
