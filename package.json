@@ -1,7 +1,7 @@
 {
   "name": "@inu-cafeteria/backend-core",
   "description": "Cafeteria 백엔드에서 자주 사용되는 부분을 모아놓았습니다.",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
