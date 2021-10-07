@@ -173,7 +173,7 @@ export default class Booking extends BaseEntity {
    * @param userId
    * @param inHours
    */
-  static async findRecentBookings(userId: number, inHours: number = 72) {
+  static async findRecentBookings(userId: number, inHours: number = 72): Promise<Booking[]> {
     return await Booking.find({
       where: {
         userId: userId,
@@ -192,7 +192,20 @@ export default class Booking extends BaseEntity {
    *
    * @param ticket
    */
-  static async findForCheckIn(ticket: string) {
+  static async findForCheckIn(ticket: string): Promise<Booking | undefined> {
     return await Booking.findOne({where: {uuid: ticket}, relations: ['user', 'checkIn']});
+  }
+
+  /**
+   * 식당 식별자와 타임 슬롯 시작 시간으로 예약들을 찾습니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   * @param timeSlotStart 타임 슬롯 시작.
+   */
+  static async findAllByCafeteriaIdAndTimeSlotStart(
+    cafeteriaId: number,
+    timeSlotStart: Date
+  ): Promise<Booking[]> {
+    return await this.find({where: {cafeteriaId, timeSlotStart}, relations: ['checkIn']});
   }
 }
