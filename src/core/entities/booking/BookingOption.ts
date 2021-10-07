@@ -81,7 +81,7 @@ export default class BookingOption {
    * 모든 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    */
   static async findAll(): Promise<BookingOption[]> {
-    const allBookingParams = await CafeteriaBookingParams.find();
+    const allBookingParams = await CafeteriaBookingParams.findAllForBooking();
 
     const allOptions = await Promise.all(
       allBookingParams.map((params) => this.buildAllFromBookingParams(params))
