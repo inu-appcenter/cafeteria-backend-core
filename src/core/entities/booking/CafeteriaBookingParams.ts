@@ -53,29 +53,6 @@ export default class CafeteriaBookingParams extends BaseEntity {
   userStaysForMinutes: number;
 
   /**
-   * 식당 식별자를 기준으로 하나 가져옵니다.
-   *
-   * @param cafeteriaId 식당 식별자.
-   */
-  static async findForBookingByCafeteriaId(
-    cafeteriaId: number
-  ): Promise<CafeteriaBookingParams | undefined> {
-    return await this.findOne({
-      where: {cafeteriaId},
-      relations: ['timeRanges'],
-    });
-  }
-
-  /**
-   * 모두 가져옵니다.
-   */
-  static async findAllForBooking(): Promise<CafeteriaBookingParams[]> {
-    return await this.find({
-      relations: ['timeRanges'],
-    });
-  }
-
-  /**
    * 이 예약 파라미터가 가지고 있는 모든 시간대 파라미터에 대해 타임슬롯을 뽑아 가져옵니다.
    * 오름차순으로 정렬합니다.
    *
@@ -127,5 +104,28 @@ export default class CafeteriaBookingParams extends BaseEntity {
     }
 
     return isPast(lastTimeSlot.end);
+  }
+
+  /**
+   * 식당 식별자를 기준으로 하나 가져옵니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   */
+  static async findForBookingByCafeteriaId(
+    cafeteriaId: number
+  ): Promise<CafeteriaBookingParams | undefined> {
+    return await this.findOne({
+      where: {cafeteriaId},
+      relations: ['timeRanges'],
+    });
+  }
+
+  /**
+   * 모두 가져옵니다.
+   */
+  static async findAllForBooking(): Promise<CafeteriaBookingParams[]> {
+    return await this.find({
+      relations: ['timeRanges'],
+    });
   }
 }

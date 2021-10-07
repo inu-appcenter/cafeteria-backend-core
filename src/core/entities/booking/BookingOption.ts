@@ -55,6 +55,29 @@ export default class BookingOption {
   reserved: number;
 
   /**
+   * 해당 예약이 꽉 찼는가?
+   */
+  isFull() {
+    return this.reserved >= this.capacity;
+  }
+
+  /**
+   * 해당 시간대의 마지막 시간까지 지났는가?
+   * 즉, 예약하기엔 늦은 시간대인가?
+   */
+  isPast() {
+    return isPast(this.timeSlotEnd);
+  }
+
+  /**
+   * 예약 가능한가?
+   * 꽉 차지 않았고 끝나지 않아야 합니다.
+   */
+  isAvailableForBooking() {
+    return !this.isFull() && !this.isPast();
+  }
+
+  /**
    * 모든 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    */
   static async findAll(): Promise<BookingOption[]> {
@@ -177,28 +200,5 @@ export default class BookingOption {
       .filter(isNotWeekend)
       .filter(isNotOffTime)
       .filter(isNotOver);
-  }
-
-  /**
-   * 해당 예약이 꽉 찼는가?
-   */
-  isFull() {
-    return this.reserved >= this.capacity;
-  }
-
-  /**
-   * 해당 시간대의 마지막 시간까지 지났는가?
-   * 즉, 예약하기엔 늦은 시간대인가?
-   */
-  isPast() {
-    return isPast(this.timeSlotEnd);
-  }
-
-  /**
-   * 예약 가능한가?
-   * 꽉 차지 않았고 끝나지 않아야 합니다.
-   */
-  isAvailableForBooking() {
-    return !this.isFull() && !this.isPast();
   }
 }
