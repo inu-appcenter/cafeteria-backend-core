@@ -78,6 +78,15 @@ export default class BookingOption {
   }
 
   /**
+   * 생성자 대용
+   *
+   * @param partial
+   */
+  static async create(partial: Partial<BookingOption>): Promise<BookingOption> {
+    return Object.assign(new BookingOption(), partial);
+  }
+
+  /**
    * 모든 식당에 대해 사용자에게 보여 줄 예약 옵션을 가져옵니다.
    */
   static async findAll(): Promise<BookingOption[]> {
@@ -151,14 +160,15 @@ export default class BookingOption {
     bookingParams: CafeteriaBookingParams,
     timeSlot: BookingTimeSlot
   ): Promise<BookingOption> {
-    return Object.assign(new BookingOption(), {
+    return BookingOption.create({
       cafeteriaId: bookingParams.cafeteriaId,
-      timeSlot,
-      used: await Booking.howManyBookedForCafeteriaAtTimeSlotStart(
+      timeSlotStart: timeSlot.start,
+      timeSlotEnd: timeSlot.end,
+      capacity: timeSlot.capacity,
+      reserved: await Booking.howManyBookedForCafeteriaAtTimeSlotStart(
         bookingParams.cafeteriaId,
         timeSlot.start
       ),
-      capacity: timeSlot.capacity,
     });
   }
 
