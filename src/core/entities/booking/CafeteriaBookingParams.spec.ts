@@ -28,7 +28,7 @@ describe('타임슬롯 가져오기', () => {
     timeRangeAll.capacity = 35;
 
     const params = new CafeteriaBookingParams();
-    params.timeRages = [timeRangeAll];
+    params.timeRanges = [timeRangeAll];
 
     const timeSlots = params.getAllTimeSlots(new Date());
 
@@ -46,7 +46,7 @@ describe('타임슬롯 가져오기', () => {
     timeRangeAll.capacity = 35;
 
     const params = new CafeteriaBookingParams();
-    params.timeRages = [timeRangeAll];
+    params.timeRanges = [timeRangeAll];
 
     const timeSlots = params.getAllTimeSlots(new Date());
 

@@ -47,10 +47,33 @@ export default class CafeteriaBookingParams extends BaseEntity {
   cafeteriaId: number;
 
   @OneToMany(() => BookingTimeRange, (p) => p.cafeteriaBookingParams)
-  timeRages: BookingTimeRange[];
+  timeRanges: BookingTimeRange[];
 
   @Column({comment: '사용자가 식당에 머무는 시간(분)'})
   userStaysForMinutes: number;
+
+  /**
+   * 식당 식별자를 기준으로 하나 가져옵니다.
+   *
+   * @param cafeteriaId 식당 식별자.
+   */
+  static async findForBookingByCafeteriaId(
+    cafeteriaId: number
+  ): Promise<CafeteriaBookingParams | undefined> {
+    return await this.findOne({
+      where: {cafeteriaId},
+      relations: ['timeRanges'],
+    });
+  }
+
+  /**
+   * 모두 가져옵니다.
+   */
+  static async findAllForBooking(): Promise<CafeteriaBookingParams[]> {
+    return await this.find({
+      relations: ['timeRanges'],
+    });
+  }
 
   /**
    * 이 예약 파라미터가 가지고 있는 모든 시간대 파라미터에 대해 타임슬롯을 뽑아 가져옵니다.
@@ -59,7 +82,7 @@ export default class CafeteriaBookingParams extends BaseEntity {
    * @param baseDate 기준 날짜가 담긴 Date 인스턴스
    */
   getAllTimeSlots(baseDate: Date = new Date()): BookingTimeSlot[] {
-    return this.timeRages
+    return this.timeRanges
       .map((range) => range.getTimeSlots(baseDate))
       .flat()
       .sort((a, b) => a.start.getTime() - b.start.getTime());
