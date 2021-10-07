@@ -171,7 +171,7 @@ export default class BookingOption {
    * 예약 가능한가?
    * 꽉 차지 않았고 끝나지 않아야 합니다.
    */
-  isAvailable() {
+  isAvailableForBooking() {
     return !this.isFull() && !this.isPast();
   }
 }
