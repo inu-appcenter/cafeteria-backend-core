@@ -37,9 +37,8 @@ export type LoggerOptions = {
 export function buildLoggerWithOptions(level: string, options: LoggerOptions) {
   const transports: TransportStream[] = [];
 
-  if (options.consoleTransportOptions) {
-    transports.push(getConsoleTransport(level, options.consoleTransportOptions));
-  }
+  // 콘솔 출력은 항상 장착.
+  transports.push(getConsoleTransport(level, options.consoleTransportOptions ?? {}));
 
   if (options.fileTransportOptions) {
     transports.push(
