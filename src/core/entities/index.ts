@@ -36,6 +36,7 @@ export {default as MenuParseRegex} from './menu/MenuParseRegex';
 export {default as BookingTimeSlot} from './booking/BookingTimeSlot';
 export {default as CafeteriaDayOff} from './booking/CafeteriaDayOff';
 export {default as BookingTimeRange} from './booking/BookingTimeRange';
+export {default as BaseBookingFinder} from './booking/BaseBookingFinder';
 export {default as GuestLoginChallenge} from './user/GuestLoginChallenge';
 export {default as DiscountTransaction} from './discount/DiscountTransaction';
 export {default as CafeteriaBookingParams} from './booking/CafeteriaBookingParams';
