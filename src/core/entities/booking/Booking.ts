@@ -18,20 +18,19 @@
  */
 
 import {
-  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
-  MoreThan,
   OneToOne,
+  ManyToOne,
+  BaseEntity,
+  JoinColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import User from '../user/User';
 import CheckIn from './CheckIn';
 import Cafeteria from '../cafeteria/Cafeteria';
 import BookingStatus from './BookingStatus';
-import {isFuture, isPast, subHours} from 'date-fns';
+import {isFuture, isPast} from 'date-fns';
 
 /**
  * 학식당 입장 예약!
@@ -148,64 +147,5 @@ export default class Booking extends BaseEntity {
    */
   isAvailableForCheckIn() {
     return this.isNotEarlyToCheckIn() && this.isNotLateToCheckIn();
-  }
-
-  /**
-   * 어떤 식당, 어떤 타임슬롯에 대해 예약이 몇 개 존재하는지 찾습니다.
-   *
-   * @param cafeteriaId 식당 식별자.
-   * @param timeSlotStart 타임슬롯 시작 시각.
-   */
-  static async howManyBookedForCafeteriaAtTimeSlotStart(
-    cafeteriaId: number,
-    timeSlotStart: Date
-  ): Promise<number> {
-    const bookings = await Booking.find({cafeteriaId, timeSlotStart});
-
-    return bookings.length;
-  }
-
-  /**
-   * 최근 inHours 시간 내의 예약을 최신 순으로 모두 가져옵니다.
-   * 예약의 상태는 따지지 않습니다. 그냥 일단 다 가져옵니다.
-   * relations에 user와 checkIn이 들어 있는 것이 특징입니다. checkIn은 상태 판단에 써야 하므로 꼭 가져옵니다.
-   *
-   * @param userId
-   * @param inHours
-   */
-  static async findRecentBookings(userId: number, inHours: number = 72): Promise<Booking[]> {
-    return await Booking.find({
-      where: {
-        userId: userId,
-        bookedAt: MoreThan(subHours(new Date(), inHours)), // "inHours 시간 이전" 이후(=inHours 시간 내)
-      },
-      relations: ['user', 'checkIn'],
-      order: {
-        bookedAt: 'DESC', // 최신 순으로
-      },
-    });
-  }
-
-  /**
-   * 체크인을 위해 예약을 찾습니다.
-   * relations에 user와 checkIn이 들어 있는 것이 특징입니다.
-   *
-   * @param ticket
-   */
-  static async findForCheckIn(ticket: string): Promise<Booking | undefined> {
-    return await Booking.findOne({where: {uuid: ticket}, relations: ['user', 'checkIn']});
-  }
-
-  /**
-   * 식당 식별자와 타임 슬롯 시작 시간으로 예약들을 찾습니다.
-   *
-   * @param cafeteriaId 식당 식별자.
-   * @param timeSlotStart 타임 슬롯 시작.
-   */
-  static async findAllByCafeteriaIdAndTimeSlotStart(
-    cafeteriaId: number,
-    timeSlotStart: Date
-  ): Promise<Booking[]> {
-    return await this.find({where: {cafeteriaId, timeSlotStart}, relations: ['checkIn']});
   }
 }

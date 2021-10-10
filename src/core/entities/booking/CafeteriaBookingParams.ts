@@ -106,26 +106,26 @@ export default class CafeteriaBookingParams extends BaseEntity {
     return isPast(lastTimeSlot.end);
   }
 
+  private static allRelations = ['timeRanges'];
+
+  /**
+   * 모두 가져옵니다.
+   */
+  static async findAll(): Promise<CafeteriaBookingParams[]> {
+    return await this.find({
+      relations: this.allRelations,
+    });
+  }
+
   /**
    * 식당 식별자를 기준으로 하나 가져옵니다.
    *
    * @param cafeteriaId 식당 식별자.
    */
-  static async findForBookingByCafeteriaId(
-    cafeteriaId: number
-  ): Promise<CafeteriaBookingParams | undefined> {
+  static async findByCafeteriaId(cafeteriaId: number): Promise<CafeteriaBookingParams | undefined> {
     return await this.findOne({
       where: {cafeteriaId},
-      relations: ['timeRanges'],
-    });
-  }
-
-  /**
-   * 모두 가져옵니다.
-   */
-  static async findAllForBooking(): Promise<CafeteriaBookingParams[]> {
-    return await this.find({
-      relations: ['timeRanges'],
+      relations: this.allRelations,
     });
   }
 }
