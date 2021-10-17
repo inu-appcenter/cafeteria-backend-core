@@ -21,6 +21,8 @@ export default class Menu {
   foods: string[];
   price?: number;
   calorie?: number;
+  extras: string[];
+
   cornerId: number;
 
   static create(properties: Partial<Menu>): Menu {
