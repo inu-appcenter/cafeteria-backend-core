@@ -1,3 +1,22 @@
+/*
+ * This file is part of INU Cafeteria.
+ *
+ * Copyright 2021 INU Global App Center <potados99@gmail.com>
+ *
+ * INU Cafeteria is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * INU Cafeteria is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 -- 20211007
 -- 예약 인원을 시간대별로 다르게 하는 요구사항을 반영하며 엔티티 설계에 변화가 생겼습니다.
 -- 예약 파라미터, 예약 등 백엔드 코어의 엔티티 변화에 따른 테이블 마이그레이션입니다.
