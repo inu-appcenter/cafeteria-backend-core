@@ -1,6 +1,5 @@
-import {decodeJwt} from '../../utils/token';
-import {extractJwt} from '../../utils/express';
-import {NotLoggedIn} from '../../error/common';
+import {NotLoggedIn} from '../../error';
+import {decodeJwt, extractJwt} from '../../utils';
 import express, {RequestHandler} from 'express';
 
 type Params = {

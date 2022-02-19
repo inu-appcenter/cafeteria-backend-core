@@ -21,7 +21,7 @@ import PathMatcher from '../libs/PathMatcher';
 import {decodeJwt} from '../../utils';
 import {extractJwt} from '../../utils';
 import {RequestHandler} from 'express';
-import {InvalidJwt, NotLoggedIn} from '../../error/common';
+import {InvalidJwt, NotLoggedIn} from '../../error';
 
 type Params = {
   jwtKey: string;

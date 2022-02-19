@@ -21,7 +21,7 @@ import {logger} from '../../logger';
 import HttpError from '../../error/http/base/HttpError';
 import CustomError from '../../error/custom/base/CustomError';
 import {AssertionError} from 'assert';
-import {stringifyError} from '../../utils/error';
+import {stringifyError} from '../../utils';
 import {ErrorRequestHandler} from 'express';
 
 export function errorHandler(): ErrorRequestHandler {
