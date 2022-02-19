@@ -23,12 +23,7 @@ export type SessionTokenContents = {
   userId: number;
 };
 
-export type JwtConfig = {
-  key: string;
-  options?: jwt.SignOptions;
-};
-
-export function createJwt(payload: SessionTokenContents, key: string, options?: JwtConfig) {
+export function createJwt(payload: SessionTokenContents, key: string, options?: jwt.SignOptions) {
   return jwt.sign(payload, key, {
     ...options,
     algorithm: 'HS256',
