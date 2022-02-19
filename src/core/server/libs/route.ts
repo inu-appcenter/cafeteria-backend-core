@@ -17,11 +17,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import {asyncHandler} from './handler';
+import express, {RequestHandler} from 'express';
+import {processRequest, RequestValidation} from '../middleware/zod';
+
+export function defineRoute<TParams = any, TQuery = any, TBody = any>(
+  method: 'all' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'head',
+  path: string,
+  schema: RequestValidation<TParams, TQuery, TBody>,
+  ...handlers: RequestHandler<TParams, any, TBody, TQuery>[]
+): express.Router {
+  const router = express.Router();
+
+  router[method](path, processRequest(schema), ...handlers.map((h) => asyncHandler(h)));
+
+  return router;
+}

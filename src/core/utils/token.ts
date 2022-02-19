@@ -17,11 +17,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import jwt from 'jsonwebtoken';
+
+export type SessionTokenContents = {
+  userId: number;
+};
+
+export type JwtConfig = {
+  key: string;
+  options?: jwt.SignOptions;
+};
+
+export function createJwt(payload: SessionTokenContents, key: string, options?: JwtConfig) {
+  return jwt.sign(payload, key, {
+    ...options,
+    algorithm: 'HS256',
+  });
+}
+
+export function decodeJwt(token: string, key: string): SessionTokenContents {
+  return jwt.verify(token, key) as SessionTokenContents;
+}

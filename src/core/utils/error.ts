@@ -17,11 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import {serializeError} from 'serialize-error';
+
+export function stringifyError(error: Error) {
+  return JSON.stringify(serializeError(error));
+}

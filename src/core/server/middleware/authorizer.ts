@@ -17,11 +17,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import {decodeJwt} from '../../utils/token';
+import {extractJwt} from '../../utils/express';
+import {RequestHandler} from 'express';
+import {InvalidJwt, NotLoggedIn} from '../../error/common';
+
+type Params = {
+  jwtKey: string;
+  jwtFieldName: string;
+};
+
+export function authorizer<TParams = any, TQuery = any, TBody = any>({
+  jwtKey,
+  jwtFieldName,
+}: Params): RequestHandler<TParams, any, TBody, TQuery> {
+  return (req, res, next) => {
+    const jwtInRequest = extractJwt(req, jwtFieldName);
+    if (jwtInRequest == null) {
+      return next(NotLoggedIn());
+    }
+
+    try {
+      decodeJwt(jwtInRequest, jwtKey);
+      return next();
+    } catch (e) {
+      return next(InvalidJwt());
+    }
+  };
+}

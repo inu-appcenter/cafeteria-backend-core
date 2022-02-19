@@ -17,11 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import {ZodRawShape} from 'zod/lib/types';
+import {z} from 'zod';
+
+type RawSchema<
+  TParams extends ZodRawShape,
+  TQuery extends ZodRawShape,
+  TBody extends ZodRawShape
+> = {
+  params?: TParams;
+  query?: TQuery;
+  body?: TBody;
+};
+
+export function defineSchema<
+  TParams extends ZodRawShape,
+  TQuery extends ZodRawShape,
+  TBody extends ZodRawShape
+>(raw: RawSchema<TParams, TQuery, TBody>) {
+  return {
+    params: raw.params ? z.object(raw.params) : undefined,
+    query: raw.query ? z.object(raw.query) : undefined,
+    body: raw.body ? z.object(raw.body) : undefined,
+  };
+}

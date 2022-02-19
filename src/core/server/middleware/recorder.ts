@@ -17,11 +17,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './arg';
-export * from './env';
-export * from './date';
-export * from './error';
-export * from './token';
-export * from './secret';
-export * from './express';
-export * from './redacted';
+import {logger} from '../../logger';
+import redacted from '../../utils/redacted';
+import {RequestHandler} from 'express';
+
+export default function recorder(): RequestHandler {
+  return async (req, res, next) => {
+    const {path, params, query, body} = req;
+
+    const info = {
+      remoteAddress: req.headers['x-forwarded-for'] || req.socket.remoteAddress,
+      userAgent: req.headers['user-agent'],
+      path: path,
+      params: redacted(params),
+      query: redacted(query),
+      body: redacted(body),
+    };
+
+    logger.info(`요청을 받았습니다: ${JSON.stringify(info)}`);
+
+    next();
+  };
+}
