@@ -17,21 +17,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {decodeJwt} from '../../utils/token';
-import {extractJwt} from '../../utils/express';
+import PathMatcher from '../libs/PathMatcher';
+import {decodeJwt} from '../../utils';
+import {extractJwt} from '../../utils';
 import {RequestHandler} from 'express';
 import {InvalidJwt, NotLoggedIn} from '../../error/common';
 
 type Params = {
   jwtKey: string;
   jwtFieldName: string;
+  allowList?: string[];
 };
 
 export function authorizer<TParams = any, TQuery = any, TBody = any>({
   jwtKey,
   jwtFieldName,
+  allowList,
 }: Params): RequestHandler<TParams, any, TBody, TQuery> {
+  const excludedPathMatcher = new PathMatcher(allowList || []);
+
   return (req, res, next) => {
+    if (excludedPathMatcher.anyMatch(req.path)) {
+      return next();
+    }
+
     const jwtInRequest = extractJwt(req, jwtFieldName);
     if (jwtInRequest == null) {
       return next(NotLoggedIn());
