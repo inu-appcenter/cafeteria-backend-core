@@ -19,17 +19,17 @@
 
 import jwt from 'jsonwebtoken';
 
-export type SessionTokenContents = {
-  userId: number;
-};
-
-export function createJwt(payload: SessionTokenContents, key: string, options?: jwt.SignOptions) {
+export function createJwt<T extends Record<string, any>>(
+  payload: T,
+  key: string,
+  options?: jwt.SignOptions
+) {
   return jwt.sign(payload, key, {
     ...options,
     algorithm: 'HS256',
   });
 }
 
-export function decodeJwt(token: string, key: string): SessionTokenContents {
-  return jwt.verify(token, key) as SessionTokenContents;
+export function decodeJwt<T extends Record<string, any>>(token: string, key: string): T {
+  return jwt.verify(token, key) as T;
 }
