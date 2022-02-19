@@ -19,6 +19,6 @@
 
 import {serializeError} from 'serialize-error';
 
-export function stringifyError(error: Error) {
+export function stringifyError(error: any) {
   return JSON.stringify(serializeError(error));
 }
