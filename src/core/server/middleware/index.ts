@@ -20,5 +20,6 @@
 export * from './zod';
 export * from './recorder';
 export * from './authorizer';
+export * from './apiLimitter';
 export * from './errorHandler';
 export * from './userIdGetterAssigner';
