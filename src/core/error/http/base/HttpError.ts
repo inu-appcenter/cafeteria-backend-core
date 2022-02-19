@@ -1,7 +1,7 @@
 /**
  * This file is part of INU Cafeteria.
  *
- * Copyright 2021 INU Global App Center <potados99@gmail.com>
+ * Copyright 2022 INU Global App Center <potados99@gmail.com>
  *
  * INU Cafeteria is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,8 @@ export default class HttpError extends Error {
   }
 
   static with(statusCode: number): HttpErrorConstructorGenerator {
-    return (error: string, message: string) => () => new HttpError(statusCode, error, message);
+    return (error: string, message: string) => (messageOverride?: string) =>
+      new HttpError(statusCode, error, messageOverride ?? message);
   }
 
   get responseBody() {
@@ -54,4 +55,7 @@ export default class HttpError extends Error {
   }
 }
 
-export type HttpErrorConstructorGenerator = (error: string, message: string) => () => HttpError;
+export type HttpErrorConstructorGenerator = (
+  error: string,
+  message: string
+) => (messageOverride?: string) => HttpError;
