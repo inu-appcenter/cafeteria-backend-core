@@ -29,8 +29,10 @@ import {z} from 'zod';
 export const stringAsInt = z.string().refine(isInt).transform(toInt);
 export const stringAsBoolean = z.string().refine(isBoolean).transform(toBoolean);
 export const stringAsDate = z.string().refine(isISOString).transform(toDate);
+export const stringInYYYYMMDD = z.string().refine(isYYYYMMDD);
 
 import moment from 'moment';
+import {checkDateStringFormat} from '../../utils';
 
 export function isInt(value: string): boolean {
   return /^-?\d+$/.test(value);
@@ -54,4 +56,8 @@ export function isISOString(value: string): boolean {
 
 export function toDate(value: string): Date {
   return new Date(value);
+}
+
+export function isYYYYMMDD(value: string): boolean {
+  return checkDateStringFormat(value);
 }
