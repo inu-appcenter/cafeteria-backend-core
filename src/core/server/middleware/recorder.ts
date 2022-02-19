@@ -21,7 +21,7 @@ import {logger} from '../../logger';
 import {redacted} from '../../utils';
 import {RequestHandler} from 'express';
 
-export default function recorder(): RequestHandler {
+export function recorder(): RequestHandler {
   return async (req, res, next) => {
     const {path, params, query, body} = req;
 
