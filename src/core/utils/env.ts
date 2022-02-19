@@ -23,7 +23,7 @@
  * @param key
  * @param fallback
  */
-export default function getEnv(key: string, fallback?: any): any {
+export function getEnv(key: string, fallback?: any): any {
   const allEnvArgs = process.env;
 
   return allEnvArgs[key] || fallback;

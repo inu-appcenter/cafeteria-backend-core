@@ -21,5 +21,6 @@ export * from './route';
 export * from './schema';
 export * from './handler';
 export * from './zodTypes';
-export * from './PathMatcher';
-export * from './ConnectionPool';
+
+export {default as PathMatcher} from './PathMatcher';
+export {default as ConnectionPool} from './ConnectionPool';

@@ -25,7 +25,7 @@ import minimist from 'minimist';
  * @param key 가져올 인자의 이름.
  * @param fallback 없으면 이걸 가져와요.
  */
-export default function getArg(key: string, fallback?: any): any {
+export function getArg(key: string, fallback?: any): any {
   const allArgs = minimist(process.argv.slice(2));
 
   return allArgs[key] || fallback;

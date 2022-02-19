@@ -17,13 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './base/HttpError';
+export {default as HttpError} from './base/HttpError';
 
-export * from './Conflict';
-export * from './NotFound';
-export * from './Forbidden';
-export * from './BadRequest';
-export * from './Unauthorized';
-export * from './NotImplemented';
-export * from './UnprocessableEntity';
-export * from './InternalServerError';
+export {default as Conflict} from './Conflict';
+export {default as NotFound} from './NotFound';
+export {default as Forbidden} from './Forbidden';
+export {default as BadRequest} from './BadRequest';
+export {default as Unauthorized} from './Unauthorized';
+export {default as NotImplemented} from './NotImplemented';
+export {default as UnprocessableEntity} from './UnprocessableEntity';
+export {default as InternalServerError} from './InternalServerError';

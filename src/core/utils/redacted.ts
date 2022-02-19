@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export default function redacted(data: Record<string, any>): Record<string, any> {
+export function redacted(data: Record<string, any>): Record<string, any> {
   if (typeof data !== 'object') {
     return data;
   }

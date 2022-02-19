@@ -17,4 +17,4 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export * from './base/CustomError';
+export {default as CustomError} from './base/CustomError';

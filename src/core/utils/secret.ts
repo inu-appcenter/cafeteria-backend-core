@@ -19,7 +19,7 @@
 
 import path from 'path';
 import * as fs from 'fs';
-import getEnv from './env';
+import {getEnv} from './env';
 import {logger} from '../logger';
 
 const isWindows = process.platform === 'win32';
