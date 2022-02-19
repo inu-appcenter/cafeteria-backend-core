@@ -28,6 +28,8 @@ process.env.TZ = process.env.TZ || 'Asia/Seoul';
 export * from './src/core/db';
 export * from './src/core/meta';
 export * from './src/core/utils';
+export * from './src/core/error';
+export * from './src/core/server';
 export * from './src/core/logger';
 export * from './src/core/entities';
 export * from './src/core/validation';
