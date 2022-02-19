@@ -3,10 +3,11 @@ import {decodeJwt, extractJwt} from '../../utils';
 import express, {RequestHandler} from 'express';
 
 type Params = {
+  jwtKey: string;
   jwtFieldName: string;
 };
 
-export function userIdGetterAssigner({jwtFieldName}: Params): RequestHandler {
+export function userIdGetterAssigner({jwtKey, jwtFieldName}: Params): RequestHandler {
   return (req, res, next) => {
     const jwtInRequest = extractJwt(req, jwtFieldName);
     if (jwtInRequest == null) {
@@ -16,7 +17,7 @@ export function userIdGetterAssigner({jwtFieldName}: Params): RequestHandler {
     }
 
     try {
-      const {userId} = decodeJwt(jwtInRequest, jwtFieldName);
+      const {userId} = decodeJwt(jwtInRequest, jwtKey);
 
       assignGetter(req, userId);
 
