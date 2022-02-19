@@ -23,6 +23,8 @@ export function userIdGetterAssigner({jwtKey, jwtFieldName}: Params): RequestHan
 
       return next();
     } catch (e) {
+      assignGetter(req);
+
       return next();
     }
   };
