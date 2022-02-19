@@ -18,7 +18,7 @@
  */
 
 import {logger} from '../../logger';
-import redacted from '../../utils/redacted';
+import {redacted} from '../../utils';
 import {RequestHandler} from 'express';
 
 export default function recorder(): RequestHandler {

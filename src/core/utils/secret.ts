@@ -34,7 +34,7 @@ const DOCKER_SECRET_BASE_PATH = isWindows ? 'C:\\ProgramData\\Docker\\secrets' :
  * @param key 가져올 secret의 이름입니다.
  * @param fallback 아무리 찾아봐도 없으면 이걸 가져와요.
  */
-export default function getSecret(key: string, fallback?: any): any {
+export function getSecret(key: string, fallback?: any): any {
   const secretPath = path.join(DOCKER_SECRET_BASE_PATH, key);
 
   if (fs.existsSync(secretPath)) {
